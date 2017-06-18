@@ -1,0 +1,5 @@
+a "arquivo"
+e "txt"
+c
+w huehuehue
+f
