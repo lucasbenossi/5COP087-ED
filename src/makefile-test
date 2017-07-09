@@ -1,5 +1,0 @@
-t1 : t1.o
-	gcc -o t1 t1.o
-
-t1.o : t1.c
-	gcc -o t1.o -c t1.c

@@ -1,6 +1,0 @@
-d ./a/b/
-a "a0001"
-e "txt"
-c
-w bom dia uel
-f
