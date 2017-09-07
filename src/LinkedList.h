@@ -2,40 +2,21 @@
 #define LINKEDLIST_H
 
 /*
-Struct para o TAD List<Node>, implementado como lista ligada.
-*head = ponteiro para o primeiro elemento da lista
-*tail = ponteiro para o último elemento da lista
+Define uma lista ligada.
 */
-struct _list{
-    struct _node *head;
-    struct _node *tail;
-};
-typedef struct _list List;
+typedef void List;
 
 /*
-Struct para o TAD Node, que nessa inplementação, é o nó da lista ligada.
-i = id
-type = tipo de objeto
-*data = ponteiro para a instancia do objeto que este nó da lista carrega
-*next = ponteiro para o proximo elemento da lista
+Define um no da lista ligada.
 */
-struct _node{
-    int id;
-    int type;
-    void *data;
-    struct _node *next;
-};
-typedef struct _node Node;
+typedef void Node;
 
 /*
-Aloca memoria para uma instancia de Node
+Paramentros usandos nas funções aqui definidas:
+  - list	Tipo List*. Define a instancia de List.
+  - node	Tipo Node*. Define uma instancia de Node.
+  - data	Tipo void*. Ponteiro com o elemento a ser inserido na lista.
 */
-Node *createNode( int id, int type, void *data );
-
-/*
-Desaloca memória para uma instancia de Node
-*/
-void destroyNode( Node *n );
 
 /*
 Aloca memória para uma instancia de List
@@ -45,19 +26,76 @@ List *createList();
 /*
 Desaloca memória para uma instancia de List
 */
-void destroyList( List *l );
+void destroyList( List *list );
 
 /*
-Insere um nó na lista ligada
-*l = struct que define a lista
+Aloca memoria para uma instancia de Node
 */
-void insert( List *l, Node *node );
+Node *createNode( void *data );
 
 /*
-Retorna o ponteiro para o no da lista com o id fornecido em "id"
-*l = struct que define a lista
-*id = id a ser procurado
+Desaloca memória para uma instancia de Node
 */
-Node *getId( List *l, int id );
+void destroyNode( Node *node );
+
+/*
+Retorna o tamanho da lista ligada.
+*/
+int lenght( List *list );
+
+/*
+Insere um nó no final da lista ligada e retorna um ponteiro para o nó inserido
+*/
+Node *insert( List *pList, void *data );
+
+/*
+Insere um nó na lista ligada, antes do nó definido por "node"
+*/
+Node *insertBefore( List *pList, Node *pNode, void *data );
+
+/*
+Insere um nó na lista ligada, após o nó definido por "node"
+*/
+Node *insertAfter( List *pList, Node *pNode, void *data );
+
+/*
+Recebe uma instancia de List e remove o primeiro nó, retorna o dado que o nó carregava
+*/
+void *removeFirst( List *pList );
+
+/*
+Recebe uma instancia de List e remove o ultimo nó, retorna o dado que o nó carregava
+*/
+void *removeLast( List *pList );
+
+/*
+Remove da lista o nó definido por "node", retorna o dado que o nó carregava
+*/
+void *removeNode( List *pList, Node *pNode );
+
+/*
+Recebe uma lista ligada e um nó dessa lista, retorna o dado que esse nó carrega
+*/
+void *get( List *list, Node *node );
+
+/*
+Recebe uma lista ligada, retorna o primeiro nó dessa lista
+*/
+Node *getFirst( List *list );
+
+/*
+Recebe uma lista ligada, retorna o ultimo nó dessa lista
+*/
+Node *getLast( List *list );
+
+/*
+Recebe uma lista ligada e um nó dessa lista, retorna o próximo nó
+*/
+Node *getNext( List *list, Node *node );
+
+/*
+Recebe uma lista ligada e um nó dessa lista, retorna o nó anterior
+*/
+Node *getPrevious( List *list, Node *node );
 
 #endif

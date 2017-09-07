@@ -3,17 +3,19 @@
 #include "RunCommands.h"
 
 int main( int argc, char **argv ){
-	char *pathFileExt;
-	char *dir;
-	char *num;
-	if( argc != 7 ){
-		printf("Uso: %s -f arq.geo -o dir -n num\n",argv[0]);
+	Args *args;
+	int ret;
+
+	args = createArgs();
+	if( procArgs(argc,argv,args) == 1 ){
+		printf("ERRO: Linha de comando inválida\n");
+		destroyArgs(args);
 		return 1;
 	}
 
-	pathFileExt = procArgs(argc,argv,"-f");
-	dir = procArgs(argc,argv,"-o");
-	num = procArgs(argc,argv,"-n");
+	ret = runCommands(args);
 
-	return runCommands(pathFileExt,dir,atoi(num));
+	destroyArgs(args);
+
+	return ret;
 }

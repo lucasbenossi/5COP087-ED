@@ -1,44 +1,56 @@
 #include <stdlib.h>
 #include "Rect.h"
+#include "ProcString.h"
 
-Rect *createRect( int i, double w, double h, double x, double y, char *fill ){
-    Rect *rect;
-    rect = malloc( sizeof( Rect ) );
+struct _rect {
+    int id;
+    double width;
+    double height;
+    double x;
+    double y;
+    char *fill;
+};
+typedef struct _rect RectStr;
 
-    rect->i = i;
-    rect->w = w;
-    rect->h = h;
+Rect *createRect( int id, double width, double height, double x, double y, char *fill ){
+    RectStr *rect;
+    rect = malloc( sizeof( RectStr ) );
+
+    rect->id = id;
+    rect->width = width;
+    rect->height = height;
     rect->x = x;
     rect->y = y;
-    rect->fill = fill;
+    rect->fill = createString(fill);
 
     return rect;
 }
 
 void destroyRect( Rect *r ){
-    free( r );
+    destroyString( ((RectStr*)r)->fill );
+    free(r);
 }
 
 int getRectId( Rect *r ){
-    return r->i;
+    return ((RectStr*)r)->id;
 }
 
 double getRectWidth( Rect *r ){
-    return r->w;
+    return ((RectStr*)r)->width;
 }
 
 double getRectHeight( Rect *r ){
-    return r->h;
+    return ((RectStr*)r)->height;
 }
 
 double getRectX( Rect *r ){
-    return r->x;
+    return ((RectStr*)r)->x;
 }
 
 double getRectY( Rect *r ){
-    return r->y;
+    return ((RectStr*)r)->y;
 }
 
 char *getRectFill( Rect *r ){
-    return r->fill;
+    return ((RectStr*)r)->fill;
 }

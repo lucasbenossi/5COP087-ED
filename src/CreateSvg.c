@@ -3,44 +3,76 @@
 #include "CreateSvg.h"
 #include "ProcString.h"
 #include "LinkedList.h"
-#include "Rect.h"
-#include "Circle.h"
+#include "Object.h"
 #include "WriteTags.h"
+#include "Cidade.h"
+#include "File.h"
 
-void createSvg( List *l, char *file, char *fixedDir ){
+void createSvg( List *l, Cidade *c, char *file, char *fixedDir ){
     char *fullPath;
     FILE *svg;
+    List *list;
     Node *node;
+    void *objData;
+    char objType;
 
-    fullPath = genFullPath(fixedDir, file, "svg");
-
-    svg = fopen(fullPath,"w");
-
+    fullPath = createStringCat( fixedDir, file, ".svg", NULL, NULL );
+    svg = openFileWrite(fullPath);
     if( svg == NULL ){
-        printf("Erro ao criar o arquivo %s\n",fullPath);
-		free(fullPath);
+		destroyString(fullPath);
 		return;
     }
 
-    node = l->head;
-
     fprintf( svg, "<svg xmlns=\"http://www.w3.org/2000/svg\">\n");
+
+    list = getCidadeQuadras(c);
+    node = getFirst(list);
     while( node != NULL ){
-        if( node->type == 1 ){
-            writeCircleTag( node->data, svg );
-        }
-        else if( node->type == 2 ){
-            writeRectTag( node->data, svg );
-        }
-        else if( node->type == 3 ){
-            writeOverlapTag( node->data, svg );
-        }
-        /*printf("svg %d\n",node->id);*/
-		node = node->next;
+        writeQuadraTag( getObjData(get(list,node)), svg );
+		node = getNext(list,node);
     }
+
+    list = getCidadeHidrantes(c);
+    node = getFirst(list);
+    while( node != NULL ){
+        writeHidranteTag( getObjData(get(list,node)), svg );
+        node = getNext(list,node);
+    }
+
+    list = getCidadeSemaforos(c);
+    node = getFirst(list);
+    while( node != NULL ){
+        writeSemaforoTag( getObjData(get(list,node)), svg );
+        node = getNext(list,node);
+    }
+
+    list = getCidadeTorres(c);
+    node = getFirst(list);
+    while( node != NULL ){
+        writeTorreTag( getObjData(get(list,node)), svg );
+        node = getNext(list,node);
+    }
+
+    list = l;
+    node = getFirst(list);
+    while( node != NULL ){
+        objData = getObjData( get(list,node) );
+        objType = getObjType( get(list,node) );
+        if( objType == 'c' ){
+            writeCircleTag( objData, svg );
+        }
+        else if( objType == 'r' ){
+            writeRectTag( objData, svg );
+        }
+        else if( objType == 'o' ){
+            writeOverlapTag( objData, svg );
+        }
+		node = getNext(list,node);
+    }
+
     fprintf(svg, "</svg>");
 
-	fclose(svg);
+	closeFile(svg);
 
-	free(fullPath);
+	destroyString(fullPath);
 }

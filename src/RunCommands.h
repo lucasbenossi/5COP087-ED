@@ -1,35 +1,28 @@
 #ifndef RUNCOMMANDS_H
 #define RUNCOMMANDS_H
 #include "LinkedList.h"
+#include "Cidade.h"
+#include "Args.h"
 
 /*
-*pathFileExt = caminho do arquivo de entrada, fornecido pelo argumento "-f"
-*dir = diretorio de saida, fornecido em "-o"
-num = numero maximo de objetos, fornecido em "-n"
+Processa os comandos fornecidos nos arquivos de entrada
+*args = Instancia da struct com os argumentos recebidos na linha de comando
 */
-int runCommands( char *pathFileExt, char *dir, int num );
-
-/*
-Processa o comando "c" (criar circulo)
-*line = string com a linha recebida
-**objListHead = cabecalho da lista ligada
-**objListTail = cauda da lista ligada
-*/
-void procC( char *line, List *l );
-
-/*
-Processa o comando "r" (criar retangulo)
-*line = string com a linha recebida
-**objListHead = cabecalho da lista ligada
-**objListTail = cauda da lista ligada
-*/
-void procR( char *line, List *l );
+int runCommands( Args *args );
 
 /*
 Processa o comando "p" (imprimir todos os elementos criados,
 junto com seus atributos)
-*nome = cabecalho da lista ligada
+*l = lista ligada
+*c = instancia de Cidade
 */
-void procP( List *l );
+void procP( List *objs, Cidade *cidade );
+
+/*
+Processa o comando "z" (imprimir fill e stroke padrões definidos na instancia
+de Cidade)
+*c = instancia de Cidade
+*/
+void procZ( Cidade *cidade );
 
 #endif

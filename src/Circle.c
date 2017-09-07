@@ -1,39 +1,62 @@
 #include <stdlib.h>
 #include "Circle.h"
+#include "ProcString.h"
 
-Circle *createCircle( int i, double r, double x, double y, char *fill ){
-    Circle *circle;
-    circle = malloc( sizeof( Circle ) );
+struct _circle {
+    int id;
+    double radius;
+    double x;
+    double y;
+    char *fill;
+};
+typedef struct _circle CircleStr;
 
-    circle->i = i;
-    circle->r = r;
+Circle *createCircle( int id, double radius, double x, double y, char *fill ){
+    CircleStr *circle;
+    circle = malloc( sizeof( CircleStr ) );
+
+    circle->id = id;
+    circle->radius = radius;
     circle->x = x;
     circle->y = y;
-    circle->fill = fill;
+    circle->fill = createString(fill);
 
     return circle;
 }
 
 void destroyCircle( Circle *c ){
-    free( c );
+    destroyString( ((CircleStr*)c)->fill );
+    free(c);
 }
 
 int getCircleId( Circle *c ){
-    return c->i;
+    return ((CircleStr*)c)->id;
+}
+
+void setCircleId( Circle *c, int id ){
+    ((CircleStr*)c)->id = id;
 }
 
 double getCircleRadius( Circle *c ){
-    return c->r;
+    return ((CircleStr*)c)->radius;
 }
 
 double getCircleX( Circle *c ){
-    return c->x;
+    return ((CircleStr*)c)->x;
+}
+
+void setCircleX( Circle *c, int x ){
+    ((CircleStr*)c)->x = x;
 }
 
 double getCircleY( Circle *c ){
-    return c->y;
+    return ((CircleStr*)c)->y;
+}
+
+void setCircleY( Circle *c, int y ){
+    ((CircleStr*)c)->y = y;
 }
 
 char *getCircleFill( Circle *c ){
-    return c->fill;
+    return ((CircleStr*)c)->fill;
 }

@@ -2,6 +2,7 @@
 #include "Geometry.h"
 #include "Circle.h"
 #include "Rect.h"
+#include "Quadra.h"
 
 double distancePoints( double x1, double y1, double x2, double y2 ){
     return sqrt( pow(x1-x2,2) + pow(y1-y2,2) );
@@ -76,24 +77,47 @@ int circleRectOverlap( Circle *c, Rect *r ){
     else if( cx < x1 && cx < x2 && cy >= y1 && cy <= y2 ){
         return pointInsideCircle( c, x1, cy );
     }
+    return 0;
 }
 
 int pointInsideCircle( Circle *c, double x, double y ){
     if( distancePoints( getCircleX(c), getCircleY(c), x, y ) <= getCircleRadius(c) ){
         return 1;
     }
-    else{
-        return 0;
-    }
+    return 0;
 }
 
 int pointInsideRect( Rect *r, double x, double y ){
     if( x >= getRectX(r) && x <= getRectX(r) + getRectWidth(r) && y >= getRectY(r) && y <= getRectY(r) + getRectHeight(r) ){
         return 1;
     }
-    else{
-        return 0;
+    return 0;
+}
+
+int quadraInsideCircle( Circle *c, Quadra *q ){
+    int c1, c2, c3, c4;
+    c1 = pointInsideCircle( c, getQuadraX(q), getQuadraY(q) );
+    c2 = pointInsideCircle( c, getQuadraX(q)+getQuadraWidth(q), getQuadraY(q) );
+    c3 = pointInsideCircle( c, getQuadraX(q)+getQuadraWidth(q), getQuadraY(q)+getQuadraHeight(q) );
+    c4 = pointInsideCircle( c, getQuadraX(q), getQuadraY(q)+getQuadraHeight(q) );
+    return c1*c2*c3*c4;
+}
+
+int quadraInsideRect( Rect *r, Quadra *q ){
+    double rX1, rY1, rX2, rY2;
+    double qX1, qY1, qX2, qY2;
+    rX1 = getRectX(r);
+    rY1 = getRectY(r);
+    rX2 = getRectX(r)+getRectWidth(r);
+    rY2 = getRectY(r)+getRectHeight(r);
+    qX1 = getQuadraX(q);
+    qY1 = getQuadraY(q);
+    qX2 = getQuadraX(q)+getQuadraWidth(q);
+    qY2 = getQuadraY(q)+getQuadraHeight(q);
+    if( rX1 <= qX1 && rY1 <= qY1 && rX2 >= qX2 && rY2 >= qY2 ){
+        return 1;
     }
+    return 0;
 }
 
 void edgesCircleCircle( Circle *c1, Circle *c2, double *x1, double *y1, double *x2, double *y2 ){
