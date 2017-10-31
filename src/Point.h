@@ -2,9 +2,12 @@
 #define POINT_H
 
 /*
-Define uma instancia de Point, com id e coordenadas x e y
+- Define uma instancia de Point, com id (string) e coordenadas x e y (double).
+- Infomação específica seria vazão (caso o ponto represente um hidrante), raio
+  de alcance (caso o ponto represente uma torre de radio), ou o tempo do ciclo
+  (caso o ponto represente um semaforo).
 */
-typedef void Point;
+typedef struct _point Point;
 
 /*
 Aloca memória para uma instancia de Point e retorna seu ponteiro
@@ -32,13 +35,20 @@ Recebe o ponteiro para uma instancia de Point e retorna seu parametro id
 char *getPointId( Point *p );
 
 /*
-Recebe o ponteiro para uma instancia de Point e retorna seu parametro *fill
+Retorna ou define o preenchimento de uma instancia de Point.
 */
 char *getPointFill( Point *p );
+void setPointFill( Point *p, char *fill );
 
 /*
 Recebe o ponteiro para uma instancia de Point e retorna seu parametro *stroke
 */
 char *getPointStroke( Point *p );
+
+/*
+Retorna ou define a informação específica do ponto.
+*/
+void *getPointInfo( Point *p );
+void setPointInfo( Point *p, void *info );
 
 #endif

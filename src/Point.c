@@ -8,43 +8,56 @@ struct _point{
     char *id;
     char *fill;
     char *stroke;
+    void *info;
 };
-typedef struct _point PointStr;
 
 Point *createPoint( double x, double y, char *id, char *fill, char *stroke ){
-    PointStr *p;
-    p = malloc( sizeof(PointStr) );
+    Point *p;
+    p = malloc( sizeof(Point) );
     p->x = x;
     p->y = y;
     p->id = createString(id);
     p->fill = createString(fill);
     p->stroke = createString(stroke);
+    p->info = NULL;
     return p;
 }
 
 void destroyPoint( Point *p ){
-    destroyString( ((PointStr*)p)->id );
-    destroyString( ((PointStr*)p)->fill );
-    destroyString( ((PointStr*)p)->stroke );
+    destroyString( p->id );
+    destroyString( p->fill );
+    destroyString( p->stroke );
     free(p);
 }
 
 double getPointX( Point *p ){
-    return ((PointStr*)p)->x;
+    return p->x;
 }
 
 double getPointY( Point *p ){
-    return ((PointStr*)p)->y;
+    return p->y;
 }
 
 char *getPointId( Point *p ){
-    return ((PointStr*)p)->id;
+    return p->id;
 }
 
 char *getPointFill( Point *p ){
-    return ((PointStr*)p)->fill;
+    return p->fill;
+}
+
+void setPointFill( Point *p, char *fill ){
+    repString( &( p->fill ), fill );
 }
 
 char *getPointStroke( Point *p ){
-    return ((PointStr*)p)->stroke;
+    return p->stroke;
+}
+
+void *getPointInfo( Point *p ){
+    return p->info;
+}
+
+void setPointInfo( Point *p, void *info ){
+    p->info = info;
 }

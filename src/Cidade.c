@@ -1,42 +1,51 @@
 #include <stdlib.h>
 #include "Cidade.h"
 #include "ObjList.h"
+#include "ObjQuadTree.h"
 #include "LinkedList.h"
 #include "ProcString.h"
+#include "QuadTree.h"
 
 struct _cidade{
     List *quadras;
+    QuadTree *quadrasQT;
     char *quadrasFill;
     char *quadrasStroke;
     List *hidrantes;
+    QuadTree *hidrantesQT;
     char *hidrantesFill;
     char *hidrantesStroke;
     List *semaforos;
+    QuadTree *semaforosQT;
     char *semaforosFill;
     char *semaforosStroke;
     List *torres;
+    QuadTree *torresQT;
     char *torresFill;
     char *torresStroke;
 };
-typedef struct _cidade CidadeStr;
 
 Cidade *createCidade(){
-    CidadeStr *c;
-    c = malloc( sizeof(CidadeStr) );
+    Cidade *c;
+    c = malloc( sizeof(Cidade) );
 
     c->quadras = createList();
+    c->quadrasQT = createQuadTree();
     c->quadrasFill = createString("rgb(153,204,255)");
     c->quadrasStroke = createString("black");
 
     c->hidrantes = createList();
+    c->hidrantesQT = createQuadTree();
     c->hidrantesFill = createString("rgb(255,0,0)");
     c->hidrantesStroke = createString("black");
 
     c->semaforos = createList();
+    c->semaforosQT = createQuadTree();
     c->semaforosFill = createString("rgb(153,153,153)");
     c->semaforosStroke = createString("black");
 
     c->torres = createList();
+    c->torresQT = createQuadTree();
     c->torresFill = createString("rgb(255,102,0)");
     c->torresStroke = createString("black");
 
@@ -44,92 +53,143 @@ Cidade *createCidade(){
 }
 
 void destroyCidade(Cidade *c){
-    CidadeStr *c0;
-    c0 = c;
+    destroyObjList(c->quadras);
+    destroyObjQuadTree(c->quadrasQT);
+    destroyString(c->quadrasFill);
+    destroyString(c->quadrasStroke);
 
-    destroyObjList(c0->quadras);
-    destroyString(c0->quadrasFill);
-    destroyString(c0->quadrasStroke);
+    destroyObjList(c->hidrantes);
+    destroyObjQuadTree(c->hidrantesQT);
+    destroyString(c->hidrantesFill);
+    destroyString(c->hidrantesStroke);
 
-    destroyObjList(c0->hidrantes);
-    destroyString(c0->hidrantesFill);
-    destroyString(c0->hidrantesStroke);
+    destroyObjList(c->semaforos);
+    destroyObjQuadTree(c->semaforosQT);
+    destroyString(c->semaforosFill);
+    destroyString(c->semaforosStroke);
 
-    destroyObjList(c0->semaforos);
-    destroyString(c0->semaforosFill);
-    destroyString(c0->semaforosStroke);
-
-    destroyObjList(c0->torres);
-    destroyString(c0->torresFill);
-    destroyString(c0->torresStroke);
+    destroyObjList(c->torres);
+    destroyObjQuadTree(c->torresQT);
+    destroyString(c->torresFill);
+    destroyString(c->torresStroke);
 
     free(c);
 }
 
+void cidadeListToQuadTree(Cidade *c, int method){
+    int i;
+    List *list[4];
+    QuadTree *qt[4];
+    void (*listToQt)(List*,QuadTree*);
+
+    if( method == 0 ){
+        return;
+    }
+    else if( method == 1 ){
+        listToQt = objListToQuadTree;
+    }
+    else if( method == 2 ){
+        listToQt = objListToQuadTreeNoSort;
+    }
+    else if( method == 3 ){
+        listToQt = objListToQuadTreeNoConvexHull;
+    }
+
+    list[0] = getCidadeQuadras(c);
+    list[1] = getCidadeHidrantes(c);
+    list[2] = getCidadeSemaforos(c);
+    list[3] = getCidadeTorres(c);
+    qt[0] = getCidadeQuadrasQT(c);
+    qt[1] = getCidadeHidrantesQT(c);
+    qt[2] = getCidadeSemaforosQT(c);
+    qt[3] = getCidadeTorresQT(c);
+
+    for( i = 0; i < 4; i++ ){
+        listToQt( list[i], qt[i] );
+        freeList( list[i] );
+    }
+}
+
 List *getCidadeQuadras(Cidade *c){
-    return ((CidadeStr*)c)->quadras;
+    return c->quadras;
+}
+
+QuadTree *getCidadeQuadrasQT(Cidade *c){
+    return c->quadrasQT;
 }
 
 char *getCidadeQuadrasFill(Cidade *c){
-    return ((CidadeStr*)c)->quadrasFill;
+    return c->quadrasFill;
 }
 
 char *getCidadeQuadrasStroke(Cidade *c){
-    return ((CidadeStr*)c)->quadrasStroke;
+    return c->quadrasStroke;
 }
 
 List *getCidadeHidrantes(Cidade *c){
-    return ((CidadeStr*)c)->hidrantes;
+    return c->hidrantes;
+}
+
+QuadTree *getCidadeHidrantesQT(Cidade *c){
+    return c->hidrantesQT;
 }
 
 char *getCidadeHidrantesFill(Cidade *c){
-    return ((CidadeStr*)c)->hidrantesFill;
+    return c->hidrantesFill;
 }
 
 char *getCidadeHidrantesStroke(Cidade *c){
-    return ((CidadeStr*)c)->hidrantesStroke;
+    return c->hidrantesStroke;
 }
 
 List *getCidadeSemaforos(Cidade *c){
-    return ((CidadeStr*)c)->semaforos;
+    return c->semaforos;
+}
+
+QuadTree *getCidadeSemaforosQT(Cidade *c){
+    return c->semaforosQT;
 }
 
 char *getCidadeSemaforosFill(Cidade *c){
-    return ((CidadeStr*)c)->semaforosFill;
+    return c->semaforosFill;
 }
 
 char *getCidadeSemaforosStroke(Cidade *c){
-    return ((CidadeStr*)c)->semaforosStroke;
+    return c->semaforosStroke;
 }
 
 List *getCidadeTorres(Cidade *c){
-    return ((CidadeStr*)c)->torres;
+    return c->torres;
+}
+
+QuadTree *getCidadeTorresQT(Cidade *c){
+    return c->torresQT;
 }
 
 char *getCidadeTorresFill(Cidade *c){
-    return ((CidadeStr*)c)->torresFill;
+    return c->torresFill;
 }
 
 char *getCidadeTorresStroke(Cidade *c){
-    return ((CidadeStr*)c)->torresStroke;
+    return c->torresStroke;
 }
 
 void setCidadeQuadrasColors(Cidade *c, char *fill, char *stroke){
-    repString( &( ((CidadeStr*)c)->quadrasFill ), fill );
-    repString( &( ((CidadeStr*)c)->quadrasStroke ), stroke );
+    repString( &( c->quadrasFill ), fill );
+    repString( &( c->quadrasStroke ), stroke );
 }
 
 void setCidadeHidrantesColors(Cidade *c, char *fill, char *stroke){
-    repString( &( ((CidadeStr*)c)->hidrantesFill ), fill );
-    repString( &( ((CidadeStr*)c)->hidrantesStroke ), stroke );
+    repString( &( c->hidrantesFill ), fill );
+    repString( &( c->hidrantesStroke ), stroke );
 }
 
 void setCidadeSemaforosColors(Cidade *c, char *fill, char *stroke){
-    repString( &( ((CidadeStr*)c)->semaforosFill ), fill );
-    repString( &( ((CidadeStr*)c)->semaforosStroke ), stroke );
+    repString( &( c->semaforosFill ), fill );
+    repString( &( c->semaforosStroke ), stroke );
 }
 
 void setCidadeTorresColors(Cidade *c, char *fill, char *stroke){
-    repString( &( ((CidadeStr*)c)->torresFill ), fill );
-    repString( &( ((CidadeStr*)c)->torresStroke ), stroke );
+    repString( &( c->torresFill ), fill );
+    repString( &( c->torresStroke ), stroke );
 }

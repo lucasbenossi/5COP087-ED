@@ -4,7 +4,7 @@
 /*
 Define a instancia de uma Quadra, com coordenadas x e y, largura, altura, cep, cor de preenchimento e de borda
 */
-typedef void Quadra;
+typedef struct _quadra Quadra;
 
 /*
 Aloca memoria para uma instancia de Quadra e retorna seu ponteiro

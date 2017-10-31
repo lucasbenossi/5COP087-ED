@@ -10,11 +10,10 @@ struct _rect {
     double y;
     char *fill;
 };
-typedef struct _rect RectStr;
 
 Rect *createRect( int id, double width, double height, double x, double y, char *fill ){
-    RectStr *rect;
-    rect = malloc( sizeof( RectStr ) );
+    Rect *rect;
+    rect = malloc( sizeof( Rect ) );
 
     rect->id = id;
     rect->width = width;
@@ -27,30 +26,30 @@ Rect *createRect( int id, double width, double height, double x, double y, char 
 }
 
 void destroyRect( Rect *r ){
-    destroyString( ((RectStr*)r)->fill );
+    destroyString( r->fill );
     free(r);
 }
 
 int getRectId( Rect *r ){
-    return ((RectStr*)r)->id;
+    return r->id;
 }
 
 double getRectWidth( Rect *r ){
-    return ((RectStr*)r)->width;
+    return r->width;
 }
 
 double getRectHeight( Rect *r ){
-    return ((RectStr*)r)->height;
+    return r->height;
 }
 
 double getRectX( Rect *r ){
-    return ((RectStr*)r)->x;
+    return r->x;
 }
 
 double getRectY( Rect *r ){
-    return ((RectStr*)r)->y;
+    return r->y;
 }
 
 char *getRectFill( Rect *r ){
-    return ((RectStr*)r)->fill;
+    return r->fill;
 }

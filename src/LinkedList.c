@@ -1,56 +1,61 @@
-#include <stdlib.h>
 #include "LinkedList.h"
+#include <stdlib.h>
 
 struct _list{
     struct _node *head;
     struct _node *tail;
     int size;
 };
-typedef struct _list ListStr;
-
-List *createList(){
-    ListStr *l;
-    l = malloc( sizeof(ListStr) );
-    l->head = NULL;
-    l->tail = NULL;
-    l->size = 0;
-    return l;
-}
-
-void destroyList( List *list ){
-    free(list);
-}
 
 struct _node{
     void *data;
     struct _node *next;
     struct _node *previous;
 };
-typedef struct _node NodeStr;
 
-Node *createNode( void *data ){
-    NodeStr *node;
-    node = malloc( sizeof( NodeStr ) );
-    node->data = data;
-	node->next = NULL;
-    node->previous = NULL;
-	return node;
+/* ================================================================================================================ */
+
+List *createList(){
+    List *list;
+    list = malloc( sizeof(List) );
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
+    return list;
 }
 
-void destroyNode( Node *node ){
-    free(node);
+void destroyList( List *list ){
+    freeList(list);
+    free(list);
+}
+
+void freeList( List *list ){
+    Node *node, *node0;
+
+    node = list->head;
+    while( node != NULL ){
+        node0 = node;
+        node = node->next;
+        destroyNode(node0);
+    }
+
+    resetList(list);
+}
+
+void resetList( List *list ){
+    list->head = NULL;
+    list->tail = NULL;
+    list->size = 0;
 }
 
 int lenght( List *list ){
-    return ((ListStr*)list)->size;
+    return list->size;
 }
 
-Node *insert( List *pList, void *data ){
-    NodeStr *node;
-    ListStr *list;
+Node *insert( List *list, void *data ){
+    Node *node;
 
     node = createNode(data);
-    list = pList;
 
     if( list->head == NULL ){
         list->head = node;
@@ -65,17 +70,15 @@ Node *insert( List *pList, void *data ){
     return node;
 }
 
-Node *insertBefore( List *pList, Node *pNode, void *data ){
-    NodeStr *newNode, *node, *previousNode;
-    ListStr *list;
+Node *insertBefore( List *list, Node *node, void *data ){
+    Node *newNode, *node0, *previousNode;
 
     newNode = NULL;
-    node = pNode;
-    list = pList;
+    node0 = node;
 
-    if( list->head != NULL && node != NULL ){
+    if( list->head != NULL && node0 != NULL ){
         newNode = createNode(data);
-        previousNode = node->previous;
+        previousNode = node0->previous;
         if( previousNode == NULL ){
             list->head = newNode;
         }
@@ -83,20 +86,17 @@ Node *insertBefore( List *pList, Node *pNode, void *data ){
             previousNode->next = newNode;
             newNode->previous = previousNode;
         }
-        newNode->next = node;
-        node->previous = newNode;
+        newNode->next = node0;
+        node0->previous = newNode;
         (list->size)++;
     }
     return newNode;
 }
 
-Node *insertAfter( List *pList, Node *pNode, void *data ){
-    NodeStr *newNode, *node, *nextNode;
-    ListStr *list;
+Node *insertAfter( List *list, Node *node, void *data ){
+    Node *newNode, *nextNode;
 
     newNode = NULL;
-    node = pNode;
-    list = pList;
 
     if( list->tail != NULL && node != NULL ){
         newNode = createNode(data);
@@ -115,17 +115,14 @@ Node *insertAfter( List *pList, Node *pNode, void *data ){
     return newNode;
 }
 
-void *removeFirst( List *pList ){
+void *removeFirst( List *list ){
     void *data;
-    NodeStr *node;
-    ListStr *list;
+    Node *node;
 
     data = NULL;
-    list = pList;
 
     if( list->head != NULL ){
         node = list->head;
-        data = node->data;
         if( list->head == list->tail ){
             list->head = NULL;
             list->tail = NULL;
@@ -134,23 +131,20 @@ void *removeFirst( List *pList ){
             list->head = list->head->next;
             list->head->previous = NULL;
         }
-        destroyNode(node);
+        data = destroyNode(node);
         (list->size)--;
     }
     return data;
 }
 
-void *removeLast( List *pList ){
+void *removeLast( List *list ){
     void *data;
-    NodeStr *node;
-    ListStr *list;
+    Node *node;
 
     data = NULL;
-    list = pList;
 
     if( list->tail != NULL ){
         node = list->tail;
-        data = node->data;
         if( list->tail == list->head ){
             list->tail = NULL;
             list->head = NULL;
@@ -159,25 +153,21 @@ void *removeLast( List *pList ){
             list->tail = list->tail->previous;
             list->tail->next = NULL;
         }
-        destroyNode(node);
+        data = destroyNode(node);
         (list->size)--;
     }
     return data;
 }
 
-void *removeNode( List *pList, Node *pNode ){
+void *removeNode( List *list, Node *node ){
     void *data;
-    NodeStr *node, *nextNode, *previousNode;
-    ListStr *list;
+    Node *nextNode, *previousNode;
 
     data = NULL;
-    node = pNode;
-    list = pList;
 
     if( list->head != NULL && node != NULL ){
         nextNode = node->next;
         previousNode = node->previous;
-        data = node->data;
         if( previousNode == NULL ){
             list->head = nextNode;
         }
@@ -190,43 +180,46 @@ void *removeNode( List *pList, Node *pNode ){
         else{
             nextNode->previous = previousNode;
         }
-        destroyNode(node);
+        data = destroyNode(node);
         (list->size)--;
     }
     return data;
 }
 
-void *get( List *list, Node *node ){
-    if( list != NULL && node != NULL ){
-        return ((NodeStr*)node)->data;
-    }
-    return NULL;
-}
-
 Node *getFirst( List *list ){
-    if( list != NULL && ((ListStr*)list)->head != NULL ){
-        return ((ListStr*)list)->head;
-    }
-    return NULL;
+    return list->head;
 }
 
 Node *getLast( List *list ){
-    if( list != NULL && ((ListStr*)list)->tail != NULL ){
-        return ((ListStr*)list)->tail;
-    }
-    return NULL;
+    return list->tail;
 }
 
-Node *getNext( List *list, Node *node ){
-    if( list != NULL && node != NULL ){
-        return ((NodeStr*)node)->next;
-    }
-    return NULL;
+/* ================================================================================================================ */
+
+Node *createNode( void *data ){
+    Node *node;
+    node = malloc( sizeof( Node ) );
+    node->data = data;
+	node->next = NULL;
+    node->previous = NULL;
+	return node;
 }
 
-Node *getPrevious( List *list, Node *node ){
-    if( list != NULL && node != NULL ){
-        return ((NodeStr*)node)->previous;
-    }
-    return NULL;
+void *destroyNode( Node *node ){
+    void *data;
+    data = get(node);
+    free(node);
+    return data;
+}
+
+Node *getNext( Node *node ){
+    return node->next;
+}
+
+Node *getPrevious( Node *node ){
+    return node->previous;
+}
+
+void *get( Node *node ){
+    return node->data;
 }

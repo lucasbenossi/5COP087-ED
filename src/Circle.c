@@ -45,7 +45,7 @@ double getCircleX( Circle *c ){
     return ((CircleStr*)c)->x;
 }
 
-void setCircleX( Circle *c, int x ){
+void setCircleX( Circle *c, double x ){
     ((CircleStr*)c)->x = x;
 }
 
@@ -53,7 +53,7 @@ double getCircleY( Circle *c ){
     return ((CircleStr*)c)->y;
 }
 
-void setCircleY( Circle *c, int y ){
+void setCircleY( Circle *c, double y ){
     ((CircleStr*)c)->y = y;
 }
 

@@ -9,75 +9,123 @@ ObjCodeList = Main.o \
 	CreateSvg.o \
 	CommandsT2.o \
 	CommandsT3.o \
+	CommandsT4.o \
+	CommandsDebug.o \
 	Geometry.o \
 	WriteTags.o \
 	Cidade.o \
 	ObjList.o \
+	ObjQuadTree.o \
 	Quadra.o \
 	Point.o \
 	File.o \
-	Resumo.o
+	Resumo.o \
+	ConvexHull.o \
+	Stack.o \
+	QuadTree.o \
+	QuadTreeDeletion.o \
+	QuickSort.o \
+	Array.o \
+	DumpQuadTree.o \
+	Polygon.o
+
 gccCommand = gcc -Wall -pedantic -ansi -g
 
 siguel : $(ObjCodeList)
-	$(gccCommand) -o siguel $(ObjCodeList) -lm
+	$(gccCommand) $(ObjCodeList) -lm -o siguel
 
 Main.o : Main.c
-	$(gccCommand) -o Main.o -c Main.c
+	$(gccCommand) -c Main.c -o Main.o
 
 Args.o : Args.c Args.h
-	$(gccCommand) -o Args.o -c Args.c
-
-Rect.o : Rect.c Rect.h
-	$(gccCommand) -o Rect.o -c Rect.c
-
-Circle.o : Circle.c Circle.h
-	$(gccCommand) -o Circle.o -c Circle.c
+	$(gccCommand) -c Args.c -o Args.o
 
 Object.o : Object.c Object.h
-	$(gccCommand) -o Object.o -c Object.c
+	$(gccCommand) -c Object.c -o Object.o
 
-RunCommands.o : RunCommands.c RunCommands.h
-	$(gccCommand) -o RunCommands.o -c RunCommands.c
+Rect.o : Rect.c Rect.h
+	$(gccCommand) -c Rect.c -o Rect.o
 
-ProcString.o : ProcString.c ProcString.h
-	$(gccCommand) -o ProcString.o -c ProcString.c
-
-LinkedList.o : LinkedList.c LinkedList.h
-	$(gccCommand) -o LinkedList.o -c LinkedList.c
-
-CreateSvg.o : CreateSvg.c CreateSvg.h
-	$(gccCommand) -o CreateSvg.o -c CreateSvg.c
-
-CommandsT2.o : CommandsT2.h CommandsT2.c
-	$(gccCommand) -o CommandsT2.o -c CommandsT2.c
-
-CommandsT3.o : CommandsT3.h CommandsT3.c
-	$(gccCommand) -o CommandsT3.o -c CommandsT3.c
-
-Geometry.o : Geometry.h Geometry.c
-	$(gccCommand) -o Geometry.o -c Geometry.c
-
-WriteTags.o : WriteTags.h WriteTags.c
-	$(gccCommand) -o WriteTags.o -c WriteTags.c
-
-Cidade.o : Cidade.h Cidade.c
-	$(gccCommand) -o Cidade.o -c Cidade.c
-
-ObjList.o : ObjList.h ObjList.c
-	$(gccCommand) -o ObjList.o -c ObjList.c
+Circle.o : Circle.c Circle.h
+	$(gccCommand) -c Circle.c -o Circle.o
 
 Quadra.o : Quadra.h Quadra.c
-	$(gccCommand) -o Quadra.o -c Quadra.c
+	$(gccCommand) -c Quadra.c -o Quadra.o
 
 Point.o : Point.h Point.c
-	$(gccCommand) -o Point.o -c Point.c
+	$(gccCommand) -c Point.c -o Point.o
+
+Polygon.o : Polygon.h Polygon.c
+	$(gccCommand) -c Polygon.c -o Polygon.o
+
+RunCommands.o : RunCommands.c RunCommands.h
+	$(gccCommand) -c RunCommands.c -o RunCommands.o
+
+ProcString.o : ProcString.c ProcString.h
+	$(gccCommand) -c ProcString.c -o ProcString.o
+
+LinkedList.o : LinkedList.c LinkedList.h
+	$(gccCommand) -c LinkedList.c -o LinkedList.o
+
+CreateSvg.o : CreateSvg.c CreateSvg.h
+	$(gccCommand) -c CreateSvg.c -o CreateSvg.o
+
+CommandsT2.o : CommandsT2.h CommandsT2.c
+	$(gccCommand) -c CommandsT2.c -o CommandsT2.o
+
+CommandsT3.o : CommandsT3.h CommandsT3.c
+	$(gccCommand) -c CommandsT3.c -o CommandsT3.o
+
+CommandsT4.o : CommandsT4.h CommandsT4.c
+	$(gccCommand) -c CommandsT4.c -o CommandsT4.o
+
+CommandsDebug.o : CommandsDebug.h CommandsDebug.c
+	$(gccCommand) -c CommandsDebug.c -o CommandsDebug.o
+
+Geometry.o : Geometry.h Geometry.c
+	$(gccCommand) -c Geometry.c -o Geometry.o
+
+WriteTags.o : WriteTags.h WriteTags.c
+	$(gccCommand) -c WriteTags.c -o WriteTags.o
+
+Cidade.o : Cidade.h Cidade.c
+	$(gccCommand) -c Cidade.c -o Cidade.o
+
+ObjList.o : ObjList.h ObjList.c
+	$(gccCommand) -c ObjList.c -o ObjList.o
+
+ObjQuadTree.o : ObjQuadTree.h ObjQuadTree.c
+	$(gccCommand) -c ObjQuadTree.c -o ObjQuadTree.o
 
 File.o : File.c File.h
-	$(gccCommand) -o File.o -c File.c
+	$(gccCommand) -c File.c -o File.o
 
 Resumo.o : Resumo.h Resumo.c
-	$(gccCommand) -o Resumo.o -c Resumo.c
+	$(gccCommand) -c Resumo.c -o Resumo.o
+
+ConvexHull.o : ConvexHull.h ConvexHull.c
+	$(gccCommand) -c ConvexHull.c -o ConvexHull.o
+
+Stack.o : Stack.h Stack.c
+	$(gccCommand) -c Stack.c -o Stack.o
+
+QuadTree.o : QuadTree.h QuadTree.c
+	$(gccCommand) -c QuadTree.c -o QuadTree.o
+
+QuadTreeDeletion.o : QuadTreeDeletion.h QuadTreeDeletion.c
+	$(gccCommand) -c QuadTreeDeletion.c -o QuadTreeDeletion.o
+
+QuickSort.o : QuickSort.h QuickSort.c
+	$(gccCommand) -c QuickSort.c -o QuickSort.o
+
+Array.o : Array.h Array.c
+	$(gccCommand) -c Array.c -o Array.o
+
+DumpQuadTree.o : DumpQuadTree.h DumpQuadTree.c
+	$(gccCommand) -c DumpQuadTree.c -o DumpQuadTree.o
 
 clean :
 	rm *.o
+
+check :
+	$(gccCommand) -fsyntax-only *.c *.h

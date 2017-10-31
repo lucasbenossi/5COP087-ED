@@ -1,37 +1,51 @@
 #include "Object.h"
 #include <stdlib.h>
+#include "ProcString.h"
 
 struct _object{
-    int id;
+    char *id;
     char type;
     void *data;
+    void *info;
 };
-typedef struct _object ObjectStr;
 
-Object *createObject( int id, char type, void *data ){
-    ObjectStr *obj;
-    obj = malloc( sizeof( ObjectStr ) );
-    obj->id = id;
+Object *createObject( char *id, char type, void *data ){
+    Object *obj;
+    obj = malloc( sizeof( Object ) );
+    obj->id = createString(id);
     obj->type = type;
     obj->data = data;
+    obj->info = NULL;
     return obj;
 }
 
 void *destroyObject( Object *obj ){
     void *data;
-    data = ((ObjectStr*)obj)->data;
+
+    data = obj->data;
+
+    destroyString(obj->id);
     free(obj);
+
     return data;
 }
 
-int getObjId( Object *obj ){
-    return ((ObjectStr*)obj)->id;
+char *getObjId( Object *obj ){
+    return obj->id;
 }
 
 char getObjType( Object *obj ){
-    return ((ObjectStr*)obj)->type;
+    return obj->type;
 }
 
 void *getObjData( Object *obj ){
-    return ((ObjectStr*)obj)->data;
+    return obj->data;
+}
+
+void setObjInfo( Object *obj, void *info ){
+    obj->info = info;
+}
+
+void *getObjInfo( Object *obj ){
+    return obj->info;
 }

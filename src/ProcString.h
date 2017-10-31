@@ -2,11 +2,11 @@
 #define PROCSTRING_H
 
 /*
-- Aloca uma string e copia o conteúdo da string fornecida em "pString" para a
+- Aloca uma string e copia o conteúdo da string fornecida em "string" para a
   string alocada, retorna o ponteiro para a string alocada.
-- A string alocada tem o mesmo tamanho que a string fornecida em "pString".
+- A string alocada tem o mesmo tamanho que a string fornecida em "string".
 */
-char *createString( char *pString );
+char *createString( const char *string );
 
 /*
 - Desaloca memória de uma string
@@ -20,32 +20,28 @@ void destroyString( char *string );
 char *allocChar( int size );
 
 /*
-- Aloca uma string e copia o conteúdo das strings fornecidas como paramentros
-  para a string alocada, retorna o ponteiro para a string alocada.
-- A string alocada tem o mesmo tamanho que as strings fornecidas como argumento.
-- As strings fornecidas como argumento podem ser ponteiros NULL.
-- Se todas as strings fornecidas como argumento forem pontiros NULL, retora NULL.
+- Concatena o conteũdo de n strings em uma nova string.
+- Se n == 0, retorna NULL;
+- Se todas as strings fornecidas forem NULL, retorna uma string vazia.
 */
-char *createStringCat( char *s1, char *s2, char *s3, char *s4, char *s5 );
+char *createStringCat( int n, ... );
+
+/*
+Converte inteiro para string.
+*/
+char *createStringInt( int n );
 
 /*
 - Concatena o conteúdo da string em **s, com o conteúdo da string *c.
 - Realocação de memória é feito internamente.
 */
-void catString( char **s, char *c );
+void catString( char **s, const char *c );
 
 /*
 - Substitui o conteúdo da string em **s, com o conteúdo da string *c.
 - Realocação de memória é feito internamente.
 */
-void repString( char **s, char *c );
-
-/*
-- Recebe a string com o caminho para um arquivo fornecido como argumento na linha
-  de comandos e retorna um ponteiro para string apenas com o nome do arquivo, sem
-  a extencao ou o diretorio
-*/
-char *fileRemovePathExt( char *pathFileExt );
+void repString( char **s, const char *c );
 
 /*
 - Recebe em *dir a string com o diretório, insere ".", "./" no início ou "/" no
@@ -59,5 +55,12 @@ char *fileRemovePathExt( char *pathFileExt );
   pasta     -> ./pasta
 */
 char *fixDir( char *dir );
+
+/*
+- Recebe a string com o caminho para um arquivo fornecido como argumento na linha
+  de comandos e retorna um ponteiro para string apenas com o nome do arquivo, sem
+  a extencao ou o diretorio
+*/
+char *fileRemovePathExt( char *pathFileExt );
 
 #endif

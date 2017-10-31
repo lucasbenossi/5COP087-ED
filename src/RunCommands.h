@@ -1,28 +1,17 @@
 #ifndef RUNCOMMANDS_H
 #define RUNCOMMANDS_H
-#include "LinkedList.h"
-#include "Cidade.h"
 #include "Args.h"
+#include <stdio.h>
 
 /*
-Processa os comandos fornecidos nos arquivos de entrada
+Prepara o ambiente de execução, ou seja, abre os arquivos.
 *args = Instancia da struct com os argumentos recebidos na linha de comando
 */
-int runCommands( Args *args );
+int prepareEnvironment( Args *args );
 
 /*
-Processa o comando "p" (imprimir todos os elementos criados,
-junto com seus atributos)
-*l = lista ligada
-*c = instancia de Cidade
+Executa os comandos fornecidos nos arquivos de entrada.
 */
-void procP( List *objs, Cidade *cidade );
-
-/*
-Processa o comando "z" (imprimir fill e stroke padrões definidos na instancia
-de Cidade)
-*c = instancia de Cidade
-*/
-void procZ( Cidade *cidade );
+void runCommands( Args *args, char *outDir, char *nameFileGeo, char *nameFiles, FILE *inFileGeo, FILE *inFileQry, FILE *outFileTxt, FILE *outResumoTxt );
 
 #endif

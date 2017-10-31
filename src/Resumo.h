@@ -12,7 +12,7 @@
     - del = Quadras deletedas
     - cpd = Comparações para deletar uma quadra
 */
-typedef void Resumo;
+typedef struct _resumo Resumo;
 
 /*
 Aloca memória para uma instancia de Resumo

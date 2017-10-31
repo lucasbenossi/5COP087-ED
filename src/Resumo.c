@@ -8,11 +8,10 @@ struct _resumo{
     int del;
     int cpd;
 };
-typedef struct _resumo ResumoStr;
 
 Resumo *createResumo(){
-    ResumoStr *res;
-    res = malloc( sizeof( ResumoStr ) );
+    Resumo *res;
+    res = malloc( sizeof( Resumo ) );
     res->ins = 0;
     res->cpi = 0;
     res->del = 0;
@@ -25,26 +24,24 @@ void destroyResumo(Resumo *res){
 }
 
 void incIns(Resumo *res){
-    (((ResumoStr*)res)->ins)++;
+    (res->ins)++;
 }
 
 void incCpi(Resumo *res){
-    (((ResumoStr*)res)->cpi)++;
+    (res->cpi)++;
 }
 
 
 void incDel(Resumo *res){
-    (((ResumoStr*)res)->del)++;
+    (res->del)++;
 }
 
 
 void incCpd(Resumo *res){
-    (((ResumoStr*)res)->cpd)++;
+    (res->cpd)++;
 }
 
 
 void printResumo( Resumo *res, char *fileGeo, FILE *txt ){
-    ResumoStr *res0;
-    res0 = res;
-    fprintf( txt, "%s\t#%d\t#%d\t#%d\t#%d\n", fileGeo, res0->ins, res0->cpi, res0->del, res0->cpd );
+    fprintf( txt, "%s\t#%d\t#%d\t#%d\t#%d\n", fileGeo, res->ins, res->cpi, res->del, res->cpd );
 }

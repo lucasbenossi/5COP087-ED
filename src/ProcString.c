@@ -1,25 +1,25 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "ProcString.h"
+#include <stdarg.h>
 
-char *createString( char *pString ){
-    char *string;
+char *createString( const char *string ){
+    char *string0;
     int size;
 
-    if( pString != NULL ){
-        size = strlen(pString);
-        if( size > 0 ){
-            string = allocChar( size );
-            strcpy(string,pString);
-        }
-        else{
-            string = allocChar(0);
-        }
+    if( string == NULL ) return NULL;
+
+    size = strlen(string);
+    if( size > 0 ){
+        string0 = allocChar( size );
+        strcpy(string0,string);
     }
     else{
-        string = NULL;
+        string0 = allocChar(0);
     }
-    return string;
+
+    return string0;
 }
 
 void destroyString( char *string ){
@@ -31,47 +31,61 @@ void destroyString( char *string ){
 char *allocChar( int size ){
 	char *string;
     int i;
+
     size = size + 1;
 	string = malloc( size * sizeof(char) );
+
 	for(i = 0; i < size; i++){
         *(string+i) = '\0';
     }
+
 	return string;
 }
 
-char *createStringCat( char *s1, char *s2, char *s3, char *s4, char *s5 ){
+char *createStringCat( int n, ... ){
+    va_list args;
     char *string;
-    int size;
+    const char *arg;
+    int size, i;
 
-    string = NULL;
+    if( n == 0 ) return NULL;
+
     size = 0;
 
-    if( s1 == NULL && s2 == NULL && s3 == NULL && s4 == NULL && s5 == NULL ){
-        string = NULL;
+    va_start(args,n);
+    for( i = 0; i < n; i++){
+        arg = va_arg(args, const char*);
+        if( arg != NULL ){
+            size += strlen( arg );
+        }
+    }
+    va_end(args);
+
+    if( size > 0 ){
+        string = allocChar(size);
+        va_start(args,n);
+        for( i = 0; i < n; i++){
+            arg = va_arg(args, const char*);
+            if( arg != NULL ){
+                strcat( string, arg );
+            }
+        }
+        va_end(args);
     }
     else{
-        if( s1 != NULL ) size += strlen(s1);
-        if( s2 != NULL ) size += strlen(s2);
-        if( s3 != NULL ) size += strlen(s3);
-        if( s4 != NULL ) size += strlen(s4);
-        if( s5 != NULL ) size += strlen(s5);
-        if( size > 0 ){
-            string = allocChar(size);
-            if( s1 != NULL ) strcpy(string,s1);
-            if( s2 != NULL ) strcat(string,s2);
-            if( s3 != NULL ) strcat(string,s3);
-            if( s4 != NULL ) strcat(string,s4);
-            if( s5 != NULL ) strcat(string,s5);
-        }
-        else{
-            string = allocChar(0);
-        }
+        string = allocChar(0);
     }
 
     return string;
 }
 
-void catString( char **s, char *c ){
+char *createStringInt( int n ){
+    char string[100];
+    sprintf( string, "%d", n );
+    return createString( string );
+}
+
+void catString( char **s, const char *c ){
 	int sizeC, sizeS;
     char *newS;
 
@@ -98,14 +112,17 @@ void catString( char **s, char *c ){
     }
 }
 
-void repString( char **s, char *c ){
+void repString( char **s, const char *c ){
 	destroyString(*s);
     *s = createString(c);
 }
 
 char *fixDir( char *dir ){
 	char *newDir;
-	newDir = allocChar(0);
+
+    if( dir == NULL ) return NULL;
+
+    newDir = allocChar(0);
 	if( *dir == '.' ){
 		if( *(dir+1) == '\0' ){
 			catString(&newDir,dir);
@@ -134,6 +151,8 @@ char *fixDir( char *dir ){
 char *fileRemovePathExt( char *pathFileExt ){
     char *lastDot, *lastSlash;
     char string[1000], *aux1, *aux2;
+
+    if( pathFileExt == NULL ) return NULL;
 
     lastDot = NULL;
     lastSlash = NULL;

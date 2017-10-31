@@ -6,7 +6,7 @@ Define um retangulo num plano 2D.
 Possui como atributos valores de id, largura, altura, coordenada x e y (todos double) e
 cor de preenchimento (string).
 */
-typedef void Rect;
+typedef struct _rect Rect;
 
 /*
 Aloca memória para uma instancia de Rect e escreve os valores id, largura, altura,

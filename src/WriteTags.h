@@ -1,59 +1,86 @@
 #ifndef WRITETAGS_H
 #define WRITETAGS_H
+#include "Cidade.h"
+#include "Object.h"
 #include "Circle.h"
 #include "Rect.h"
 #include "Quadra.h"
 #include "Point.h"
+#include "Polygon.h"
 #include <stdio.h>
 
 /*
-Recebe o ponteiro para uma struct Rect e escreve em "*svg" a sua tag
-correspondente;
+Escreve "<svg>" em *svg;
+*/
+void writeSvgStart( FILE *svg );
+
+/*
+Escreve "</svg>" em *svg;
+*/
+void writeSvgEnd( FILE *svg );
+
+/*
+Escreve em *svg as tags para os objetos do T2 (circulos e retangulos)
+*/
+void writeObjsTags( List *objs, FILE *svg );
+
+/*
+Escreve em *svg as tags dos elementos que formam uma instancia de Cidade
+(intancias de Quadra e Point).
+*/
+void writeCidadeTags( Cidade *cidade, FILE *svg, int method );
+
+/*
+Escreve em *svg as tags que formam as coberturas das torres de uma instancia de
+Cidade.
+*/
+void writeCidadeTorresCoberturaTags( Cidade *cidade, FILE *svg, int method );
+
+/*
+Recebe uma instancia de Rect e escreve em *svg as suas tags correspondentes.
 */
 void writeRectTag( Rect *rect, FILE *svg );
 
 /*
-Recebe o ponteiro para uma struct Circle e escreve em "*svg" a sua tag
-correspondente;
+Recebe uma instancia de Circle e escreve em *svg as suas tags correspondentes.
 */
 void writeCircleTag( Circle *circle, FILE *svg );
 
 /*
 Escreve a tag svg do retangulo pontilhado usado para destacar quando dois
 objetos se sobrepoem
-*rect = retangulo definido
-*svg = stream de saida
 */
 void writeOverlapTag( Rect *rect, FILE *svg );
 
 /*
-Recebe o ponteiro para uma struct Quadra e escreve em "*svg" a sua tag
-correspondente;
+Recebe uma instancia de Quadra e escreve em *svg as suas tags correspondentes.
 */
 void writeQuadraTag( Quadra *q, FILE *svg );
 
 /*
-Recebe o ponteiro para uma struct Point e escreve em "*svg" a sua tag
-correspondente;
+- Recebe uma instancia de Point e escreve em *svg as suas tags correspondentes.
+- A intancia de Point pode definir um ponto qualquer, um Hidrante, um Semáforo
+  ou uma Torre.
 */
 void writePointTag( Point *p, FILE *svg );
-
-/*
-Recebe o ponteiro para uma struct Point e escreve em "*svg" as suas tags
-correspondentes, quando a struct Point define um hidrante;
-*/
 void writeHidranteTag( Point *p, FILE *svg );
-
-/*
-Recebe o ponteiro para uma struct Point e escreve em "*svg" as suas tags
-correspondentes, quando a struct Point define um semaforo;
-*/
 void writeSemaforoTag( Point *p, FILE *svg );
+void writeTorreTag( Point *p, FILE *svg );
 
 /*
-Recebe o ponteiro para uma struct Point e escreve em "*svg" as suas tags
-correspondentes, quando a struct Point define uma torre;
+Recebe uma instancia de Point que define uma torre, escreve em *svg uma tag para
+mostrar o raio de cobertura da torre.
 */
-void writeTorreTag( Point *p, FILE *svg );
+void writeTorreCoberturaTag( Point *p, FILE *svg );
+
+/*
+Recebe uma instancia de Polygon e escreve em *svg as suas tags correspondentes.
+*/
+void writePolygonTag( Polygon *polygon, FILE *svg );
+
+/*
+Recebe uma string e coordenadas x e y e escreve sua tag correspondente.
+*/
+void writeStringTag( char *string, double x, double y, FILE *svg );
 
 #endif

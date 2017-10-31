@@ -21,7 +21,7 @@ Processa os comandos
 	"s" (inserir semaforo)
 	"t" (inserir torre)
 */
-void commandCidadeInsert( char *line, Cidade *c, Resumo *res );
+void commandCidadeInsert( char *line, Cidade *c, Resumo *res, char *argR );
 
 /*
 Processa os comandos:
@@ -38,22 +38,17 @@ Processa os comandos:
 	"dh" (remove hidrantes que estão dentro do retangulo)
 	"ds" (remove semaforos que estão dentro do retangulo)
 	"dt" (remove torres que estão dentro do retangulo)
-*/
-void commandCidadeDeleteRect( char *line, Cidade *c, FILE *outFileTxt, Resumo *res );
-
-/*
-Processa os comandos:
 	"Dq" (remove quadras que estão dentro do circulo)
 	"Dh" (remove hidrantes que estão dentro do circulo)
 	"Ds" (remove semaforos que estão dentro do circulo)
 	"Dt" (remove torres que estão dentro do circulo)
 */
-void commandCidadeDeleteCircle( char *line, Cidade *c, FILE *outFileTxt, Resumo *res );
+void commandCidadeDelete( char *line, Cidade *c, FILE *outFileTxt, Resumo *res, int insert );
 
 /*
 Processa o comando crd? (procurar por elementos com cep ou id)
 id = id ou cep a ser procurado
 */
-void commandSearchIdCep( char *line, Cidade *c, FILE *outFileTxt );
+void commandSearchIdCep( char *line, Cidade *c, FILE *outFileTxt, int insert );
 
 #endif

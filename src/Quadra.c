@@ -11,11 +11,10 @@ struct _quadra {
     char *fill;
     char *stroke;
 };
-typedef struct _quadra QuadraStr;
 
 Quadra *createQuadra( double x, double y, double width, double height, char *cep, char *fill, char *stroke ){
-    QuadraStr *q;
-    q = malloc( sizeof(QuadraStr) );
+    Quadra *q;
+    q = malloc( sizeof(Quadra) );
     q->x = x;
     q->y = y;
     q->width = width;
@@ -27,36 +26,36 @@ Quadra *createQuadra( double x, double y, double width, double height, char *cep
 }
 
 void destroyQuadra(Quadra *q){
-    destroyString( ((QuadraStr*)q)->cep );
-    destroyString( ((QuadraStr*)q)->fill );
-    destroyString( ((QuadraStr*)q)->stroke );
+    destroyString( q->cep );
+    destroyString( q->fill );
+    destroyString( q->stroke );
     free(q);
 }
 
 double getQuadraX(Quadra *q){
-    return ((QuadraStr*)q)->x;
+    return q->x;
 }
 
 double getQuadraY(Quadra *q){
-    return ((QuadraStr*)q)->y;
+    return q->y;
 }
 
 double getQuadraWidth(Quadra *q){
-    return ((QuadraStr*)q)->width;
+    return q->width;
 }
 
 double getQuadraHeight(Quadra *q){
-    return ((QuadraStr*)q)->height;
+    return q->height;
 }
 
 char *getQuadraCep(Quadra *q){
-    return ((QuadraStr*)q)->cep;
+    return q->cep;
 }
 
 char *getQuadraFill(Quadra *q){
-    return ((QuadraStr*)q)->fill;
+    return q->fill;
 }
 
 char *getQuadraStroke(Quadra *q){
-    return ((QuadraStr*)q)->stroke;
+    return q->stroke;
 }

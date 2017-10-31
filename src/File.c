@@ -1,8 +1,13 @@
 #include "File.h"
 #include <stdio.h>
+#include <string.h>
 
 FILE *openFileRead( char *fullPath ){
     FILE *file;
+    if( strcmp( fullPath, "stdin" ) == 0 ){
+        printf("Usando stdin como arquivo de entrada.\n");
+        return stdin;
+    }
     file = fopen(fullPath,"r");
     if( file == NULL ){
 		printf("ERRO: Falha ao abrir o arquivo %s\n",fullPath);
@@ -32,7 +37,7 @@ FILE *openFileAppend( char *fullPath ){
 }
 
 void closeFile( FILE *file ){
-    if( file != NULL ){
+    if( file != NULL && file != stdin && file != stderr && file != stdout ){
         fclose(file);
     }
 }

@@ -8,69 +8,31 @@
 #include "Cidade.h"
 #include "File.h"
 
-void createSvg( List *l, Cidade *c, char *file, char *fixedDir ){
+void createSvg( List *l, Cidade *c, char *file, char *fixedDir, int method, int argT, int noT2 ){
     char *fullPath;
     FILE *svg;
-    List *list;
-    Node *node;
-    void *objData;
-    char objType;
 
-    fullPath = createStringCat( fixedDir, file, ".svg", NULL, NULL );
+    fullPath = createStringCat( 3, fixedDir, file, ".svg" );
+
     svg = openFileWrite(fullPath);
     if( svg == NULL ){
 		destroyString(fullPath);
 		return;
     }
 
-    fprintf( svg, "<svg xmlns=\"http://www.w3.org/2000/svg\">\n");
+    writeSvgStart(svg);
 
-    list = getCidadeQuadras(c);
-    node = getFirst(list);
-    while( node != NULL ){
-        writeQuadraTag( getObjData(get(list,node)), svg );
-		node = getNext(list,node);
+    writeCidadeTags( c, svg, method );
+
+    if( argT == 1 ){
+        writeCidadeTorresCoberturaTags( c, svg, method );
     }
 
-    list = getCidadeHidrantes(c);
-    node = getFirst(list);
-    while( node != NULL ){
-        writeHidranteTag( getObjData(get(list,node)), svg );
-        node = getNext(list,node);
+    if( noT2 == 0 ){
+        writeObjsTags( l, svg );
     }
 
-    list = getCidadeSemaforos(c);
-    node = getFirst(list);
-    while( node != NULL ){
-        writeSemaforoTag( getObjData(get(list,node)), svg );
-        node = getNext(list,node);
-    }
-
-    list = getCidadeTorres(c);
-    node = getFirst(list);
-    while( node != NULL ){
-        writeTorreTag( getObjData(get(list,node)), svg );
-        node = getNext(list,node);
-    }
-
-    list = l;
-    node = getFirst(list);
-    while( node != NULL ){
-        objData = getObjData( get(list,node) );
-        objType = getObjType( get(list,node) );
-        if( objType == 'c' ){
-            writeCircleTag( objData, svg );
-        }
-        else if( objType == 'r' ){
-            writeRectTag( objData, svg );
-        }
-        else if( objType == 'o' ){
-            writeOverlapTag( objData, svg );
-        }
-		node = getNext(list,node);
-    }
-
-    fprintf(svg, "</svg>");
+    writeSvgEnd(svg);
 
 	closeFile(svg);
 

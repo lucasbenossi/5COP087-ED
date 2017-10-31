@@ -14,17 +14,21 @@
 void procC( char *line, List *l ){
     int i;
     double r, x, y;
-    char color[10000];
+    char color[10000], *id;
 	sscanf(line, "c %d %lf %lf %lf %s", &i, &r, &x, &y, color);
-	insert( l, createObject( i, 'c', createCircle(i, r, x, y, color) ) );
+    id = createStringInt(i);
+	insert( l, createObject( id, 'c', createCircle(i, r, x, y, color) ) );
+    destroyString(id);
 }
 
 void procR( char *line, List *l ){
     int i;
     double w, h, x, y;
-    char color[10000];
+    char color[10000], *id;
 	sscanf(line, "r %d %lf %lf %lf %lf %s", &i, &w, &h, &x, &y, color);
-	insert( l, createObject( i, 'r', createRect(i, w, h, x, y, color) ) );
+    id = createStringInt(i);
+	insert( l, createObject( id, 'r', createRect(i, w, h, x, y, color) ) );
+    destroyString(id);
 }
 
 void procA( char *line, List *l, char *file, char *fixedDir ){
@@ -39,8 +43,8 @@ void procA( char *line, List *l, char *file, char *fixedDir ){
 
 	sscanf(line, "a %s %s", sufix, fill);
 
-    fileSufix = createStringCat( file, "-", sufix, NULL, NULL );
-    fullPath = createStringCat( fixedDir, fileSufix, ".svg", NULL, NULL );
+    fileSufix = createStringCat( 3, file, "-", sufix );
+    fullPath = createStringCat( 3, fixedDir, fileSufix, ".svg" );
 
     svg = openFileWrite( fullPath );
     if( svg == NULL ){
@@ -51,12 +55,12 @@ void procA( char *line, List *l, char *file, char *fixedDir ){
 
     c = createCircle(0, 5.0, 0.0, 0.0, fill);
 
-    fprintf(svg, "<svg xmlns=\"http://www.w3.org/2000/svg\">\n");
+    writeSvgStart(svg);
     node = getFirst(l);
     i = 1;
 	while( node != NULL ){
-        objData = getObjData(get(l,node));
-        objType = getObjType(get(l,node));
+        objData = getObjData(get(node));
+        objType = getObjType(get(node));
 		if( objType == 'c' ){
             x = getCircleX( objData );
             y = getCircleY( objData );
@@ -77,9 +81,9 @@ void procA( char *line, List *l, char *file, char *fixedDir ){
             writeTag( c, i, x+w, y+h, svg );
             i++;
         }
-		node = getNext(l,node);
+		node = getNext(node);
 	}
-    fprintf(svg, "</svg>");
+    writeSvgEnd(svg);
 
     closeFile(svg);
 
@@ -98,14 +102,15 @@ void writeTag( Circle *c, int i, double x, double y, FILE *svg ){
 
 void procO( char *line, List *l, FILE *outFileTxt ){
 	int j, k, i;
+    char *id;
 	double x1, y1, x2, y2;
 	Object *objJ, *objK;
 
     fputs(line,outFileTxt);
 
 	sscanf(line, "o %d %d", &j, &k);
-	objJ = getIdInt(l,j);
-	objK = getIdInt(l,k);
+	objJ = searchIdInt(l,j);
+	objK = searchIdInt(l,k);
 
     if( objJ == NULL && objK == NULL ){
         fprintf( outFileTxt, "IDs %d e %d nao encontrados\n\n", j, k );
@@ -122,11 +127,12 @@ void procO( char *line, List *l, FILE *outFileTxt ){
     }
 
 	i = 0;
+    id = NULL;
 
 	if( getObjType(objJ) == 'c' && getObjType(objK) == 'c' ){
 		if( circleCircleOverlap( getObjData(objJ), getObjData(objK) ) == 1 ){
 			edgesCircleCircle( getObjData(objJ), getObjData(objK), &x1, &y1, &x2, &y2 );
-            insert( l, createObject( i, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
+            insert( l, createObject( id, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
             fprintf(outFileTxt, "Sim\n");
 		}
         else{
@@ -136,7 +142,7 @@ void procO( char *line, List *l, FILE *outFileTxt ){
 	else if( getObjType(objJ) == 'r' && getObjType(objK) == 'r' ){
 		if( rectRectOverlap( getObjData(objJ), getObjData(objK) ) == 1 ){
 			edgesRectRect( getObjData(objJ), getObjData(objK), &x1, &y1, &x2, &y2 );
-            insert( l, createObject( i, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
+            insert( l, createObject( id, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
             fprintf(outFileTxt, "Sim\n");
 		}
         else{
@@ -146,7 +152,7 @@ void procO( char *line, List *l, FILE *outFileTxt ){
     else if( getObjType(objJ) == 'c' && getObjType(objK) == 'r' ){
         if( circleRectOverlap( getObjData(objJ), getObjData(objK) ) == 1 ){
 			edgesCircleRect( getObjData(objJ), getObjData(objK), &x1, &y1, &x2, &y2 );
-            insert( l, createObject( i, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
+            insert( l, createObject( id, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
             fprintf(outFileTxt, "Sim\n");
 		}
         else{
@@ -156,7 +162,7 @@ void procO( char *line, List *l, FILE *outFileTxt ){
     else if( getObjType(objJ) == 'r' && getObjType(objK) == 'c' ){
         if( circleRectOverlap( getObjData(objK), getObjData(objJ) ) == 1 ){
 			edgesCircleRect( getObjData(objK), getObjData(objJ), &x1, &y1, &x2, &y2 );
-            insert( l, createObject( i, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
+            insert( l, createObject( id, 'o', createRect(i, x2-x1, y2-y1, x1, y1, "") ) );
             fprintf(outFileTxt, "Sim\n");
 		}
         else{
@@ -169,12 +175,12 @@ void procO( char *line, List *l, FILE *outFileTxt ){
 void procI( char *line, List *l, FILE *outFileTxt ){
     Object *obj;
     double x, y;
-    int j;
+    int j, ret;
 
     fputs(line,outFileTxt);
 
 	sscanf(line, "i %d %lf %lf", &j, &x, &y);
-	obj = getIdInt(l,j);
+	obj = searchIdInt(l,j);
 
     if( obj == NULL ){
         fprintf( outFileTxt, "ID %d nao encontrados\n\n", j );
@@ -182,21 +188,19 @@ void procI( char *line, List *l, FILE *outFileTxt ){
     }
 
     if( getObjType(obj) == 'c' ){
-        if( pointInsideCircle( getObjData(obj), x, y ) == 1 ){
-            fprintf(outFileTxt, "Sim\n");
-        }
-        else{
-            fprintf(outFileTxt, "Não\n");
-        }
+        ret = pointInsideCircle( getObjData(obj), x, y );
     }
     else if( getObjType(obj) == 'r' ){
-        if( pointInsideRect( getObjData(obj), x, y ) == 1 ){
-            fprintf(outFileTxt, "Sim\n");
-        }
-        else{
-            fprintf(outFileTxt, "Não\n");
-        }
+        ret = pointInsideRect( getObjData(obj), x, y );
     }
+
+    if( ret == 1 ){
+        fprintf(outFileTxt, "Sim\n");
+    }
+    else{
+        fprintf(outFileTxt, "Não\n");
+    }
+
     fprintf(outFileTxt, "\n");
 }
 
@@ -208,8 +212,8 @@ void procD( char *line, List *l, FILE *outFileTxt ){
     fputs(line,outFileTxt);
 
 	sscanf(line, "d %d %d", &j, &k);
-	objJ = getIdInt(l,j);
-	objK = getIdInt(l,k);
+	objJ = searchIdInt(l,j);
+	objK = searchIdInt(l,k);
 
 	if( objJ == NULL && objK == NULL ){
         fprintf( outFileTxt, "IDs %d e %d nao encontrados\n\n", j, k );

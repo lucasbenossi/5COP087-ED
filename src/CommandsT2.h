@@ -1,6 +1,7 @@
 #ifndef COMMANDST2_H
 #define COMMANDST2_H
 #include "LinkedList.h"
+#include "Circle.h"
 #include <stdio.h>
 
 /*

@@ -11,7 +11,7 @@ seguintes parametros:
   o = -o, string
   q = -q, string
 */
-typedef void Args;
+typedef struct _args Args;
 
 /*
 Aloca memória para uma instancia de Args
@@ -24,34 +24,23 @@ Desaloca memória de uma instancia de Args
 void destroyArgs( Args *args );
 
 /*
-Recebe uma instancia de Args e retorna seu parametro "acc0".
+Recebe uma instancia de Args e retorna o parametro correspondente.
 */
 int getArgsAcc0( Args *args );
-
-/*
-Recebe uma instancia de Args e retorna seu parametro "acc".
-*/
 int getArgsAcc( Args *args );
-
-/*
-Recebe uma instancia de Args e retorna seu parametro "e".
-*/
 char *getArgsE( Args *args );
-
-/*
-Recebe uma instancia de Args e retorna seu parametro "f".
-*/
 char *getArgsF( Args *args );
-
-/*
-Recebe uma instancia de Args e retorna seu parametro "o".
-*/
 char *getArgsO( Args *args );
-
-/*
-Recebe uma instancia de Args e retorna seu parametro "q".
-*/
 char *getArgsQ( Args *args );
+int getArgsId( Args *args );
+char *getArgsM( Args *args );
+char *getArgsD( Args *args );
+int getArgsT( Args *args );
+int getArgsNoT2( Args *args );
+char *getArgsR( Args *args );
+char *getArgsG( Args *args );
+char *getArgsH( Args *args );
+int getArgsI( Args *args );
 
 /*
 Processa os argumentos fornecidos na linha de comando
