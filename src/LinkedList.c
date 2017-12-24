@@ -13,7 +13,7 @@ struct _node{
     struct _node *previous;
 };
 
-/* ================================================================================================================ */
+/* ========================================================================== */
 
 List *createList(){
     List *list;
@@ -71,14 +71,13 @@ Node *insert( List *list, void *data ){
 }
 
 Node *insertBefore( List *list, Node *node, void *data ){
-    Node *newNode, *node0, *previousNode;
+    Node *newNode, *previousNode;
 
     newNode = NULL;
-    node0 = node;
 
-    if( list->head != NULL && node0 != NULL ){
+    if( node != NULL ){
         newNode = createNode(data);
-        previousNode = node0->previous;
+        previousNode = node->previous;
         if( previousNode == NULL ){
             list->head = newNode;
         }
@@ -86,8 +85,8 @@ Node *insertBefore( List *list, Node *node, void *data ){
             previousNode->next = newNode;
             newNode->previous = previousNode;
         }
-        newNode->next = node0;
-        node0->previous = newNode;
+        newNode->next = node;
+        node->previous = newNode;
         (list->size)++;
     }
     return newNode;
@@ -98,7 +97,7 @@ Node *insertAfter( List *list, Node *node, void *data ){
 
     newNode = NULL;
 
-    if( list->tail != NULL && node != NULL ){
+    if( node != NULL ){
         newNode = createNode(data);
         nextNode = node->next;
         if( nextNode == NULL ){
@@ -160,25 +159,20 @@ void *removeLast( List *list ){
 }
 
 void *removeNode( List *list, Node *node ){
-    void *data;
-    Node *nextNode, *previousNode;
+    void *data = NULL;
 
-    data = NULL;
-
-    if( list->head != NULL && node != NULL ){
-        nextNode = node->next;
-        previousNode = node->previous;
-        if( previousNode == NULL ){
-            list->head = nextNode;
+    if( node != NULL ){
+        if( node->previous == NULL ){
+            list->head = node->next;
         }
         else{
-            previousNode->next = nextNode;
+            node->previous->next = node->next;
         }
-        if( nextNode == NULL ){
-            list->tail = previousNode;
+        if( node->next == NULL ){
+            list->tail = node->previous;
         }
         else{
-            nextNode->previous = previousNode;
+            node->next->previous = node->previous;
         }
         data = destroyNode(node);
         (list->size)--;
@@ -194,7 +188,7 @@ Node *getLast( List *list ){
     return list->tail;
 }
 
-/* ================================================================================================================ */
+/* ========================================================================== */
 
 Node *createNode( void *data ){
     Node *node;

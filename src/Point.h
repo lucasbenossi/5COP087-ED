@@ -35,10 +35,9 @@ Recebe o ponteiro para uma instancia de Point e retorna seu parametro id
 char *getPointId( Point *p );
 
 /*
-Retorna ou define o preenchimento de uma instancia de Point.
+Retorna o preenchimento de uma instancia de Point.
 */
 char *getPointFill( Point *p );
-void setPointFill( Point *p, char *fill );
 
 /*
 Recebe o ponteiro para uma instancia de Point e retorna seu parametro *stroke

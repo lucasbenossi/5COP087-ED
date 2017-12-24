@@ -13,17 +13,17 @@ int main( int argc, char **argv ){
 	args = createArgs();
 	ret = procArgs(argc,argv,args);
 
-	if( ret == 1 && getArgsId(args) == 0 ){
+	if( ret == 1 && args->id == 0 ){
 		printf("ERRO: Linha de comando inválida\n");
 		error++;
 	}
-	else if( ret == 1 && getArgsId(args) == 1 ){
+	else if( ret == 1 && args->id == 1 ){
 		printId(stdout);
 		error++;
 	}
 
 	if( error == 0 ){
-		if( getArgsId(args) == 1 ){
+		if( args->id == 1 ){
 			printId(stdout);
 		}
 		ret = prepareEnvironment(args);

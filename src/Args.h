@@ -2,15 +2,28 @@
 #define ARGS_H
 
 /*
-Objeto que carrega os argumentos fornecidos na linha de comando, com os
-seguintes parametros:
-  acc0 = -acc0, 1 ou 0
-  acc = -acc, 1 ou 0
-  e = -e, string
-  f = -f, string
-  o = -o, string
-  q = -q, string
+Estrutura que carrega os argumentos fornecidos na linha de comando.
 */
+struct _args{
+    int acc0;
+    int acc;
+    char *e;
+    char *f;
+    char *o;
+    char *q;
+    int id;
+    char *ec;
+    char *pm;
+    char *tm;
+    char *m;
+    int t;
+    int noT2;
+    char *r;
+    char *g;
+    char *h;
+    char *od;
+    char *n;
+};
 typedef struct _args Args;
 
 /*
@@ -22,25 +35,6 @@ Args *createArgs();
 Desaloca memória de uma instancia de Args
 */
 void destroyArgs( Args *args );
-
-/*
-Recebe uma instancia de Args e retorna o parametro correspondente.
-*/
-int getArgsAcc0( Args *args );
-int getArgsAcc( Args *args );
-char *getArgsE( Args *args );
-char *getArgsF( Args *args );
-char *getArgsO( Args *args );
-char *getArgsQ( Args *args );
-int getArgsId( Args *args );
-char *getArgsM( Args *args );
-char *getArgsD( Args *args );
-int getArgsT( Args *args );
-int getArgsNoT2( Args *args );
-char *getArgsR( Args *args );
-char *getArgsG( Args *args );
-char *getArgsH( Args *args );
-int getArgsI( Args *args );
 
 /*
 Processa os argumentos fornecidos na linha de comando

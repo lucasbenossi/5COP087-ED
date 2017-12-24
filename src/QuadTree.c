@@ -1,5 +1,6 @@
 #include "QuadTree.h"
-#include <stdio.h>
+#include "Stack.h"
+#include "LinkedList.h"
 #include <stdlib.h>
 
 struct _quadtree{
@@ -18,11 +19,17 @@ struct _quadtreenode{
 	struct _quadtreenode *parent;
 };
 
+static void freeQuadTreeRecursion( QuadTreeNode *node );
+
 static void quadTreeInsertRecursion( QuadTreeNode *root, QuadTreeNode *node );
 
 static QuadTreeNode **getQuadrantPointer( QuadTreeNode *root, QuadTreeNode *node );
 
-static void freeQuadTreeRecursion( QuadTreeNode *node );
+static void unlinkNodes( QuadTree *qt, QuadTreeNode *node, List *unlinked );
+
+static int isNodeLinked( QuadTree *qt, QuadTreeNode *node );
+
+static void unlinkNode( QuadTree *qt, QuadTreeNode *node );
 
 /* ================================================================================================ */
 
@@ -63,23 +70,11 @@ QuadTreeNode *getQuadTreeRoot( QuadTree *qt ){
 	return qt->root;
 }
 
-void setQuadTreeRoot( QuadTree *qt, QuadTreeNode *root ){
-	qt->root = root;
-}
-
 int getQuadTreeSize( QuadTree *qt ){
 	return qt->size;
 }
 
-void quadTreeSizeInc( QuadTree *qt ){
-	(qt->size)++;
-}
-
-void quadTreeSizeDec( QuadTree *qt ){
-	(qt->size)--;
-}
-
-void quadTreeInsert( QuadTree *qt, double x, double y, void *data ){
+QuadTreeNode *quadTreeInsert( QuadTree *qt, double x, double y, void *data ){
 	QuadTreeNode *node;
 
 	node = createQuadTreeNode( x, y, data );
@@ -90,6 +85,8 @@ void quadTreeInsert( QuadTree *qt, double x, double y, void *data ){
 	else{
 		quadTreeInsertRecursion( qt->root, node );
 	}
+
+	return node;
 }
 
 static void quadTreeInsertRecursion( QuadTreeNode *root, QuadTreeNode *node ){
@@ -113,6 +110,56 @@ static QuadTreeNode **getQuadrantPointer( QuadTreeNode *root, QuadTreeNode *node
 	return NULL;
 }
 
+void *quadTreeRemoveNode( QuadTree *qt, QuadTreeNode *node, List *unlinked ){
+	if( isNodeLinked(qt, node) ){
+        unlinkNodes( qt, node, unlinked );
+    }
+	return disableQuadTreeNode(node);
+}
+
+static void unlinkNodes( QuadTree *qt, QuadTreeNode *node, List *unlinked ){
+	if( node != NULL ){
+        unlinkNodes( qt, getQuadTreeNodeNW(node), unlinked );
+        unlinkNodes( qt, getQuadTreeNodeNE(node), unlinked );
+        unlinkNodes( qt, getQuadTreeNodeSW(node), unlinked );
+        unlinkNodes( qt, getQuadTreeNodeSE(node), unlinked );
+        unlinkNode(qt, node);
+        (qt->size)--;
+        insert( unlinked, node );
+	}
+}
+
+static int isNodeLinked( QuadTree *qt, QuadTreeNode *node ){
+	if( qt->root == node ) return 1;
+	if( node->parent ) return 1;
+	return 0;
+}
+
+static void unlinkNode( QuadTree *qt, QuadTreeNode *node ){
+	if( qt->root == node ){
+		qt->root = NULL;
+	}
+    else if( node->parent != NULL ){
+        if( node->parent->nw == node ){
+            node->parent->nw = NULL;
+        }
+        else if( node->parent->ne == node ){
+            node->parent->ne = NULL;
+        }
+        else if( node->parent->sw == node ){
+            node->parent->sw = NULL;
+        }
+        else if( node->parent->se == node ){
+            node->parent->se = NULL;
+        }
+        node->parent = NULL;
+    }
+	node->nw = NULL;
+	node->ne = NULL;
+	node->sw = NULL;
+	node->se = NULL;
+}
+
 /* ================================================================================================ */
 
 QuadTreeNode *createQuadTreeNode( double x, double y, void *data ){
@@ -130,10 +177,21 @@ QuadTreeNode *createQuadTreeNode( double x, double y, void *data ){
 }
 
 void *destroyQuadTreeNode( QuadTreeNode *node ){
-	void *data;
-    data = node->data;
+	void *data = node->data;
     free(node);
     return data;
+}
+
+void *disableQuadTreeNode( QuadTreeNode *node ){
+	void *data = node->data;
+	node->data = NULL;
+	return data;
+}
+
+void reenableQuadTreeNode( QuadTreeNode *node, void *data ){
+	if( node->data == NULL ){
+		node->data = data;
+	}
 }
 
 void *getQuadTreeNodeData( QuadTreeNode *node ){
@@ -152,53 +210,18 @@ QuadTreeNode *getQuadTreeNodeNW( QuadTreeNode *node ){
 	return node->nw;
 }
 
-void setQuadTreeNodeNW( QuadTreeNode *node, QuadTreeNode *nw ){
-	node->nw = nw;
-}
-
 QuadTreeNode *getQuadTreeNodeNE( QuadTreeNode *node ){
 	return node->ne;
-}
-
-void setQuadTreeNodeNE( QuadTreeNode *node, QuadTreeNode *ne ){
-	node->ne = ne;
 }
 
 QuadTreeNode *getQuadTreeNodeSW( QuadTreeNode *node ){
 	return node->sw;
 }
 
-void setQuadTreeNodeSW( QuadTreeNode *node, QuadTreeNode *sw ){
-	node->sw = sw;
-}
-
 QuadTreeNode *getQuadTreeNodeSE( QuadTreeNode *node ){
 	return node->se;
 }
 
-void setQuadTreeNodeSE( QuadTreeNode *node, QuadTreeNode *se ){
-	node->se = se;
-}
-
 QuadTreeNode *getQuadTreeNodeParent( QuadTreeNode *node ){
 	return node->parent;
-}
-
-void setQuadTreeNodeParent( QuadTreeNode *node, QuadTreeNode *parent ){
-	node->parent = parent;
-}
-
-void *disableQuadTreeNode( QuadTreeNode *node ){
-	void *data;
-
-	data = node->data;
-	node->data = NULL;
-
-	return data;
-}
-
-void reenableQuadTreeNode( QuadTreeNode *node, void *data ){
-	if( node->data == NULL ){
-		node->data = data;
-	}
 }

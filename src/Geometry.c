@@ -6,7 +6,19 @@
 #include "Point.h"
 
 double distancePoints( double x1, double y1, double x2, double y2 ){
-    return sqrt( pow(x1-x2,2) + pow(y1-y2,2) );
+    return sqrt( distancePointsSquared(x1, y1, x2, y2) );
+}
+
+double distancePointsSquared( double x1, double y1, double x2, double y2 ){
+    return pow(x1-x2,2) + pow(y1-y2,2);
+}
+
+int quadrantPointRoot( double rootX, double rootY, double x, double y ){
+    if( x <  rootX && y >= rootY ) return NW;
+	if( x >= rootX && y >= rootY ) return NE;
+	if( x <  rootX && y <  rootY ) return SW;
+	if( x >= rootX && y <  rootY ) return SE;
+	return 0;
 }
 
 int circleCircleOverlap( Circle *c1, Circle *c2 ){
@@ -51,60 +63,60 @@ int circleRectOverlap( Circle *c, Rect *r ){
     y2 = getRectY(r) + getRectHeight(r);
     cx = getCircleX(c);
     cy = getCircleY(c);
-    if( pointInsideRect( r, cx, cy ) == 1 ){
+    if( pointInsideRect( cx, cy, r ) == 1 ){
         return 1;
     }
     else if( cx < x1 && cx < x2 && cy < y1 && cy < y2 ){
-        return pointInsideCircle( c, x1, y1 );
+        return pointInsideCircle( x1, y1, c );
     }
     else if( cx >= x1 && cx <= x2 && cy < y1 && cy < y2 ){
-        return pointInsideCircle( c, cx, y1 );
+        return pointInsideCircle( cx, y1, c );
     }
     else if( cx > x1 && cx > x2 && cy < y1 && cy < y2 ){
-        return pointInsideCircle( c, x2, y1 );
+        return pointInsideCircle( x2, y1, c );
     }
     else if( cx > x1 && cx > x2 && cy >= y1 && cy <= y2 ){
-        return pointInsideCircle( c, x2, cy );
+        return pointInsideCircle( x2, cy, c );
     }
     else if( cx > x1 && cx > x2 && cy > y1 && cy > y2 ){
-        return pointInsideCircle( c, x2, y2 );
+        return pointInsideCircle( x2, y2, c );
     }
     else if( cx >= x1 && cx <= x2 && cy > y1 && cy > y2 ){
-        return pointInsideCircle( c, cx, y2 );
+        return pointInsideCircle( cx, y2, c );
     }
     else if( cx < x1 && cx < x2 && cy > y1 && cy > y2 ){
-        return pointInsideCircle( c, x1, y2 );
+        return pointInsideCircle( x1, y2, c );
     }
     else if( cx < x1 && cx < x2 && cy >= y1 && cy <= y2 ){
-        return pointInsideCircle( c, x1, cy );
+        return pointInsideCircle( x1, cy, c );
     }
     return 0;
 }
 
-int pointInsideCircle( Circle *c, double x, double y ){
+int pointInsideCircle( double x, double y, Circle *c ){
     if( distancePoints( getCircleX(c), getCircleY(c), x, y ) <= getCircleRadius(c) ){
         return 1;
     }
     return 0;
 }
 
-int pointInsideRect( Rect *r, double x, double y ){
+int pointInsideRect( double x, double y, Rect *r ){
     if( x >= getRectX(r) && x <= getRectX(r) + getRectWidth(r) && y >= getRectY(r) && y <= getRectY(r) + getRectHeight(r) ){
         return 1;
     }
     return 0;
 }
 
-int quadraInsideCircle( Circle *c, Quadra *q ){
+int quadraInsideCircle( Quadra *q, Circle *c ){
     int c1, c2, c3, c4;
-    c1 = pointInsideCircle( c, getQuadraX(q), getQuadraY(q) );
-    c2 = pointInsideCircle( c, getQuadraX(q)+getQuadraWidth(q), getQuadraY(q) );
-    c3 = pointInsideCircle( c, getQuadraX(q)+getQuadraWidth(q), getQuadraY(q)+getQuadraHeight(q) );
-    c4 = pointInsideCircle( c, getQuadraX(q), getQuadraY(q)+getQuadraHeight(q) );
+    c1 = pointInsideCircle( getQuadraX(q), getQuadraY(q), c );
+    c2 = pointInsideCircle( getQuadraX(q)+getQuadraWidth(q), getQuadraY(q), c );
+    c3 = pointInsideCircle( getQuadraX(q)+getQuadraWidth(q), getQuadraY(q)+getQuadraHeight(q), c );
+    c4 = pointInsideCircle( getQuadraX(q), getQuadraY(q)+getQuadraHeight(q), c );
     return c1*c2*c3*c4;
 }
 
-int quadraInsideRect( Rect *r, Quadra *q ){
+int quadraInsideRect( Quadra *q, Rect *r ){
     double rX1, rY1, rX2, rY2;
     double qX1, qY1, qX2, qY2;
     rX1 = getRectX(r);

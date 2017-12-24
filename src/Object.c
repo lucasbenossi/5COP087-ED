@@ -1,6 +1,6 @@
 #include "Object.h"
 #include <stdlib.h>
-#include "ProcString.h"
+#include "String.h"
 
 struct _object{
     char *id;

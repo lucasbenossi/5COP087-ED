@@ -1,5 +1,5 @@
 ObjCodeList = Main.o
-gccCommand = gcc -pedantic -ansi -g
+gccCommand = gcc -Wall -Wextra -pedantic -ansi -g
 
 gen : $(ObjCodeList)
 	$(gccCommand) -o gen $(ObjCodeList) -lm

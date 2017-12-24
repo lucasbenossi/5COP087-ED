@@ -2,6 +2,17 @@
 #define OBJQUADTREE_H
 #include "LinkedList.h"
 #include "QuadTree.h"
+#include "Object.h"
+
+/*
+Insere os elementos de uma lista em uma QuadTree, usando o método:
+- 1 = inserir com objListToQuadTree().
+- 2 = inserir com objListToQuadTreeNoSort().
+- 3 = inserir com objListToQuadTreeNoConvexHull().
+*/
+void listToQt( List *objList, QuadTree *qt, int method );
+
+int quadTreeRemoveObjsRegion( QuadTree *qt, List *removed, Object *region, int method );
 
 /*
 Insere os elementos de uma lista em uma QuadTree, criando envoltórios convexos e

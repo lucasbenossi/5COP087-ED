@@ -1,6 +1,6 @@
 #include "Point.h"
 #include <stdlib.h>
-#include "ProcString.h"
+#include "String.h"
 
 struct _point{
     double x;
@@ -44,10 +44,6 @@ char *getPointId( Point *p ){
 
 char *getPointFill( Point *p ){
     return p->fill;
-}
-
-void setPointFill( Point *p, char *fill ){
-    repString( &( p->fill ), fill );
 }
 
 char *getPointStroke( Point *p ){

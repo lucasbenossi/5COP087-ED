@@ -31,7 +31,7 @@ Desaloca memória para uma instancia de List
 void destroyList( List *list );
 
 /*
-Limpa uma instancia de List
+Limpa uma instancia de List.
 */
 void freeList( List *list );
 

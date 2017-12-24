@@ -2,112 +2,161 @@
 #define CIDADE_H
 #include "LinkedList.h"
 #include "QuadTree.h"
+#include "HashTable.h"
+#include "Operadora.h"
+#include "EstabComercial.h"
+#include "Resumo.h"
 
 /*
 Define uma instancia de Cidade.
 Possui os seguintes atributos:
-  - quadras = Lista de quadras da cidade (tipo List)
-  - quadrasQT = QuadTree com as quadras da cidade (tipo QuadTree)
-  - quadrasFill = Preenchimento das quadras (string)
-  - quadrasStroke = Cor da borda das quadras (string)
-  - hidrantes = Lista de hidrantes (tipo List)
-  - hidrantesQT = QuadTree com os hidrantes (tipo QuadTree)
-  - hidrantesFill = Preenchimento dos hidrantes (string)
-  - hidrantesStroke = Cor da borda dos hidrantes (string)
-  - semaforos = Lista de semaforos (tipo List)
-  - semaforosQT = QuadTree com os semaforos (tipo QuadTree)
-  - semaforosFill = Preenchimento dos semaforos (string)
-  - semaforosStroke = Cor da borda dos semaforos (string)
-  - torres = Lista de torres de radio (tipo List)
-  - torresQT = QuadTree com as torres de radio (tipo QuadTree)
-  - torresFill = Preenchimento das torres de radio (string)
-  - torresStroke = Cor da borda das torres de radio (string)
+  - nome = Nome da cidade (tipo char*).
+  - quadrasList = Lista de quadras da cidade (tipo List).
+  - quadrasQT = QuadTree com as quadras da cidade (tipo QuadTree).
+  - quadrasHT = Table Hash com as quadras da cidade (tipo HashTable).
+  - quadrasFill = Preenchimento das quadras (string).
+  - quadrasStroke = Cor da borda das quadras (string).
+  - hidrantesList = Lista de hidrantes (tipo List).
+  - hidrantesQT = QuadTree com os hidrantes (tipo QuadTree).
+  - hidrantesHT = Table Hash com os hidrantes (tipo HashTable).
+  - hidrantesFill = Preenchimento dos hidrantes (string).
+  - hidrantesStroke = Cor da borda dos hidrantes (string).
+  - semaforosList = Lista de semaforos (tipo List).
+  - semaforosQT = QuadTree com os semaforos (tipo QuadTree).
+  - semaforosHT = Table Hash com os semaforos (tipo HashTable).
+  - semaforosFill = Preenchimento dos semaforos (string).
+  - semaforosStroke = Cor da borda dos semaforos (string).
+  - torresList = Lista de torres de radio (tipo List).
+  - torresQT = QuadTree com as torres de radio (tipo QuadTree).
+  - torresHT = Table Hash com as torres de radio (tipo HashTable).
+  - torresFill = Preenchimento das torres de radio (string).
+  - torresStroke = Cor da borda das torres de radio (string).
+  - descricoes = Tabela Hash com as descições dos estabelecimentos comerciais (tipo HashTable).
+  - estabComerciais = Tabela Hash com os estabelecimentos comerciais da cidade (tipo HashTable).
+  - pessoas = Tabela Hash com as pessoas da cidade (tipo HashTable).
+  - defuntos = Tabe Hash com os defuntos (apenas Endereco) (tipo HashTable)
+  - sercomtuel = Operadora SercomtUEL (tipo Operadora).
+  - uelmobile = Operadora UELMobile (tipo Operadora).
+  - method = Método de inserção dos objetos nas QuadTrees correspondentes (tipo int).
+        1 = inserir usando envoltório convexo e ordenação.
+        2 = inserir usando envoltório convexo.
+        3 = inserir na ordem que foi inserido na lista.
 */
 typedef struct _cidade Cidade;
 
-/*
-Aloca a memoria para uma instancia de Cidade
-*/
-Cidade *createCidade();
+
+/* ========================================================================== */
+
 
 /*
-Desaloca memoria para uma instancia de Cidade
+Aloca ou desaloca memoria para uma instancia de Cidade
 */
-void destroyCidade(Cidade *c);
+Cidade *createCidade(char *nome, int method);
+void destroyCidade(Cidade *cidade);
+
+
+/* ========================================================================== */
+
 
 /*
 Para cada lista de elementos da instancia de Cidade, cria uma QuadTree com esses
-elementos, usando a técnica de inserção na QuadTree definida por "method".
-Valores de method:
- - 0 = não inserir na QuadTree e deixar na lista.
- - 1 = inserir usando envoltório convexo e ordenação.
- - 2 = inserir usando envoltório convexo.
- - 3 = inserir na ordem que foi inserido na lista.
+elementos.
 */
-void cidadeListToQuadTree(Cidade *c, int method);
+void cidadeFillDataStructures(Cidade *cidade);
 
 /*
-Retorna parametros para as quadras.
+Insere ou remove objetos do tipo objType na cidade.
+Remove elementos que estao dentro da regiao definida por region.
 */
-List *getCidadeQuadras(Cidade *c);
-QuadTree *getCidadeQuadrasQT(Cidade *c);
-char *getCidadeQuadrasFill(Cidade *c);
-char *getCidadeQuadrasStroke(Cidade *c);
+void cidadeInsertObj( Cidade *cidade, Object *obj, char objType, Resumo *res );
+List *cidadeRemoveObjsRegion( Cidade *cidade, char objType, Object *region, Resumo *res ); /* Object */
+
+void cidadeInsertEstabComercial( Cidade *cidade, EstabComercial *estab );
+void cidadeRemoveEstabComercial( Cidade *cidade, EstabComercial *estab );
+
+void cidadeInsertPessoa( Cidade *cidade, Pessoa *pessoa );
+void cidadeRemovePessoa( Cidade *cidade, Pessoa *pessoa );
+
+void cidadeInsertMorador( Cidade *cidade, Pessoa *pessoa, Endereco *endereco );
+Endereco *cidadeRemoveMorador( Cidade *cidade, Pessoa *pessoa );
+
+void cidadeRemoveEstabMoradorQuadra( Cidade *cidade, Quadra *quadra );
+
+void cidadeMatarPessoa( Cidade *cidade, Pessoa *pessoa );
+
+
+/* ========================================================================== */
+
 
 /*
-Retorna parametros para os hidrantes.
+Busca por elementos de uma cidade.
 */
-List *getCidadeHidrantes(Cidade *c);
-QuadTree *getCidadeHidrantesQT(Cidade *c);
-char *getCidadeHidrantesFill(Cidade *c);
-char *getCidadeHidrantesStroke(Cidade *c);
+List *searchCidadeObjTypeRegion( Cidade *cidade, char objType, Object *region ); /* Object */
+Object *searchCidadeQuadraCep( Cidade *cidade, char *cep );
+Object *searchCidadeHidranteId( Cidade *cidade, char *id );
+Object *searchCidadeSemaforoId( Cidade *cidade, char *id );
+Object *searchCidadeTorreId( Cidade *cidade, char *id );
+Object *searchCidadeObjTypeIdCep( Cidade *cidade, char objType, char *idCep );
+char *searchCidadeDescricaoCodt( Cidade *cidade, char *codt );
+EstabComercial *searchCidadeEstabComercialCnpj( Cidade *cidade, char *cnpj );
+Pessoa *searchCidadePessoaCpf( Cidade *cidade, char *cpf );
+Pessoa *searchCidadeDefuntoCpf( Cidade *cidade, char *cpf );
+
+
+/* ========================================================================== */
+
 
 /*
-Retorna parametros para os semaforos.
+Define os parametros fill e stroke para as instancias de Quadra, hidrante,
+Semáforo e Torres de Rádio;
 */
-List *getCidadeSemaforos(Cidade *c);
-QuadTree *getCidadeSemaforosQT(Cidade *c);
-char *getCidadeSemaforosFill(Cidade *c);
-char *getCidadeSemaforosStroke(Cidade *c);
+void setCidadeQuadrasColors(Cidade *cidade, char *fill, char *stroke);
+void setCidadeHidrantesColors(Cidade *cidade, char *fill, char *stroke);
+void setCidadeSemaforosColors(Cidade *cidade, char *fill, char *stroke);
+void setCidadeTorresColors(Cidade *cidade, char *fill, char *stroke);
+
+
+/* ========================================================================== */
+
 
 /*
-Retorna parametros para as torres.
+Retorna parametros da cidade.
 */
-List *getCidadeTorres(Cidade *c);
-QuadTree *getCidadeTorresQT(Cidade *c);
-char *getCidadeTorresFill(Cidade *c);
-char *getCidadeTorresStroke(Cidade *c);
+char *getCidadeNome(Cidade *cidade);
+List *getCidadeQuadrasList(Cidade *cidade);
+QuadTree *getCidadeQuadrasQT(Cidade *cidade);
+HashTable *getCidadeQuadrasHT(Cidade *cidade);
+char *getCidadeQuadrasFill(Cidade *cidade);
+char *getCidadeQuadrasStroke(Cidade *cidade);
+List *getCidadeHidrantesList(Cidade *cidade);
+QuadTree *getCidadeHidrantesQT(Cidade *cidade);
+HashTable *getCidadeHidrantesHT(Cidade *cidade);
+char *getCidadeHidrantesFill(Cidade *cidade);
+char *getCidadeHidrantesStroke(Cidade *cidade);
+List *getCidadeSemaforosList(Cidade *cidade);
+QuadTree *getCidadeSemaforosQT(Cidade *cidade);
+HashTable *getCidadeSemaforosHT(Cidade *cidade);
+char *getCidadeSemaforosFill(Cidade *cidade);
+char *getCidadeSemaforosStroke(Cidade *cidade);
+List *getCidadeTorresList(Cidade *cidade);
+QuadTree *getCidadeTorresQT(Cidade *cidade);
+HashTable *getCidadeTorresHT(Cidade *cidade);
+char *getCidadeTorresFill(Cidade *cidade);
+char *getCidadeTorresStroke(Cidade *cidade);
+HashTable *getCidadeDescricoes(Cidade *cidade);
+HashTable *getCidadeEstabComerciais(Cidade *cidade);
+HashTable *getCidadePessoas(Cidade *cidade);
+HashTable *getCidadeDefuntos(Cidade *cidade);
+Operadora *getCidadeSercomtuel(Cidade *cidade);
+Operadora *getCidadeUelmobile(Cidade *cidade);
+int getCidadeMethod(Cidade *cidade);
 
-/*
-Recebe o ponteiro para uma instancia de Cidade, e altera os parametros "quadrasFill"
-e "quadrasStroke".
-  - fill = String a ser definida no parametro quadrasFill
-  - stroke = String a ser definida no parametro quadrasStroke
-*/
-void setCidadeQuadrasColors(Cidade *c, char *fill, char *stroke);
+List *getCidadeObjTypeList( Cidade *cidade, char objType );
+QuadTree *getCidadeObjTypeQuadTree( Cidade *cidade, char objType );
+HashTable *getCidadeObjTypeHashTable( Cidade *cidade, char objType );
 
-/*
-Recebe o ponteiro para uma instancia de Cidade, e altera os parametros "hidrantesFill"
-e "hidrantesStroke".
-  - fill = String a ser definida no parametro hidrantesFill
-  - stroke = String a ser definida no parametro hidrantesStroke
-*/
-void setCidadeHidrantesColors(Cidade *c, char *fill, char *stroke);
+Operadora *getCidadeOperadoraPessoa( Cidade *cidade, Pessoa *pessoa );
 
-/*
-Recebe o ponteiro para uma instancia de Cidade, e altera os parametros "semaforosFill"
-e "semaforosStroke".
-  - fill = String a ser definida no parametro semaforosFill
-  - stroke = String a ser definida no parametro semaforosStroke
-*/
-void setCidadeSemaforosColors(Cidade *c, char *fill, char *stroke);
-
-/*
-Recebe o ponteiro para uma instancia de Cidade, e altera os parametros "torresFill"
-e "torresStroke".
-  - fill = String a ser definida no parametro torresFill
-  - stroke = String a ser definida no parametro torresStroke
-*/
-void setCidadeTorresColors(Cidade *c, char *fill, char *stroke);
+Operadora **getCidadeOperadoras( Cidade *cidade );
 
 #endif

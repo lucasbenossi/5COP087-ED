@@ -5,12 +5,12 @@
 FILE *openFileRead( char *fullPath ){
     FILE *file;
     if( strcmp( fullPath, "stdin" ) == 0 ){
-        printf("Usando stdin como arquivo de entrada.\n");
+        fprintf( stderr, "Usando stdin como arquivo de entrada.\n" );
         return stdin;
     }
     file = fopen(fullPath,"r");
     if( file == NULL ){
-		printf("ERRO: Falha ao abrir o arquivo %s\n",fullPath);
+		fprintf( stderr, "ERRO: Falha ao abrir o arquivo %s\n", fullPath );
 		return NULL;
 	}
     return file;
@@ -20,7 +20,7 @@ FILE *openFileWrite( char *fullPath ){
     FILE *file;
     file = fopen(fullPath,"w");
     if( file == NULL ){
-		printf("ERRO: Falha ao criar o arquivo %s\n",fullPath);
+		fprintf( stderr, "ERRO: Falha ao criar o arquivo %s\n", fullPath );
 		return NULL;
 	}
     return file;
@@ -30,7 +30,7 @@ FILE *openFileAppend( char *fullPath ){
     FILE *file;
     file = fopen(fullPath,"a");
     if( file == NULL ){
-		printf("ERRO: Falha ao abrir/criar o arquivo %s\n",fullPath);
+		fprintf( stderr, "ERRO: Falha ao abrir/criar o arquivo %s\n", fullPath );
 		return NULL;
 	}
     return file;

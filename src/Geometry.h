@@ -4,10 +4,30 @@
 #include "Rect.h"
 #include "Quadra.h"
 
+#define NE 1
+#define NW 2
+#define SW 3
+#define SE 4
+
 /*
 Calcula a distancia entre os pontos (x1,y1) e (x2,y2)
 */
 double distancePoints( double x1, double y1, double x2, double y2 );
+
+/*
+Calcula o quadrado da distancia entre os pontos (x1,y1) e (x2,y2)
+*/
+double distancePointsSquared( double x1, double y1, double x2, double y2 );
+
+/*
+Ponto raiz divide o plano em quatro quadrantes.
+Retorna em qual plano o ponto (x,y) está:
+    1 = NE
+    2 = NW
+    3 = SW
+    4 = SE
+*/
+int quadrantPointRoot( double rootX, double rootY, double x, double y );
 
 /*
 Se os circulos "circle1" e "circle2" se sobrepoem, retora 1, caso contrário,
@@ -31,25 +51,25 @@ int circleRectOverlap( Circle *c, Rect *r );
 Verifica se o ponto (x,y) está dentro do circulo "circle", retorna 1 caso
 positivo ou 0 caso negativo
 */
-int pointInsideCircle( Circle *c, double x, double y );
+int pointInsideCircle( double x, double y, Circle *c );
 
 /*
 Verifica se o ponto (x,y) está dentro do retangulo "rect", retorna 1 caso
 positivo ou 0 caso negativo
 */
-int pointInsideRect( Rect *r, double x, double y );
+int pointInsideRect( double x, double y, Rect *r );
 
 /*
 Verifica se uma instancia de Quadra está completamente dentro de uma instancia
 de Circle, retorna 1 caso positivo ou 0 caso negativo
 */
-int quadraInsideCircle( Circle *c, Quadra *q );
+int quadraInsideCircle( Quadra *q, Circle *c );
 
 /*
 Verifica se uma instancia de Quadra está completamente dentro de uma instancia
 de Rect, retorna 1 caso positivo ou 0 caso negativo
 */
-int quadraInsideRect( Rect *r, Quadra *q );
+int quadraInsideRect( Quadra *q, Rect *r );
 
 /*
 Calcula as coordenadas dos pontos superior esquerdo e inferior direito

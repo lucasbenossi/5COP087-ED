@@ -9,13 +9,10 @@ Processa o argumento -g ou -h.
 void convexHull( char *arg, int collinear, List *objs, Cidade *cidade, char *file, char *fixedDir );
 
 /*
-Processa o argumento -d.
+Processa o argumento -od.
 */
-void objListToTreeDump( char *arg, int method, List *objs, Cidade *cidade, char *nameFiles, char *outDir );
+void dumpData( List *objs, Cidade *cidade, char *outDir );
 
-/*
-Processa o comando I.
-*/
-void dumpPointInfo( Cidade *c, char *nameFiles, char *outDir );
+void nearestPoint( char *arg, Cidade *cidade, char *outDir );
 
 #endif

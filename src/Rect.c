@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "Rect.h"
-#include "ProcString.h"
+#include "String.h"
 
 struct _rect {
     int id;

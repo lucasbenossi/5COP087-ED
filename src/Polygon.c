@@ -1,6 +1,6 @@
 #include "Polygon.h"
 #include "LinkedList.h"
-#include "ProcString.h"
+#include "String.h"
 #include "Point.h"
 #include <stdlib.h>
 

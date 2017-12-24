@@ -25,24 +25,20 @@ Desaloca memória de uma instancia de Resumo
 void destroyResumo(Resumo *res);
 
 /*
-Recebe uma instancia de Resumo e incrementa o atributo "ins" em uma unidade
+Recebe uma instancia de Resumo e incrementa o atributo correspondente em uma unidade.
 */
 void incIns(Resumo *res);
-
-/*
-Recebe uma instancia de Resumo e incrementa o atributo "cpi" em uma unidade
-*/
 void incCpi(Resumo *res);
-
-/*
-Recebe uma instancia de Resumo e incrementa o atributo "del" em uma unidade
-*/
 void incDel(Resumo *res);
+void incCpd(Resumo *res);
 
 /*
-Recebe uma instancia de Resumo e incrementa o atributo "cpd" em uma unidade
+Recebe uma instancia de Resumo e define o atributo correspondente.
 */
-void incCpd(Resumo *res);
+void setResumoIns(Resumo *res, int value);
+void setResumoCpi(Resumo *res, int value);
+void setResumoDel(Resumo *res, int value);
+void setResumoCpd(Resumo *res, int value);
 
 /*
 Imprime as informações no arquivo resumo.txt

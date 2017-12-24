@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include "Quadra.h"
-#include "ProcString.h"
+#include "String.h"
+#include "HashTable.h"
+#include "Pessoa.h"
+
+/* ========================================================================== */
 
 struct _quadra {
     double x;
@@ -10,11 +14,13 @@ struct _quadra {
     char *cep;
     char *fill;
     char *stroke;
+    HashTable *estabComerciais; /* codt X ( cnpj X EstabComercial ) */
+    HashTable *moradores; /* cpf X Pessoa */
 };
 
 Quadra *createQuadra( double x, double y, double width, double height, char *cep, char *fill, char *stroke ){
     Quadra *q;
-    q = malloc( sizeof(Quadra) );
+    q = malloc(sizeof(Quadra));
     q->x = x;
     q->y = y;
     q->width = width;
@@ -22,6 +28,8 @@ Quadra *createQuadra( double x, double y, double width, double height, char *cep
     q->cep = createString(cep);
     q->fill = createString(fill);
     q->stroke = createString(stroke);
+    q->estabComerciais = createHashTable(SIZEHT_SMALL);
+    q->moradores = createHashTable(SIZEHT);
     return q;
 }
 
@@ -29,6 +37,8 @@ void destroyQuadra(Quadra *q){
     destroyString( q->cep );
     destroyString( q->fill );
     destroyString( q->stroke );
+    destroyDoubleHashTable( q->estabComerciais );
+    destroyHashTable( q->moradores, NULL );
     free(q);
 }
 
@@ -58,4 +68,12 @@ char *getQuadraFill(Quadra *q){
 
 char *getQuadraStroke(Quadra *q){
     return q->stroke;
+}
+
+HashTable *getQuadraEstabComerciais(Quadra *q){
+    return q->estabComerciais;
+}
+
+HashTable *getQuadraMoradores(Quadra *q){
+    return q->moradores;
 }

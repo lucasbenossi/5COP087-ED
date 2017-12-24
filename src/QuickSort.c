@@ -1,20 +1,20 @@
 #include "QuickSort.h"
 
-int partition( void **data, int left, int right, comparatorFunc comparator );
+static int partition( void **data, int left, int right, ComparatorFunc comparator, void *aux );
 
 /* ========================================================================== */
 
-void quickSort( void **data, int left, int right, comparatorFunc comparator ){
+void quickSort( void **data, int left, int right, ComparatorFunc comparator, void *aux ){
 	int part;
 
 	if( right > left ){
-		part = partition( data, left, right, comparator );
-		quickSort( data, left, part-1, comparator );
-		quickSort( data, part+1, right, comparator );
+		part = partition( data, left, right, comparator, aux );
+		quickSort( data, left, part-1, comparator, aux );
+		quickSort( data, part+1, right, comparator, aux );
 	}
 }
 
-int partition( void **data, int left, int right, comparatorFunc comparator ){
+static int partition( void **data, int left, int right, ComparatorFunc comparator, void *aux ){
 	int i, j;
 	void *pivot;
 
@@ -24,11 +24,11 @@ int partition( void **data, int left, int right, comparatorFunc comparator ){
 	j = right - 1;
 
 	while(1){
-		while( comparator( data[i], pivot ) == -1 ){
+		while( comparator( data[i], pivot, aux ) == -1 ){
 			i++;
 		}
 
-		while( j > i && comparator( data[j], pivot ) == 1 ){
+		while( j > i && comparator( data[j], pivot, aux ) == 1 ){
 			j--;
 		}
 

@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "CreateSvg.h"
-#include "ProcString.h"
+#include "String.h"
 #include "LinkedList.h"
 #include "Object.h"
 #include "WriteTags.h"
 #include "Cidade.h"
 #include "File.h"
 
-void createSvg( List *l, Cidade *c, char *file, char *fixedDir, int method, int argT, int noT2 ){
+void createSvg( List *objs, Cidade *cidade, char *file, char *fixedDir, int argT, int noT2 ){
     char *fullPath;
     FILE *svg;
 
@@ -22,14 +22,19 @@ void createSvg( List *l, Cidade *c, char *file, char *fixedDir, int method, int 
 
     writeSvgStart(svg);
 
-    writeCidadeTags( c, svg, method );
+    writeCidadeTags( cidade, svg );
+
+    writeEstabComerciaisTag( cidade, svg );
+    writeMoradoresTag( cidade, svg );
+	writeConexoesTags( cidade, svg );
+	writeDefuntosTags( cidade, svg );
 
     if( argT == 1 ){
-        writeCidadeTorresCoberturaTags( c, svg, method );
+        writeCidadeTorresCoberturaTags( cidade, svg );
     }
 
     if( noT2 == 0 ){
-        writeObjsTags( l, svg );
+        writeObjsTags( objs, svg );
     }
 
     writeSvgEnd(svg);

@@ -1,8 +1,10 @@
 #ifndef QUADRA_H
 #define QUADRA_H
+#include "HashTable.h"
 
 /*
-Define a instancia de uma Quadra, com coordenadas x e y, largura, altura, cep, cor de preenchimento e de borda
+Define a instancia de uma Quadra, com coordenadas x e y, largura, altura, cep,
+cor de preenchimento e de borda
 */
 typedef struct _quadra Quadra;
 
@@ -17,38 +19,16 @@ Desaloca memória de uma instancia de Quadra
 void destroyQuadra(Quadra *q);
 
 /*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro x
+Retorna o parametro correspondente de uma instancia de Quadra.
 */
 double getQuadraX(Quadra *q);
-
-/*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro y
-*/
 double getQuadraY(Quadra *q);
-
-/*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro width
-*/
 double getQuadraWidth(Quadra *q);
-
-/*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro height
-*/
 double getQuadraHeight(Quadra *q);
-
-/*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro *cep
-*/
 char *getQuadraCep(Quadra *q);
-
-/*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro *fill
-*/
 char *getQuadraFill(Quadra *q);
-
-/*
-Recebe o ponteiro de uma instancia de Quadra e retorna seu parametro *stroke
-*/
 char *getQuadraStroke(Quadra *q);
+HashTable *getQuadraEstabComerciais(Quadra *q);
+HashTable *getQuadraMoradores(Quadra *q);
 
 #endif

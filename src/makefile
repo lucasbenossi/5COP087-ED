@@ -1,35 +1,49 @@
 ObjCodeList = Main.o \
-	Args.o \
-	Rect.o \
-	Circle.o \
-	Object.o \
-	RunCommands.o \
-	ProcString.o \
-	LinkedList.o \
-	CreateSvg.o \
-	CommandsT2.o \
-	CommandsT3.o \
-	CommandsT4.o \
-	CommandsDebug.o \
-	Geometry.o \
-	WriteTags.o \
-	Cidade.o \
-	ObjList.o \
-	ObjQuadTree.o \
-	Quadra.o \
-	Point.o \
-	File.o \
-	Resumo.o \
-	ConvexHull.o \
-	Stack.o \
-	QuadTree.o \
-	QuadTreeDeletion.o \
-	QuickSort.o \
-	Array.o \
-	DumpQuadTree.o \
-	Polygon.o
+Args.o \
+Rect.o \
+Circle.o \
+Object.o \
+RunCommands.o \
+String.o \
+Tokens.o \
+LinkedList.o \
+CreateSvg.o \
+CommandsObjs.o \
+CommandsGeo.o \
+CommandsEc.o \
+CommandsPm.o \
+CommandsTm.o \
+CommandsQry.o \
+CommandsDebug.o \
+Geometry.o \
+WriteTags.o \
+Cidade.o \
+ObjData.o \
+ObjList.o \
+ObjQuadTree.o \
+ObjHashTable.o \
+Quadra.o \
+Point.o \
+File.o \
+Resumo.o \
+ConvexHull.o \
+Stack.o \
+QuadTree.o \
+QuadTreeDump.o \
+QuadTreeSearch.o \
+HashTable.o \
+HashTableDump.o \
+QuickSort.o \
+Array.o \
+Polygon.o \
+Parser.o \
+EstabComercial.o \
+Pessoa.o \
+Endereco.o \
+Operadora.o \
+Celular.o
 
-gccCommand = gcc -Wall -pedantic -ansi -g
+gccCommand = gcc -Wall -Wextra -pedantic -ansi -g
 
 siguel : $(ObjCodeList)
 	$(gccCommand) $(ObjCodeList) -lm -o siguel
@@ -61,8 +75,11 @@ Polygon.o : Polygon.h Polygon.c
 RunCommands.o : RunCommands.c RunCommands.h
 	$(gccCommand) -c RunCommands.c -o RunCommands.o
 
-ProcString.o : ProcString.c ProcString.h
-	$(gccCommand) -c ProcString.c -o ProcString.o
+String.o : String.c String.h
+	$(gccCommand) -c String.c -o String.o
+
+Tokens.o : Tokens.c Tokens.h
+	$(gccCommand) -c Tokens.c -o Tokens.o
 
 LinkedList.o : LinkedList.c LinkedList.h
 	$(gccCommand) -c LinkedList.c -o LinkedList.o
@@ -70,14 +87,23 @@ LinkedList.o : LinkedList.c LinkedList.h
 CreateSvg.o : CreateSvg.c CreateSvg.h
 	$(gccCommand) -c CreateSvg.c -o CreateSvg.o
 
-CommandsT2.o : CommandsT2.h CommandsT2.c
-	$(gccCommand) -c CommandsT2.c -o CommandsT2.o
+CommandsObjs.o : CommandsObjs.h CommandsObjs.c
+	$(gccCommand) -c CommandsObjs.c -o CommandsObjs.o
 
-CommandsT3.o : CommandsT3.h CommandsT3.c
-	$(gccCommand) -c CommandsT3.c -o CommandsT3.o
+CommandsGeo.o : CommandsGeo.h CommandsGeo.c
+	$(gccCommand) -c CommandsGeo.c -o CommandsGeo.o
 
-CommandsT4.o : CommandsT4.h CommandsT4.c
-	$(gccCommand) -c CommandsT4.c -o CommandsT4.o
+CommandsEc.o : CommandsEc.h CommandsEc.c
+	$(gccCommand) -c CommandsEc.c -o CommandsEc.o
+
+CommandsPm.o : CommandsPm.h CommandsPm.c
+	$(gccCommand) -c CommandsPm.c -o CommandsPm.o
+
+CommandsTm.o : CommandsTm.h CommandsTm.c
+	$(gccCommand) -c CommandsTm.c -o CommandsTm.o
+
+CommandsQry.o : CommandsQry.h CommandsQry.c
+	$(gccCommand) -c CommandsQry.c -o CommandsQry.o
 
 CommandsDebug.o : CommandsDebug.h CommandsDebug.c
 	$(gccCommand) -c CommandsDebug.c -o CommandsDebug.o
@@ -91,11 +117,17 @@ WriteTags.o : WriteTags.h WriteTags.c
 Cidade.o : Cidade.h Cidade.c
 	$(gccCommand) -c Cidade.c -o Cidade.o
 
+ObjData.o : ObjData.h ObjData.c
+	$(gccCommand) -c ObjData.c -o ObjData.o
+
 ObjList.o : ObjList.h ObjList.c
 	$(gccCommand) -c ObjList.c -o ObjList.o
 
 ObjQuadTree.o : ObjQuadTree.h ObjQuadTree.c
 	$(gccCommand) -c ObjQuadTree.c -o ObjQuadTree.o
+
+ObjHashTable.o : ObjHashTable.h ObjHashTable.c
+	$(gccCommand) -c ObjHashTable.c -o ObjHashTable.o
 
 File.o : File.c File.h
 	$(gccCommand) -c File.c -o File.o
@@ -112,8 +144,17 @@ Stack.o : Stack.h Stack.c
 QuadTree.o : QuadTree.h QuadTree.c
 	$(gccCommand) -c QuadTree.c -o QuadTree.o
 
-QuadTreeDeletion.o : QuadTreeDeletion.h QuadTreeDeletion.c
-	$(gccCommand) -c QuadTreeDeletion.c -o QuadTreeDeletion.o
+QuadTreeDump.o : QuadTreeDump.h QuadTreeDump.c
+	$(gccCommand) -c QuadTreeDump.c -o QuadTreeDump.o
+
+QuadTreeSearch.o : QuadTreeSearch.h QuadTreeSearch.c
+	$(gccCommand) -c QuadTreeSearch.c -o QuadTreeSearch.o
+
+HashTable.o : HashTable.h HashTable.c
+	$(gccCommand) -c HashTable.c -o HashTable.o
+
+HashTableDump.o : HashTableDump.h HashTableDump.c
+	$(gccCommand) -c HashTableDump.c -o HashTableDump.o
 
 QuickSort.o : QuickSort.h QuickSort.c
 	$(gccCommand) -c QuickSort.c -o QuickSort.o
@@ -121,8 +162,23 @@ QuickSort.o : QuickSort.h QuickSort.c
 Array.o : Array.h Array.c
 	$(gccCommand) -c Array.c -o Array.o
 
-DumpQuadTree.o : DumpQuadTree.h DumpQuadTree.c
-	$(gccCommand) -c DumpQuadTree.c -o DumpQuadTree.o
+Parser.o : Parser.h Parser.c
+	$(gccCommand) -c Parser.c -o Parser.o
+
+EstabComercial.o : EstabComercial.h EstabComercial.c
+	$(gccCommand) -c EstabComercial.c -o EstabComercial.o
+
+Pessoa.o : Pessoa.h Pessoa.c
+	$(gccCommand) -c Pessoa.c -o Pessoa.o
+
+Endereco.o : Endereco.h Endereco.c
+	$(gccCommand) -c Endereco.c -o Endereco.o
+
+Operadora.o : Operadora.h Operadora.c
+	$(gccCommand) -c Operadora.c -o Operadora.o
+
+Celular.o : Celular.h Celular.c
+	$(gccCommand) -c Celular.c -o Celular.o
 
 clean :
 	rm *.o

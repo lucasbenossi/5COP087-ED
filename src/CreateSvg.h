@@ -7,6 +7,6 @@
 /*
 Cria o arquivo <nome>.svg
 */
-void createSvg( List *l, Cidade *c, char *file, char *fixedDir, int insert, int argT, int noT2 );
+void createSvg( List *objs, Cidade *cidade, char *file, char *fixedDir, int argT, int noT2 );
 
 #endif

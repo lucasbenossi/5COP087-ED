@@ -1,7 +1,8 @@
 #include "ObjQuadTree.h"
-#include "ObjList.h"
+#include "ObjData.h"
 #include "LinkedList.h"
 #include "QuadTree.h"
+#include "QuadTreeSearch.h"
 #include "Stack.h"
 #include "Array.h"
 #include "ConvexHull.h"
@@ -13,6 +14,50 @@ static void sortArrayDivTwo( List *list, void **data, int left, int right );
 static void destroyObjQuadTreeRecusrion( QuadTreeNode *node );
 
 /* =============================================================== */
+
+void listToQt( List *objList, QuadTree *qt, int method ){
+	if( method == 1 ){
+        objListToQuadTree( objList, qt );
+    }
+    else if( method == 2 ){
+        objListToQuadTreeNoSort( objList, qt );
+    }
+    else if( method == 3 ){
+        objListToQuadTreeNoConvexHull( objList, qt );
+    }
+}
+
+int quadTreeRemoveObjsRegion( QuadTree *qt, List *removed, Object *region, int method ){
+	List *nodes, *unlinked, *objs;
+	Node *node;
+	Object *obj;
+	int comp;
+
+	nodes = createList();
+    unlinked = createList();
+    objs = createList();
+
+    comp = searchQuadTreeRegion( qt, nodes, region );
+
+    for( node = getFirst(nodes); node; node = getNext(node) ){
+        insert( removed, quadTreeRemoveNode( qt, get(node), unlinked ) );
+    }
+
+    for( node = getFirst(unlinked); node; node = getNext(node) ){
+        obj = destroyQuadTreeNode(get(node));
+        if( obj ){
+            insert( objs, obj );
+        }
+    }
+
+    listToQt( objs, qt, method );
+
+    destroyList(nodes);
+    destroyList(unlinked);
+    destroyList(objs);
+
+	return comp;
+}
 
 void objListToQuadTree( List *objList, QuadTree *qt ){
 	List *chPointsList, *chList;
@@ -118,7 +163,7 @@ static void destroyObjQuadTreeRecusrion( QuadTreeNode *node ){
 		destroyObjQuadTreeRecusrion( getQuadTreeNodeSE(node) );
 		obj = destroyQuadTreeNode(node);
 		if( obj != NULL ){
-			destroyDataObj(obj);
+			destroyObjData(obj);
 		}
 	}
 }

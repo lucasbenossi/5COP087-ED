@@ -6,28 +6,29 @@
 #include "Quadra.h"
 #include "Point.h"
 #include "Circle.h"
-#include "ObjList.h"
+#include "ObjData.h"
 #include "QuickSort.h"
 #include <stdio.h>
 
-static int comparatorAngle( void *a, void *b );
+struct _xy{
+	double X0;
+	double Y0;
+};
 
-static int comparatorCollinear( void *a, void *b );
+static int comparatorAngle( void *a, void *b, void *aux );
+
+static int comparatorCollinear( void *a, void *b, void *aux );
 
 static int findLowestY( void **data, int size );
 
 static int isTurnCCW( Object *a, Object *b, Object *c );
 
-/* ======================================================================================================================= */
-
-static double X0;
-static double Y0;
-
-/* ======================================================================================================================= */
+/* ========================================================================== */
 
 int sortAngle( Array *array ){
 	int size, index;
 	void **data;
+	struct _xy xy;
 
 	size = getArraySize(array);
 	data = getArrayData(array);
@@ -38,16 +39,17 @@ int sortAngle( Array *array ){
 	}
 	swap( data, index, 0 );
 
-	X0 = getX(data[0]);
-	Y0 = getY(data[0]);
+	xy.X0 = getX(data[0]);
+	xy.Y0 = getY(data[0]);
 
-	quickSort( data, 1, size-1, comparatorAngle );
+	quickSort( data, 1, size-1, comparatorAngle, &xy );
 	return 0;
 }
 
 int sortAngleCollinear( Array *array ){
 	int size, i, left, right;
 	void **data;
+	struct _xy xy;
 
 	if( sortAngle(array) == 1 ){
 		return 1;
@@ -78,7 +80,10 @@ int sortAngleCollinear( Array *array ){
 
 	left = i;
 
-	quickSort( data, left, right, comparatorCollinear );
+	xy.X0 = getX(data[0]);
+	xy.Y0 = getY(data[0]);
+
+	quickSort( data, left, right, comparatorCollinear, &xy );
 
 	return 0;
 }
@@ -171,8 +176,11 @@ void grahanScanCollinear( Array *array, Stack *stack ){
 
 /* ======================================================================================================================= */
 
-static int comparatorAngle( void *a, void *b ){
+static int comparatorAngle( void *a, void *b, void *aux ){
 	double Xa, Ya, Xb, Yb, cotanA, cotanB;
+	struct _xy *xy;
+
+	xy = aux;
 
 	if( a == NULL && b != NULL ){
 		return 1;
@@ -184,10 +192,10 @@ static int comparatorAngle( void *a, void *b ){
 		return 0;
 	}
 
-	Xa = getX(a) - X0;
-	Ya = getY(a) - Y0;
-	Xb = getX(b) - X0;
-	Yb = getY(b) - Y0;
+	Xa = getX(a) - xy->X0;
+	Ya = getY(a) - xy->Y0;
+	Xb = getX(b) - xy->X0;
+	Yb = getY(b) - xy->Y0;
 
 	if( Ya == 0 && Yb != 0 ){
 		return -1;
@@ -225,13 +233,16 @@ static int comparatorAngle( void *a, void *b ){
 	return 0;
 }
 
-static int comparatorCollinear( void *a, void *b ){
+static int comparatorCollinear( void *a, void *b, void *aux ){
 	double Xa, Ya, Xb, Yb;
+	struct _xy *xy;
 
-	Xa = getX(a) - X0;
-	Ya = getY(a) - Y0;
-	Xb = getX(b) - X0;
-	Yb = getY(b) - Y0;
+	xy = aux;
+
+	Xa = getX(a) - xy->X0;
+	Ya = getY(a) - xy->Y0;
+	Xb = getX(b) - xy->X0;
+	Yb = getY(b) - xy->Y0;
 
 	if( Ya == 0 && Yb == 0 ){
 		if( Xa < Xb ){

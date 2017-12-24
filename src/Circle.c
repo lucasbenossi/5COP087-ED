@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "Circle.h"
-#include "ProcString.h"
+#include "String.h"
 
 struct _circle {
     int id;

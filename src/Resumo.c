@@ -24,23 +24,36 @@ void destroyResumo(Resumo *res){
 }
 
 void incIns(Resumo *res){
-    (res->ins)++;
+    if(res) (res->ins)++;
 }
 
 void incCpi(Resumo *res){
-    (res->cpi)++;
+    if(res) (res->cpi)++;
 }
-
 
 void incDel(Resumo *res){
-    (res->del)++;
+    if(res) (res->del)++;
 }
-
 
 void incCpd(Resumo *res){
-    (res->cpd)++;
+    if(res) (res->cpd)++;
 }
 
+void setResumoIns(Resumo *res, int value){
+    if(res) res->ins = value;
+}
+
+void setResumoCpi(Resumo *res, int value){
+    if(res) res->cpi = value;
+}
+
+void setResumoDel(Resumo *res, int value){
+    if(res) res->del = value;
+}
+
+void setResumoCpd(Resumo *res, int value){
+    if(res) res->cpd = value;
+}
 
 void printResumo( Resumo *res, char *fileGeo, FILE *txt ){
     fprintf( txt, "%s\t#%d\t#%d\t#%d\t#%d\n", fileGeo, res->ins, res->cpi, res->del, res->cpd );

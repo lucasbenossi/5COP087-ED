@@ -8,13 +8,13 @@ Os valores de retorno são:
 	0  - primeiro argumento é igual ao segundo, ou ocupam a mesma posição
 	+1 - primeiro argumento é maior que o segundo, ou deve ficar depois que o segundo
 */
-typedef int (*comparatorFunc)(void*,void*);
+typedef int (*ComparatorFunc)(void*a,void*b,void*aux);
 
 /*
 Recebe um vetor de ponteiros void, o menor e o maior valor dos indices, um
 ponteiro para a função que compara os elementos e ordena os elementos desde vetor.
 */
-void quickSort( void **data, int left, int right, comparatorFunc comparator );
+void quickSort( void **data, int left, int right, ComparatorFunc comparator, void *aux );
 
 /*
 Recebe um vetor de ponteiros void, troca o elemento do índice a com o elemento
