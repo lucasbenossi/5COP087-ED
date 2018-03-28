@@ -20,6 +20,10 @@
 #include "QuadTreeDump.h"
 #include "HashTable.h"
 #include "HashTableDump.h"
+#include "Graph.h"
+#include "GraphDump.h"
+#include "Geometry.h"
+#include "Rua.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -37,7 +41,15 @@ static void dumpOperadoraTxt( Operadora *op, char *outDir );
 
 static void dumpCidadeDataStructuresDot( Cidade *cidade, char *outDir );
 
-static void dumpObjs( List *objs, char *outDir );
+static void dumpObjsTxt( List *objs, char *outDir );
+
+static void dumpMalhaViariaSvg( Cidade *cidade, char *outDir );
+
+static void dumpRuasTxt( Cidade *cidade, char *outDir );
+
+static void dumpRegistradoresTxt( Cidade *cidade, char *outDir );
+
+static void dumpRegistradoresSvg( Cidade *cidade, char *outDir );
 
 /* ========================================================================== */
 
@@ -49,7 +61,7 @@ void convexHull( char *arg, int collinear, List *objs, Cidade *cidade, char *fil
 	char *fullPath, *fullPathSvg, *fullPathTxt;
 	FILE *svg, *txt;
 	Object *obj;
-	int error, i;
+	int error;
 	double x, y;
 	Polygon *polygon;
 
@@ -71,6 +83,9 @@ void convexHull( char *arg, int collinear, List *objs, Cidade *cidade, char *fil
 	else if( arg[0] == 'c' || arg[0] == 'r' ){
 		objList = objs;
 	}
+	else if( arg[0] == 'v' ){
+		objList = getCidadeVerticesList(cidade);
+	}
 
 	if( collinear == 1 ){
 		fullPath = createStringCat( 3, fixedDir, file, "-convexhullcollinear" );
@@ -81,11 +96,11 @@ void convexHull( char *arg, int collinear, List *objs, Cidade *cidade, char *fil
 	fullPathSvg = createStringCat( 2, fullPath, ".svg" );
 	fullPathTxt = createStringCat( 2, fullPath, ".txt" );
 
-    svg = openFileWrite(fullPathSvg);
-    if( svg == NULL ){
+	svg = openFileWrite(fullPathSvg);
+	if( svg == NULL ){
 		error++;
 		return;
-    }
+	}
 
 	if( error == 0 ){
 		txt = openFileWrite(fullPathTxt);
@@ -119,10 +134,10 @@ void convexHull( char *arg, int collinear, List *objs, Cidade *cidade, char *fil
 		destroyArray(array);
 
 		polygonList = createList();
-		while( lenght(chList) > 0 ){
+		while( ! isListEmpty(chList) ){
 			stack = removeLast(chList);
 			polygon = createPolygon("","none","black");
-			while( getStackSize(stack) > 0 ){
+			while( ! isStackEmpty(stack) ){
 				obj = pop(stack);
 				x = getX(obj);
 				y = getY(obj);
@@ -137,17 +152,12 @@ void convexHull( char *arg, int collinear, List *objs, Cidade *cidade, char *fil
 		destroyList(chList);
 
 		writeSvgStart(svg);
-
-		node = getFirst(objList);
-		i = 1;
-		while( node != NULL ){
+		for( node = getFirst(objList); node; node = getNext(node) ){
 			obj = get(node);
-			writeAnchorTag( i, getX(obj), getY(obj), ANCHOR_RADIUS, "green", ANCHOR_OPACITY, svg );
-			node = getNext(node);
-			i++;
+			writeAnchorTag( getObjId(obj), getX(obj), getY(obj), ANCHOR_RADIUS, "green", ANCHOR_OPACITY, svg );
 		}
 
-		while( lenght(polygonList) > 0 ){
+		while( ! isListEmpty(polygonList) ){
 			polygon = removeFirst(polygonList);
 			writePolygonTag(polygon,svg);
 			destroyPolygon(polygon);
@@ -180,10 +190,14 @@ void dumpData( List *objs, Cidade *cidade, char *outDir ){
 	dumpPessoasTxt( getCidadeDefuntos(cidade), "Defunto", outDir, "Defuntos" );
 	dumpOperadoraTxt( getCidadeSercomtuel(cidade), outDir );
 	dumpOperadoraTxt( getCidadeUelmobile(cidade), outDir );
+	dumpMalhaViariaSvg( cidade, outDir );
+	dumpRuasTxt(cidade, outDir);
+	dumpRegistradoresTxt( cidade, outDir );
+	dumpRegistradoresSvg( cidade, outDir );
 
 	dumpCidadeDataStructuresDot( cidade, outDir );
 
-	dumpObjs( objs, outDir );
+	dumpObjsTxt( objs, outDir );
 
 	destroyString(outDir);
 }
@@ -472,14 +486,17 @@ static void dumpCidadeDataStructuresDot( Cidade *cidade, char *outDir ){
 		char *name;
 		HashTable *ht;
 		QuadTree *qt;
+		Graph *graph;
 	} ds[] = {
-		{ "Quadras", NULL, NULL },
-		{ "Hidrantes", NULL, NULL },
-		{ "Semaforos", NULL, NULL },
-		{ "Torres", NULL, NULL },
-		{ "Codt", NULL, NULL },
-		{ "EstabComerciais", NULL, NULL },
-		{ "Pessoas", NULL, NULL }
+		{ "Quadras", NULL, NULL, NULL },
+		{ "Hidrantes", NULL, NULL, NULL },
+		{ "Semaforos", NULL, NULL, NULL },
+		{ "Torres", NULL, NULL, NULL },
+		{ "Codt", NULL, NULL, NULL },
+		{ "EstabComerciais", NULL, NULL, NULL },
+		{ "Pessoas", NULL, NULL, NULL },
+		{ "Vertices", NULL, NULL, NULL },
+		{ "MalhaViaria", NULL, NULL, NULL }
 	};
 
 	sprintf( method, "%d", getCidadeMethod(cidade) );
@@ -491,28 +508,41 @@ static void dumpCidadeDataStructuresDot( Cidade *cidade, char *outDir ){
 	ds[4].ht = getCidadeDescricoes(cidade);
 	ds[5].ht = getCidadeEstabComerciais(cidade);
 	ds[6].ht = getCidadePessoas(cidade);
+	ds[7].ht = getCidadeVerticesHT(cidade);
 
 	ds[0].qt = getCidadeQuadrasQT(cidade);
 	ds[1].qt = getCidadeHidrantesQT(cidade);
 	ds[2].qt = getCidadeSemaforosQT(cidade);
 	ds[3].qt = getCidadeTorresQT(cidade);
+	ds[7].qt = getCidadeVerticesQT(cidade);
+
+	ds[8].graph = getCidadeMalhaViaria(cidade);
 
 	size = sizeof(ds)/sizeof(ds[0]);
 	for( i = 0; i < size; i++ ){
-		if( ds[i].qt != NULL ){
+		if( ds[i].qt ){
 			fullPath = createStringCat( 5, outDir, ds[i].name, "-QT-", method, ".dot" );
 			outDot = openFileWrite(fullPath);
-			if( outDot != NULL ){
+			if( outDot ){
 				dumpQuadTreeDot( ds[i].qt, outDot );
 			}
 			closeFile(outDot);
 			destroyString(fullPath);
 		}
-		if( ds[i].ht != NULL ){
+		if( ds[i].ht ){
 			fullPath = createStringCat( 3, outDir, ds[i].name, "-HT.dot" );
 			outDot = openFileWrite(fullPath);
-			if( outDot != NULL ){
+			if( outDot ){
 				dumpHashTableDot( ds[i].ht, outDot );
+			}
+			closeFile(outDot);
+			destroyString(fullPath);
+		}
+		if( ds[i].graph ){
+			fullPath = createStringCat( 3, outDir, ds[i].name, "-Graph.dot" );
+			outDot = openFileWrite(fullPath);
+			if( outDot ){
+				dumpGraphDot( ds[i].graph, outDot );
 			}
 			closeFile(outDot);
 			destroyString(fullPath);
@@ -520,7 +550,7 @@ static void dumpCidadeDataStructuresDot( Cidade *cidade, char *outDir ){
 	}
 }
 
-static void dumpObjs( List *objs, char *outDir ){
+static void dumpObjsTxt( List *objs, char *outDir ){
 	char *fullPathObjs;
 	FILE *outObjsTxt;
 	Node *node;
@@ -593,6 +623,9 @@ void nearestPoint( char *arg, Cidade *cidade, char *outDir ){
 	else if( obj == 't' ){
 		qt = getCidadeTorresQT(cidade);
 	}
+	else if( obj == 'v' ){
+		qt = getCidadeVerticesQT(cidade);
+	}
 	else{
 		return;
 	}
@@ -608,6 +641,130 @@ void nearestPoint( char *arg, Cidade *cidade, char *outDir ){
 
 		writeAnchorTag( 0, getX(nearest), getY(nearest), 5, "fuchsia", 1, svg );
 		writeAnchorTag( 0, x, y, 5, "blue", 1, svg );
+
+		writeSvgEnd(svg);
+	}
+
+	closeFile(svg);
+	destroyString(fullPath);
+}
+
+static void dumpMalhaViariaSvg( Cidade *cidade, char *outDir ){
+	char *fullPath;
+	FILE *svg;
+	Iterator *it, *it_u, *it_v;
+
+	fullPath = createStringCat( 2, outDir, "MalhaViaria.svg" );
+	svg = openFileWrite(fullPath);
+
+	if(svg){
+		writeSvgStart(svg);
+
+		writeCidadeTags(cidade, svg);
+
+		it_u = createIterator(getGraphVertices(getCidadeMalhaViaria(cidade)));
+		while(iteratorHasNext(it_u)){
+			Vertex *vertex_u = iteratorNext(it_u);
+			HashTable *edges = getVertexEdges(vertex_u);
+			if(edges){
+				it_v = createIterator(edges);
+				while(iteratorHasNext(it_v)){
+					Vertex *vertex_v = iteratorNext(it_v);
+					double xu = getVertexX(vertex_u);
+					double yu = getVertexY(vertex_u);
+					char *idu = getVertexKey(vertex_u);
+					double xv = getVertexX(vertex_v);
+					double yv = getVertexY(vertex_v);
+					char *idv = getVertexKey(vertex_v);
+
+					fprintf( svg, "\t<line id=\"%s-%s\" stroke=\"black\" stroke-width=\"1\" fill=\"none\" x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" />\n", idu, idv, xu, yu, xv, yv );
+				}
+				destroyIterator(it_v);
+			}
+		}
+		destroyIterator(it_u);
+
+		it = createIterator(getGraphVertices(getCidadeMalhaViaria(cidade)));
+		while(iteratorHasNext(it)){
+			Vertex *vertex = iteratorNext(it);
+			writeAnchorTag( getVertexKey(vertex), getVertexX(vertex), getVertexY(vertex), 1.5, "black", 1.0, svg );
+		}
+		destroyIterator(it);
+
+		writeSvgEnd(svg);
+	}
+
+	closeFile(svg);
+	destroyString(fullPath);
+}
+
+static void dumpRuasTxt( Cidade *cidade, char *outDir ){
+	char *fullPath = createStringCat( 2, outDir, "Ruas.txt" );
+	FILE *outTxt = openFileWrite(fullPath);
+
+	if(outTxt){
+		Node *node;
+		for( node = getFirst(getCidadeRuas(cidade)); node; node = getNext(node) ){
+			Rua *rua = get(node);
+			fprintf( outTxt, "Rua %p {\n", (void*)rua );
+			fprintf( outTxt, "\tnome: %s;\n", getRuaNome(rua) );
+			fprintf( outTxt, "\tldir: %s;\n", getRuaLdir(rua) );
+			fprintf( outTxt, "\tlesq: %s;\n", getRuaLesq(rua) );
+			fprintf( outTxt, "\tcpm: %f;\n", getRuaCmp(rua) );
+			fprintf( outTxt, "\tvm: %f;\n", getRuaVm(rua) );
+			fprintf( outTxt, "}\n\n" );
+		}
+	}
+
+	closeFile(outTxt);
+	destroyString(fullPath);
+}
+
+static void dumpRegistradoresTxt( Cidade *cidade, char *outDir ){
+	char *fullPath;
+	FILE *out;
+	Iterator *it;
+
+	fullPath = createStringCat( 2, outDir, "Registradores.txt" );
+	out = openFileWrite(fullPath);
+
+	if(out){
+		it = createIterator(getCidadeRegistradores(cidade));
+		while(iteratorHasNext(it)){
+			Point *coords = iteratorNext(it);
+			fprintf( out, "%s %p {\n", iteratorKey(it), (void*)coords );
+			fprintf( out, "\tid: %s;\n", getPointId(coords) );
+			fprintf( out, "\tx: %f;\n", getPointX(coords) );
+			fprintf( out, "\ty: %f;\n", getPointY(coords) );
+			fprintf( out, "}\n\n" );
+		}
+		destroyIterator(it);
+	}
+
+	closeFile(out);
+	destroyString(fullPath);
+}
+
+static void dumpRegistradoresSvg( Cidade *cidade, char *outDir ){
+	char *fullPath;
+	FILE *svg;
+	Iterator *it;
+
+	fullPath = createStringCat( 2, outDir, "Registradores.svg" );
+	svg = openFileWrite(fullPath);
+
+	if(svg){
+		writeSvgStart(svg);
+
+		writeCidadeTags(cidade, svg);
+
+		it = createIterator(getCidadeRegistradores(cidade));
+		while(iteratorHasNext(it)){
+			Point *coords = iteratorNext(it);
+			writeAnchorTag( getPointId(coords), getPointX(coords), getPointY(coords), 5.0, "blue", 1.0, svg );
+			writeStringTag( getPointId(coords), getPointX(coords), getPointY(coords), svg );
+		}
+		destroyIterator(it);
 
 		writeSvgEnd(svg);
 	}

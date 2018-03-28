@@ -10,71 +10,78 @@
 #include "LinkedList.h"
 
 Object *searchIdInt( List *l, int id ){
-    Node *node;
-    for( node = getFirst(l); node != NULL; node = getNext(node) ){
-        Object *obj = get(node);
-        if( getIdInt(obj) == id ){
-            return obj;
-        }
-    }
-    return NULL;
+	Node *node;
+	for( node = getFirst(l); node != NULL; node = getNext(node) ){
+	    Object *obj = get(node);
+	    if( getIdInt(obj) == id ){
+	        return obj;
+	    }
+	}
+	return NULL;
 }
 
 int getIdInt( Object *obj ){
-    char objType;
-    void *objData;
+	char objType;
+	void *objData;
 
 	objType = getObjType(obj);
-    objData = getObjData(obj);
+	objData = getObjData(obj);
 
-    if( objType == 'c' ){
-        return getCircleId(objData);
-    }
-    if( objType == 'r' ){
-        return getRectId(objData);
-    }
+	if( objType == 'c' ){
+	    return getCircleId(objData);
+	}
+	if( objType == 'r' ){
+	    return getRectId(objData);
+	}
 	return 0;
 }
 
 void destroyObjData( Object *obj ){
-    char objType;
-    void *objData, *info;
+	char objType;
+	void *objData, *info;
 
-    objType = getObjType(obj);
-    objData = getObjData(obj);
+	objType = getObjType(obj);
+	objData = getObjData(obj);
 
-    if( objType == 'c' ){
-        destroyCircle(objData);
-    }
-    else if( objType == 'r' || objType == 'o' ) {
-        destroyRect(objData);
-    }
-    else if( objType == 'q' ){
-        destroyQuadra(objData);
-    }
-    else if( objType == 'h' || objType == 's' || objType == 't' ){
-        info = getPointInfo(objData);
-        if( info != NULL ){
-            free(info);
-        }
-        destroyPoint(objData);
-    }
+	if( objType == 'c' ){
+	    destroyCircle(objData);
+	}
+	else if( objType == 'r' || objType == 'o' ) {
+	    destroyRect(objData);
+	}
+	else if( objType == 'q' ){
+	    destroyQuadra(objData);
+	}
+	else if( objType == 'h' || objType == 's' || objType == 't' ){
+	    info = getPointInfo(objData);
+	    if( info != NULL ){
+	        free(info);
+	    }
+	    destroyPoint(objData);
+	}
 	else if( objType == 'z' ){
 		destroyPolygon(objData);
 	}
 	else if( objType == 'd' ){
 		/* dummy, objData == NULL */
 	}
+	else{
+		destroyPoint(objData);
+	}
 
-    destroyObject(obj);
+	destroyObject(obj);
+}
+
+void destroyObjDataVoid( void *obj ){
+	destroyObjData(obj);
 }
 
 double getX( Object *obj ){
 	char objType;
-    void *objData;
+	void *objData;
 
 	objType = getObjType(obj);
-    objData = getObjData(obj);
+	objData = getObjData(obj);
 
 	if( objType == 'c' ){
 		return getCircleX(objData);
@@ -88,15 +95,18 @@ double getX( Object *obj ){
 	if( objType == 's' || objType == 'h' || objType == 't' ){
 		return getPointX(objData);
 	}
+	else{
+		return getPointX(objData);
+	}
 	return 0;
 }
 
 double getY( Object *obj ){
 	char objType;
-    void *objData;
+	void *objData;
 
 	objType = getObjType(obj);
-    objData = getObjData(obj);
+	objData = getObjData(obj);
 
 	if( objType == 'c' ){
 		return getCircleY(objData);
@@ -108,6 +118,9 @@ double getY( Object *obj ){
 		return getQuadraY(objData);
 	}
 	if( objType == 's' || objType == 'h' || objType == 't' ){
+		return getPointY(objData);
+	}
+	else{
 		return getPointY(objData);
 	}
 	return 0;

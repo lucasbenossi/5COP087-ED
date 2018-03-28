@@ -65,7 +65,7 @@ Point *getEnderecoCoords( Endereco *endereco, Quadra *quadra ){
 		y = getQuadraY(quadra) + endereco->num;
 	}
 
-	return createPoint( x, y, "", "", "" );
+	return createPoint( x, y, endereco->cep, "", "" );
 }
 
 int checkFace( char face ){

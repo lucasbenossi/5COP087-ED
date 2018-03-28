@@ -3,49 +3,49 @@
 #include "String.h"
 
 struct _object{
-    char *id;
-    char type;
-    void *data;
-    void *info;
+	char *id;
+	char type;
+	void *data;
+	void *info;
 };
 
 Object *createObject( char *id, char type, void *data ){
-    Object *obj;
-    obj = malloc( sizeof( Object ) );
-    obj->id = createString(id);
-    obj->type = type;
-    obj->data = data;
-    obj->info = NULL;
-    return obj;
+	Object *obj;
+	obj = malloc( sizeof( Object ) );
+	obj->id = createString(id);
+	obj->type = type;
+	obj->data = data;
+	obj->info = NULL;
+	return obj;
 }
 
 void *destroyObject( Object *obj ){
-    void *data;
+	void *data;
 
-    data = obj->data;
+	data = obj->data;
 
-    destroyString(obj->id);
-    free(obj);
+	destroyString(obj->id);
+	free(obj);
 
-    return data;
+	return data;
 }
 
 char *getObjId( Object *obj ){
-    return obj->id;
+	return obj->id;
 }
 
 char getObjType( Object *obj ){
-    return obj->type;
+	return obj->type;
 }
 
 void *getObjData( Object *obj ){
-    return obj->data;
+	return obj->data;
 }
 
 void setObjInfo( Object *obj, void *info ){
-    obj->info = info;
+	obj->info = info;
 }
 
 void *getObjInfo( Object *obj ){
-    return obj->info;
+	return obj->info;
 }

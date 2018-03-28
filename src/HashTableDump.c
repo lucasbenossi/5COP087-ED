@@ -8,8 +8,8 @@ void dumpHashTableDot( HashTable *table, FILE *out ){
 
 	size = getHashTableSize(table);
 
-	fprintf( out, "digraph HashTable {\n" );
-    fprintf( out, "\tnode [shape=box, fontname=\"monospace\"];\n" );
+	fprintf( out, "digraph \"HashTable\" {\n" );
+	fprintf( out, "\tnode [shape=box, fontname=\"monospace\"];\n" );
 
 	fprintf( out, "\t{\n" );
 	fprintf( out, "\t\tnode [style=filled, fillcolor=\"#DCDCDC\"];\n" );
@@ -17,18 +17,18 @@ void dumpHashTableDot( HashTable *table, FILE *out ){
 		fprintf( out, "\t\tlevel%d [label=\"%d\"];\n", i, i );
 	}
 	fprintf( out, "\t\t\"level0\"" );
-    for( i = 1; i < size; i++ ){
-        fprintf( out, " -> \"level%d\"", i );
-    }
-    fprintf( out, ";\n" );
-    fprintf( out, "\t}\n" );
+	for( i = 1; i < size; i++ ){
+	    fprintf( out, " -> \"level%d\"", i );
+	}
+	fprintf( out, ";\n" );
+	fprintf( out, "\t}\n" );
 
 	it = createIterator(table);
 	while( iteratorHasNext(it) ){
 		iteratorNext(it);
 
 		fprintf( out, "\t{\n" );
-        fprintf( out, "\t\trank = same;\n" );
+	    fprintf( out, "\t\trank = same;\n" );
 		fprintf( out, "\t\tlevel%d", getIteratorI(it) );
 
 		fprintf( out, " -> \"%s\"", iteratorKey(it) );
@@ -42,5 +42,5 @@ void dumpHashTableDot( HashTable *table, FILE *out ){
 	}
 	destroyIterator(it);
 
-    fprintf( out, "}\n" );
+	fprintf( out, "}\n" );
 }

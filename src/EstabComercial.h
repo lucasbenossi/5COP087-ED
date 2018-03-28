@@ -7,6 +7,7 @@ typedef struct _estabcomercial EstabComercial;
 EstabComercial *createEstabComercial(char *cnpj, char *nome, char *codt, char *cep, char face, int num);
 
 void destroyEstabComercial( EstabComercial *estab );
+void destroyEstabComercialVoid( void *estab );
 
 char *getEstabComercialCNPJ( EstabComercial *estab );
 char *getEstabComercialNome( EstabComercial *estab );

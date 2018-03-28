@@ -28,22 +28,12 @@ Polygon *createPolygon( char *id, char *fill, char *stroke ){
 }
 
 void destroyPolygon( Polygon *polygon ){
-	Node *node, *node0;
-	List *list;
-
 	destroyString(polygon->id);
 	destroyString(polygon->fill);
 	destroyString(polygon->stroke);
 
-	list = polygon->nodes;
-	node = getFirst(list);
-    while( node != NULL ){
-		node0 = node;
-		node = getNext(node);
-		destroyPoint( destroyNode(node0) );
-    }
-	resetList(list);
-	destroyList(list);
+	setListFuncDestroyData(polygon->nodes, destroyPointVoid);
+	destroyList(polygon->nodes);
 	free(polygon);
 }
 

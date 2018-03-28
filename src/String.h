@@ -15,6 +15,7 @@ char *createString( const char *string );
 - Desaloca memória de uma string
 */
 void destroyString( char *string );
+void destroyStringVoid( void *string );
 
 /*
 - Aloca memória para (size+1) caracteres, preenche a região alocada com caracteres

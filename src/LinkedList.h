@@ -1,5 +1,6 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
+#include "FuncDestroyData.h"
 
 /*
 Define uma lista ligada.
@@ -45,10 +46,15 @@ Retorna o tamanho da lista ligada.
 */
 int lenght( List *list );
 
+int isListEmpty( List *list );
+
+void setListFuncDestroyData( List *list, FuncDestroyData *destroyData );
+
 /*
 Insere um nó no final da lista ligada e retorna um ponteiro para o nó inserido
 */
 Node *insert( List *list, void *data );
+Node *insertFirst( List *list, void *data );
 
 /*
 Insere um nó na lista ligada, antes do nó definido por "node"

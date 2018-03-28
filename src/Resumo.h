@@ -7,10 +7,10 @@
 - Esse objeto guarda as informações que depois serão salvas no arquivo resumo.txt,
   quando usados os argumentos -acc ou -acc0.
 - Possui os atributos:
-    - ins = Quadras inseridas
-    - cpi = Comparações para inserir uma quadras
-    - del = Quadras deletedas
-    - cpd = Comparações para deletar uma quadra
+	- ins = Quadras inseridas
+	- cpi = Comparações para inserir uma quadras
+	- del = Quadras deletedas
+	- cpd = Comparações para deletar uma quadra
 */
 typedef struct _resumo Resumo;
 

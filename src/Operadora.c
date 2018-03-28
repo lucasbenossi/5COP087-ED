@@ -12,10 +12,6 @@
 #include "ObjQuadTree.h"
 #include <stdlib.h>
 
-static void destroyCelular_Wrapper( void *data ){
-	destroyCelular(data);
-}
-
 /* ========================================================================== */
 
 struct _operadora{
@@ -38,12 +34,12 @@ Operadora *createOperadora( char *nome, int method ){
 	operadora->nome = createString(nome);
 	operadora->torresList = createList();
 	operadora->torresQT = createQuadTree();
-	operadora->torresHT = createHashTable(SIZEHT);
-	operadora->clientes = createHashTable(SIZEHT);
-	operadora->celularesNum = createHashTable(SIZEHT);
-	operadora->celularesCpf = createHashTable(SIZEHT);
-	operadora->conexoesTorreId = createHashTable(SIZEHT);
-	operadora->conexoesQuadraCep = createHashTable(SIZEHT);
+	operadora->torresHT = createHashTable(HT_SIZE);
+	operadora->clientes = createHashTable(HT_SIZE);
+	operadora->celularesNum = createHashTable(HT_SIZE);
+	operadora->celularesCpf = createHashTable(HT_SIZE);
+	operadora->conexoesTorreId = createHashTable(HT_SIZE);
+	operadora->conexoesQuadraCep = createHashTable(HT_SIZE);
 	operadora->method = method;
 
 	return operadora;
@@ -53,10 +49,11 @@ void destroyOperadora( Operadora *operadora ){
 	destroyString(operadora->nome);
 	destroyList(operadora->torresList);
 	destroyQuadTree(operadora->torresQT);
-	destroyHashTable(operadora->torresHT, NULL);
-	destroyHashTable(operadora->clientes, NULL);
-	destroyHashTable(operadora->celularesNum, destroyCelular_Wrapper);
-	destroyHashTable(operadora->celularesCpf, NULL);
+	destroyHashTable(operadora->torresHT);
+	destroyHashTable(operadora->clientes);
+	setHashTableFuncDestroyData(operadora->celularesNum, destroyCelularVoid);
+	destroyHashTable(operadora->celularesNum);
+	destroyHashTable(operadora->celularesCpf);
 	destroyDoubleHashTable(operadora->conexoesTorreId);
 	destroyDoubleHashTable(operadora->conexoesQuadraCep);
 	free(operadora);
@@ -95,7 +92,7 @@ void operadoraRemoveTorresRegion( Operadora *operadora, Object *region ){
 				destroyEndereco( operadoraDesconectaCelular(operadora, iteratorNext(it)) );
 			}
 			destroyIterator(it);
-			destroyHashTable(conexoes, NULL);
+			destroyHashTable(conexoes);
 		}
 	}
 
@@ -157,7 +154,7 @@ void operadoraDesconectaCelularesQuadra( Operadora *operadora, Quadra *quadra ){
 			destroyEndereco(operadoraDesconectaCelular(operadora, iteratorNext(it)));
 		}
 		destroyIterator(it);
-		destroyHashTable(conexoes, NULL);
+		destroyHashTable(conexoes);
 	}
 }
 
@@ -168,7 +165,7 @@ List *searchOperadoraTorresRegion( Operadora *operadora, Object *region ){
 	searchQuadTreeRegion( operadora->torresQT, nodes, region );
 
 	torres = createList();
-	while( lenght(nodes) > 0 ){
+	while( ! isListEmpty(nodes) ){
 		insert( torres, getQuadTreeNodeData(removeFirst(nodes)) );
 	}
 	destroyList(nodes);

@@ -1,0 +1,9 @@
+@e? R1 B30-7.6 N 0
+@xy R2 300.0 300.0
+@xy? R3 2405 1940
+
+p? p test1-d D R1 R2 red
+p? p test1-t T R1 R2 red
+
+p? p test2-d D R1 R3 red
+p? p test2-t T R1 R3 red

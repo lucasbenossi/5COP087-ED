@@ -39,60 +39,36 @@ rip 182.446.512-15
 rip 673.182.420-10
 rip 096.585.977-06
 
-m? cep200
-m? cep025
-m? cep080
+@f? regF1 0000-0000
+@f? regF2 4144-5327
+@f? regF3 7953-0442
+@f? regF4 4509-6348
+@f? regF5 2713-5007
 
-mr? 240 240 150 150
+@m? regM1 000.000.000-00
+@m? regM2 255.472.443-03
+@m? regM3 097.910.429-10
 
-dm? 000.000.000.00
-dm? 838.739.906-55
-dm? 974.300.299-29
+@e? regE1 cep000 N 10
+@e? regE2 cep001 N 10
 
-de? 00.000.000/0000-00
-de? 38.149.959/4035-96
+@g? regG1 s122
+@g? regG2 s121
 
-mse? M codt1 0 0 100 100
-mse? f codt1 0 0 100 100
-mse? F codt10 0 0 100 100
+@xy? regXY1 69 96
 
-lk? t000
-lk? t001
-lk? t055
-lk? t042
+@tp? regTP1 codt1 regN
+@tp? regTP1 codtX regXY1
+@tp? regTP1 codt1 regF5
+@tp? regTP2 codt2 regM3
+@tp? regTP3 codt3 regF4
+@tp? regTP4 codt4 regXY1
+@tp? regTP5 codt5 regE2
 
-rb? 0000-0000
-rb? 2713-5007
-rb? 0505-0895
+p? p percurso-dist D regE2 regG2 black
+p? p percurso-temp T regE2 regG2 black
 
-co? um 10
-co? su 15
-
-lnr? 230 50 150 150
-lnr? 230 50 150 150 su
-lnr? 230 50 150 150 um
-
-ecq? cep200
-ecq? cep059
-
-ecr? codt1
-ecr? codt4 230 50 150 150
-
-tecq? cep000
-tecq? cep059
-
-tecr? 230 50 150 150
-
-dc? 0000-0000
-dc? 2100-0951
-dc? 0994-2991
-
-lec? 0000-0000
-lec? 2713-5007
-lec? 6210-4375
-
-lcc? 0000-0000
-lcc? 4509-6348
-lec? 2275-1410
+p? t D regXY1 regTP1 black
+p? t T regXY1 regTP1 black
 
 #

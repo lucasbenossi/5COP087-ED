@@ -7,6 +7,7 @@ typedef struct _celular Celular;
 Celular *createCelular( char *numero, char *cpf );
 
 int destroyCelular( Celular *celular );
+void destroyCelularVoid( void *celular );
 
 void celularConecta( Celular *celular, char *torreId, Endereco *endereco );
 Endereco *celularDesconecta( Celular *celular );

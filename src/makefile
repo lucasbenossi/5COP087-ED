@@ -14,12 +14,12 @@ CommandsEc.o \
 CommandsPm.o \
 CommandsTm.o \
 CommandsQry.o \
+CommandsVia.o \
 CommandsDebug.o \
 Geometry.o \
 WriteTags.o \
 Cidade.o \
 ObjData.o \
-ObjList.o \
 ObjQuadTree.o \
 ObjHashTable.o \
 Quadra.o \
@@ -41,7 +41,10 @@ EstabComercial.o \
 Pessoa.o \
 Endereco.o \
 Operadora.o \
-Celular.o
+Celular.o \
+Graph.o \
+GraphDump.o \
+Rua.o
 
 gccCommand = gcc -Wall -Wextra -pedantic -ansi -g
 
@@ -105,6 +108,9 @@ CommandsTm.o : CommandsTm.h CommandsTm.c
 CommandsQry.o : CommandsQry.h CommandsQry.c
 	$(gccCommand) -c CommandsQry.c -o CommandsQry.o
 
+CommandsVia.o : CommandsVia.h CommandsVia.c
+	$(gccCommand) -c CommandsVia.c -o CommandsVia.o
+
 CommandsDebug.o : CommandsDebug.h CommandsDebug.c
 	$(gccCommand) -c CommandsDebug.c -o CommandsDebug.o
 
@@ -119,9 +125,6 @@ Cidade.o : Cidade.h Cidade.c
 
 ObjData.o : ObjData.h ObjData.c
 	$(gccCommand) -c ObjData.c -o ObjData.o
-
-ObjList.o : ObjList.h ObjList.c
-	$(gccCommand) -c ObjList.c -o ObjList.o
 
 ObjQuadTree.o : ObjQuadTree.h ObjQuadTree.c
 	$(gccCommand) -c ObjQuadTree.c -o ObjQuadTree.o
@@ -179,6 +182,15 @@ Operadora.o : Operadora.h Operadora.c
 
 Celular.o : Celular.h Celular.c
 	$(gccCommand) -c Celular.c -o Celular.o
+
+Graph.o : Graph.h Graph.c
+	$(gccCommand) -c Graph.c -o Graph.o
+
+GraphDump.o : GraphDump.h GraphDump.c
+	$(gccCommand) -c GraphDump.c -o GraphDump.o
+
+Rua.o : Rua.h Rua.c
+	$(gccCommand) -c Rua.c -o Rua.o
 
 clean :
 	rm *.o

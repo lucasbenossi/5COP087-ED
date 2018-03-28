@@ -13,7 +13,6 @@
 #include "QuadTree.h"
 #include "QuadTreeSearch.h"
 #include "ObjData.h"
-#include "ObjList.h"
 #include "ObjQuadTree.h"
 #include "Resumo.h"
 #include "Geometry.h"
@@ -27,6 +26,7 @@
 #include "QuickSort.h"
 #include <stdlib.h>
 #include <string.h>
+#include <complex.h>
 
 static void genPolygonCobertura( List *torres, Polygon *polygon );
 
@@ -41,72 +41,72 @@ static void dumpDadosEstabComercial( EstabComercial *estab, FILE *outFileTxt );
 /* ==========================================================================================*/
 
 void commandCidadeDelete( char *line, Cidade *c, FILE *outFileTxt, Resumo *res ){
-    double x, y, width, height, radius;
-    char command, *outString;
-    Object *obj, *region;
-    List *removed;
-    Node *node;
+	double x, y, width, height, radius;
+	char command, *outString;
+	Object *obj, *region;
+	List *removed;
+	Node *node;
 
-    fputs(line,outFileTxt);
+	fputs(line,outFileTxt);
 
-    if( line[0] == 'd' ){
-        sscanf(line, "d%c %lf %lf %lf %lf", &command, &x, &y, &width, &height);
-        region = createObject( "", 'r', createRect(0, width, height, x, y, "") );
-    }
-    else if( line[0] == 'D' ){
-        sscanf(line, "D%c %lf %lf %lf", &command, &x, &y, &radius);
-        region = createObject( "", 'c', createCircle(0, radius, x, y, "") );
-    }
+	if( line[0] == 'd' ){
+	    sscanf(line, "d%c %lf %lf %lf %lf", &command, &x, &y, &width, &height);
+	    region = createObject( "", 'r', createRect(0, width, height, x, y, "") );
+	}
+	else if( line[0] == 'D' ){
+	    sscanf(line, "D%c %lf %lf %lf", &command, &x, &y, &radius);
+	    region = createObject( "", 'c', createCircle(0, radius, x, y, "") );
+	}
 
-    if( command == 'q' ){
-        outString = "Quadra %s removida\n";
-    }
-    else if( command == 'h' ){
-        outString = "Hidrante %s removido\n";
-    }
-    else if( command == 's' ){
-        outString = "Semaforo %s removido\n";
-    }
-    else if( command == 't' ){
-        outString = "Torre %s removida\n";
-    }
-    else{
-        return;
-    }
+	if( command == 'q' ){
+	    outString = "Quadra %s removida\n";
+	}
+	else if( command == 'h' ){
+	    outString = "Hidrante %s removido\n";
+	}
+	else if( command == 's' ){
+	    outString = "Semaforo %s removido\n";
+	}
+	else if( command == 't' ){
+	    outString = "Torre %s removida\n";
+	}
+	else{
+	    return;
+	}
 
-    removed = cidadeRemoveObjsRegion( c, command, region, res );
-    for( node = getFirst(removed); node; node = getNext(node) ){
-        obj = get(node);
-        fprintf( outFileTxt, outString, getObjId(obj) );
-        destroyObjData(obj);
-    }
-    destroyList(removed);
+	removed = cidadeRemoveObjsRegion( c, command, region, res );
+	for( node = getFirst(removed); node; node = getNext(node) ){
+	    obj = get(node);
+	    fprintf( outFileTxt, outString, getObjId(obj) );
+	    destroyObjData(obj);
+	}
+	destroyList(removed);
 
-    fprintf( outFileTxt, "\n" );
+	fprintf( outFileTxt, "\n" );
 
-    destroyObjData(region);
+	destroyObjData(region);
 }
 
 void commandSearchIdCep( char *line, Cidade *c, FILE *outFileTxt ){
-    Object *obj;
-    char objType[] = { 'q', 'h', 's', 't' };
+	Object *obj;
+	char objType[] = { 'q', 'h', 's', 't' };
 	char *outString[] = { "Quadra", "Hidrante", "Semaforo", "Torre" };
-    char idCep[STRING_SIZE];
-    int i;
+	char idCep[STRING_SIZE];
+	int i;
 
-    fputs(line,outFileTxt);
+	fputs(line,outFileTxt);
 
-    sscanf(line, "crd? %s", idCep);
+	sscanf(line, "crd? %s", idCep);
 
-    for( i = 0; i < 4; i++ ){
-        obj = searchCidadeObjTypeIdCep( c, objType[i], idCep );
-        if( obj != NULL ){
-            fprintf( outFileTxt, "Encontrado %s com coordenadas (%f,%f)\n\n", outString[i], getX(obj), getY(obj) );
-            return;
-        }
-    }
+	for( i = 0; i < 4; i++ ){
+	    obj = searchCidadeObjTypeIdCep( c, objType[i], idCep );
+	    if( obj != NULL ){
+	        fprintf( outFileTxt, "Encontrado %s com coordenadas (%f,%f)\n\n", outString[i], getX(obj), getY(obj) );
+	        return;
+	    }
+	}
 
-    fprintf( outFileTxt, "Elemento com ID/Cep %s não encontrado\n\n", idCep );
+	fprintf( outFileTxt, "Elemento com ID/Cep %s não encontrado\n\n", idCep );
 }
 
 void commandPoligonoCobertura( char *line, Cidade *cidade, char *nameFiles, char *outDir ){
@@ -121,7 +121,7 @@ void commandPoligonoCobertura( char *line, Cidade *cidade, char *nameFiles, char
 	Tokens *tokens;
 
 	tokens = createTokens(DELIMITERS);
-    defineTokens( tokens, line );
+	defineTokens( tokens, line );
 	if( strcmp( getToken(tokens,0), "pc?" ) != 0 ){
 		return;
 	}
@@ -147,15 +147,15 @@ void commandPoligonoCobertura( char *line, Cidade *cidade, char *nameFiles, char
 			region = NULL;
 		}
 
-        qtNodesList = createList();
+	    qtNodesList = createList();
 
-        searchQuadTreeRegion( getCidadeTorresQT(cidade), qtNodesList, region );
+	    searchQuadTreeRegion( getCidadeTorresQT(cidade), qtNodesList, region );
 
-        torres = createList();
-        while( lenght(qtNodesList) > 0 ){
-            insert( torres, getQuadTreeNodeData(removeFirst(qtNodesList)) );
-        }
-        destroyList(qtNodesList);
+	    torres = createList();
+	    while( ! isListEmpty(qtNodesList) ){
+	        insert( torres, getQuadTreeNodeData(removeFirst(qtNodesList)) );
+	    }
+	    destroyList(qtNodesList);
 
 		polygon = createPolygon( "cobertura", "red", "black" );
 		genPolygonCobertura( torres, polygon );
@@ -195,7 +195,7 @@ void commandPoligonoCoberturaArea( char *line, Cidade *cidade, FILE *outFileTxt 
 	Tokens *tokens;
 
 	tokens = createTokens(DELIMITERS);
-    defineTokens( tokens, line );
+	defineTokens( tokens, line );
 	if( strcmp( getToken(tokens,0), "ac?" ) != 0 ){
 		return;
 	}
@@ -207,21 +207,21 @@ void commandPoligonoCoberturaArea( char *line, Cidade *cidade, FILE *outFileTxt 
 		sscanf( getToken(tokens,2), "%lf", &y );
 		sscanf( getToken(tokens,3), "%lf", &width );
 		sscanf( getToken(tokens,4), "%lf", &height );
-        region = createObject( NULL, 'r', createRect( 0, width, height, x, y, NULL ) );
+	    region = createObject( NULL, 'r', createRect( 0, width, height, x, y, NULL ) );
 	}
 	else{
 		region = NULL;
 	}
 
-    qtNodesList = createList();
+	qtNodesList = createList();
 
-    searchQuadTreeRegion( getCidadeTorresQT(cidade), qtNodesList, region );
+	searchQuadTreeRegion( getCidadeTorresQT(cidade), qtNodesList, region );
 
-    torres = createList();
-    while( lenght(qtNodesList) > 0 ){
-        insert( torres, getQuadTreeNodeData(removeFirst(qtNodesList)) );
-    }
-    destroyList(qtNodesList);
+	torres = createList();
+	while( ! isListEmpty(qtNodesList) ){
+	    insert( torres, getQuadTreeNodeData(removeFirst(qtNodesList)) );
+	}
+	destroyList(qtNodesList);
 
 	polygon = createPolygon( "cobertura", NULL, NULL );
 	genPolygonCobertura( torres, polygon );
@@ -282,13 +282,14 @@ static void genPolygonCobertura( List *torres, Polygon *polygon ){
 	sortAngle(array);
 	grahanScan(array,stack);
 	destroyArray(array);
-	while( getStackSize(stack) > 0 ){
+	while( ! isStackEmpty(stack) ){
 		point = getObjData(pop(stack));
 		polygonInsertNode( polygon, getPointX(point), getPointY(point) );
 	}
 	destroyStack(stack);
 
-	destroyObjList(pointsList);
+	setListFuncDestroyData(pointsList, destroyObjDataVoid);
+	destroyList(pointsList);
 }
 
 void commandMoveCelular( char *line, Cidade *cidade, FILE *outFileTxt ){
@@ -506,10 +507,10 @@ void commandMatarPessoa( char *line, Cidade *cidade, FILE *outFileTxt ){
 }
 
 void commandListaMoradoresQuadra( char *line, int commandId, Cidade *cidade, FILE *outFileTxt ){
-    char cep[STRING_SIZE];
+	char cep[STRING_SIZE];
 	double x, y, width, height;
 
-    fputs(line,outFileTxt);
+	fputs(line,outFileTxt);
 
 	if( commandId == 13 ){
 		Object *obj;
@@ -549,68 +550,68 @@ void commandListaMoradoresQuadra( char *line, int commandId, Cidade *cidade, FIL
 
 static void listarMoradoresQuadra( Cidade *cidade, Quadra *quadra, FILE *outFileTxt ){
 	Iterator *it = createIterator(getQuadraMoradores(quadra));
-    while(iteratorHasNext(it)){
-        Pessoa *pessoa = iteratorNext(it);
-        Endereco *endereco = getPessoaEndereco(pessoa);
-        Operadora *operadora = getCidadeOperadoraPessoa(cidade, pessoa);
+	while(iteratorHasNext(it)){
+	    Pessoa *pessoa = iteratorNext(it);
+	    Endereco *endereco = getPessoaEndereco(pessoa);
+	    Operadora *operadora = getCidadeOperadoraPessoa(cidade, pessoa);
 
-        fprintf( outFileTxt, "Nome: %s %s;", getPessoaNome(pessoa), getPessoaSobrenome(pessoa) );
-        if(endereco){
-            fprintf( outFileTxt, " Endereco: %s/%c/%d;", getEnderecoCep(endereco), getEnderecoFace(endereco), getEnderecoNum(endereco) );
-        }
+	    fprintf( outFileTxt, "Nome: %s %s;", getPessoaNome(pessoa), getPessoaSobrenome(pessoa) );
+	    if(endereco){
+	        fprintf( outFileTxt, " Endereco: %s/%c/%d;", getEnderecoCep(endereco), getEnderecoFace(endereco), getEnderecoNum(endereco) );
+	    }
 
-        if(operadora){
-            fprintf( outFileTxt, " Operadora: %s", getOperadoraNome(operadora) );
-        }
-        fprintf( outFileTxt, "\n" );
-    }
-    destroyIterator(it);
+	    if(operadora){
+	        fprintf( outFileTxt, " Operadora: %s", getOperadoraNome(operadora) );
+	    }
+	    fprintf( outFileTxt, "\n" );
+	}
+	destroyIterator(it);
 }
 
 void commandDumpDadosMorador( char *line, Cidade *cidade, FILE *outFileTxt ){
-    char cpf[STRING_SIZE];
-    Pessoa *pessoa;
+	char cpf[STRING_SIZE];
+	Pessoa *pessoa;
 
-    fputs(line,outFileTxt);
+	fputs(line,outFileTxt);
 
-    sscanf( line, "dm? %s", cpf );
+	sscanf( line, "dm? %s", cpf );
 
-    pessoa = searchCidadePessoaCpf( cidade, cpf );
-    if(pessoa){
-        Endereco *endereco = getPessoaEndereco(pessoa);
-        Operadora *operadora = getCidadeOperadoraPessoa(cidade, pessoa);
-        fprintf( outFileTxt, "Nome: %s %s, Cpf: %s, Nascimento: %s, Sexo: %c\n",
+	pessoa = searchCidadePessoaCpf( cidade, cpf );
+	if(pessoa){
+	    Endereco *endereco = getPessoaEndereco(pessoa);
+	    Operadora *operadora = getCidadeOperadoraPessoa(cidade, pessoa);
+	    fprintf( outFileTxt, "Nome: %s %s, Cpf: %s, Nascimento: %s, Sexo: %c\n",
 			getPessoaNome(pessoa),
 			getPessoaSobrenome(pessoa),
 			getPessoaCpf(pessoa),
 			getPessoaNasc(pessoa),
 			getPessoaSexo(pessoa)
 		);
-        if(endereco){
-            Point *coords = getEnderecoCoords(endereco, getObjData(searchCidadeQuadraCep(cidade, getEnderecoCep(endereco))));
-            fprintf( outFileTxt, "Endereco: %s/%c/%d, Coords: %f,%f\n", getEnderecoCep(endereco), getEnderecoFace(endereco), getEnderecoNum(endereco), getPointX(coords), getPointY(coords) );
-            destroyPoint(coords);
-        }
-        if(operadora){
-            fprintf( outFileTxt, "Operadora: %s, Celular: %s\n", getOperadoraNome(operadora), getCelularNumero(searchOperadoraCelularCpf(operadora, getPessoaCpf(pessoa))) );
-        }
-    }
-    else{
-        fprintf( outFileTxt, "Pessoa de cpf %s não encontrada.\n", cpf );
-    }
+	    if(endereco){
+	        Point *coords = getEnderecoCoords(endereco, getObjData(searchCidadeQuadraCep(cidade, getEnderecoCep(endereco))));
+	        fprintf( outFileTxt, "Endereco: %s/%c/%d, Coords: %f,%f\n", getEnderecoCep(endereco), getEnderecoFace(endereco), getEnderecoNum(endereco), getPointX(coords), getPointY(coords) );
+	        destroyPoint(coords);
+	    }
+	    if(operadora){
+	        fprintf( outFileTxt, "Operadora: %s, Celular: %s\n", getOperadoraNome(operadora), getCelularNumero(searchOperadoraCelularCpf(operadora, getPessoaCpf(pessoa))) );
+	    }
+	}
+	else{
+	    fprintf( outFileTxt, "Pessoa de cpf %s não encontrada.\n", cpf );
+	}
 
-    fprintf( outFileTxt, "\n" );
+	fprintf( outFileTxt, "\n" );
 }
 
 void commandDumpDadosEstabComercial( char *line, Cidade *cidade, FILE *outFileTxt ){
 	char cnpj[STRING_SIZE];
-    EstabComercial *estab;
+	EstabComercial *estab;
 
-    fputs(line,outFileTxt);
+	fputs(line,outFileTxt);
 
-    sscanf( line, "de? %s", cnpj );
+	sscanf( line, "de? %s", cnpj );
 
-    estab = searchCidadeEstabComercialCnpj( cidade, cnpj );
+	estab = searchCidadeEstabComercialCnpj( cidade, cnpj );
 	if(estab){
 		fprintf( outFileTxt, "Nome: %s, Cnpj: %s, Codt: %s, Endereco: %s/%c/%d\n\n",
 			getEstabComercialNome(estab),
@@ -718,90 +719,90 @@ static void dumpConexoesTorre( Operadora *operadora, char *torreId, FILE *outFil
 }
 
 void commandTorreCelularConectado( char *line, Cidade *cidade, FILE *outFileTxt ){
-    char numcel[STRING_SIZE];
-    Celular *celular;
+	char numcel[STRING_SIZE];
+	Celular *celular;
 
-    fputs(line, outFileTxt);
+	fputs(line, outFileTxt);
 
-    sscanf( line, "rb? %s", numcel );
+	sscanf( line, "rb? %s", numcel );
 
-    celular = searchOperadoraCelularNum( getCidadeSercomtuel(cidade), numcel );
-    if( ! celular ){
-        celular = searchOperadoraCelularNum( getCidadeUelmobile(cidade), numcel );
-    }
-    if( ! celular ){
-        fprintf( outFileTxt, "Celular de numero %s nao encontrado.\n\n", numcel );
-        return;
-    }
+	celular = searchOperadoraCelularNum( getCidadeSercomtuel(cidade), numcel );
+	if( ! celular ){
+	    celular = searchOperadoraCelularNum( getCidadeUelmobile(cidade), numcel );
+	}
+	if( ! celular ){
+	    fprintf( outFileTxt, "Celular de numero %s nao encontrado.\n\n", numcel );
+	    return;
+	}
 
-    if( getCelularEndereco(celular) ){
-        fprintf( outFileTxt, "%s\n\n", getCelularTorreId(celular) );
-    }
-    else{
-        fprintf( outFileTxt, "Celular nao conectado.\n\n" );
-    }
+	if( getCelularEndereco(celular) ){
+	    fprintf( outFileTxt, "%s\n\n", getCelularTorreId(celular) );
+	}
+	else{
+	    fprintf( outFileTxt, "Celular nao conectado.\n\n" );
+	}
 }
 
 void commandListaClientesOperadora( char *line, Cidade *cidade, FILE *outFileTxt ){
-    char op[STRING_SIZE];
-    int n, i, size;
-    void **data;
-    Operadora *operadora;
-    Array *array;
-    Tokens *tokens;
+	char op[STRING_SIZE];
+	int n, i, size;
+	void **data;
+	Operadora *operadora;
+	Array *array;
+	Tokens *tokens;
 
-    fputs(line, outFileTxt);
+	fputs(line, outFileTxt);
 
-    tokens = createTokens(DELIMITERS);
-    defineTokens( tokens, line );
+	tokens = createTokens(DELIMITERS);
+	defineTokens( tokens, line );
 
-    sscanf( line, "co? %s", op );
+	sscanf( line, "co? %s", op );
 
-    if( strcmp( op, "su" ) == 0 ){
-        operadora = getCidadeSercomtuel(cidade);
-    }
-    else if( strcmp( op, "um" ) == 0 ){
-        operadora = getCidadeUelmobile(cidade);
-    }
+	if( strcmp( op, "su" ) == 0 ){
+	    operadora = getCidadeSercomtuel(cidade);
+	}
+	else if( strcmp( op, "um" ) == 0 ){
+	    operadora = getCidadeUelmobile(cidade);
+	}
 
-    array = hashTableToArray(getOperadoraClientes(operadora));
-    size = getArraySize(array);
-    data = getArrayData(array);
-    quickSort( data, 0, size-1, comparatorClientesOrdemNome, NULL );
+	array = hashTableToArray(getOperadoraClientes(operadora));
+	size = getArraySize(array);
+	data = getArrayData(array);
+	quickSort( data, 0, size-1, comparatorClientesOrdemNome, NULL );
 
-    if( getToken(tokens, 2) ){
-        n = atoi(getToken(tokens, 2));
-        if( n < size ){
-            size = n;
-        }
-    }
+	if( getToken(tokens, 2) ){
+	    n = atoi(getToken(tokens, 2));
+	    if( n < size ){
+	        size = n;
+	    }
+	}
 
-    for( i = 0; i < size; i++ ){
-        Pessoa *pessoa = data[i];
-        Celular *celular = searchOperadoraCelularCpf(operadora, getPessoaCpf(pessoa));
-        fprintf( outFileTxt, "Nome: %s %s, Celular: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getCelularNumero(celular) );
-    }
-    fprintf( outFileTxt, "\n" );
+	for( i = 0; i < size; i++ ){
+	    Pessoa *pessoa = data[i];
+	    Celular *celular = searchOperadoraCelularCpf(operadora, getPessoaCpf(pessoa));
+	    fprintf( outFileTxt, "Nome: %s %s, Celular: %s \n", getPessoaNome(pessoa), getPessoaSobrenome(pessoa), getCelularNumero(celular) );
+	}
+	fprintf( outFileTxt, "\n" );
 
-    destroyArray(array);
-    destroyTokens(tokens);
+	destroyArray(array);
+	destroyTokens(tokens);
 }
 
 static int comparatorClientesOrdemNome( void *a, void *b, void *aux ){
-    char *nomeA, *nomeB;
-    int ret;
+	char *nomeA, *nomeB;
+	int ret;
 
-    destroyString(aux);
+	destroyString(aux);
 
-    nomeA = createStringCat( 3, getPessoaNome(a), " ", getPessoaSobrenome(a) );
-    nomeB = createStringCat( 3, getPessoaNome(b), " ", getPessoaSobrenome(b) );
+	nomeA = createStringCat( 3, getPessoaNome(a), " ", getPessoaSobrenome(a) );
+	nomeB = createStringCat( 3, getPessoaNome(b), " ", getPessoaSobrenome(b) );
 
-    ret = strcmp(nomeA, nomeB);
+	ret = strcmp(nomeA, nomeB);
 
-    destroyString(nomeA);
-    destroyString(nomeB);
+	destroyString(nomeA);
+	destroyString(nomeB);
 
-    return ret;
+	return ret;
 }
 
 void commandListaConexoesTorresRegion( char *line, Cidade *cidade, FILE *outFileTxt ){
@@ -998,7 +999,7 @@ void commandListaTiposRegion( char *line, Cidade *cidade, FILE *outFileTxt ){
 	quadras = searchCidadeObjTypeRegion(cidade, 'q', region);
 	destroyObjData(region);
 
-	codt = createHashTable(SIZEHT);
+	codt = createHashTable(HT_SIZE);
 
 	for( node = getFirst(quadras); node; node = getNext(node) ){
 		it = createIterator(getQuadraEstabComerciais(getObjData(get(node))));
@@ -1016,7 +1017,7 @@ void commandListaTiposRegion( char *line, Cidade *cidade, FILE *outFileTxt ){
 	}
 	destroyIterator(it);
 
-	destroyHashTable(codt, NULL);
+	destroyHashTable(codt);
 
 	destroyList(quadras);
 
@@ -1074,4 +1075,291 @@ void commandDadosUsuarioLinhaMovel( char *line, int commandId, Cidade *cidade, F
 	}
 
 	fprintf( outFileTxt, "\n\n" );
+}
+
+void commandRegistrador( char *line, int commandId, Cidade *cidade, FILE *outFileTxt ){
+	Point *coords = NULL;
+	Endereco *endereco = NULL;
+	Quadra *quadra = NULL;
+	char registrador[STRING_SIZE];
+
+	fputs(line, outFileTxt);
+
+	if(commandId == 32){
+	    Celular *celular = NULL;
+	    Operadora **ops = getCidadeOperadoras(cidade);
+	    int i;
+	    char num[STRING_SIZE];
+
+	    sscanf( line, "@f? %s %s", registrador, num );
+
+	    for( i = 0; i < 2; i++ ){
+	        celular = searchOperadoraCelularNum(ops[i], num);
+	        if(celular){
+	            break;
+	        }
+	    }
+
+	    if(!celular){
+	        fprintf( outFileTxt, "Celular nao existe.\n\n" );
+	        return;
+	    }
+
+	    endereco = getCelularEndereco(celular);
+	    if(!endereco){
+	        fprintf( outFileTxt, "Celular nao conectado.\n\n" );
+	        return;
+	    }
+	}
+	else if(commandId == 33){
+	    Pessoa *pessoa = NULL;
+	    char cpf[STRING_SIZE];
+
+	    sscanf( line, "@m? %s %s", registrador, cpf );
+
+	    pessoa = searchCidadePessoaCpf(cidade, cpf);
+
+	    if(!pessoa){
+	        fprintf( outFileTxt, "Pessoa nao existe.\n\n" );
+	        return;
+	    }
+
+	    endereco = getPessoaEndereco(pessoa);
+	    if(!endereco){
+	        fprintf( outFileTxt, "Pessoa nao e morador.\n\n" );
+	        return;
+	    }
+	}
+	else if(commandId == 34){
+	    char cep[STRING_SIZE], face;
+	    int num;
+	    Object *obj = NULL;
+
+	    sscanf( line, "@e? %s %s %c %d", registrador, cep, &face, &num );
+
+	    obj = searchCidadeQuadraCep(cidade, cep);
+	    if(!obj){
+	        fprintf( outFileTxt, "Cep nao existe.\n\n" );
+	        return;
+	    }
+	    quadra = getObjData(obj);
+
+	    endereco = createEndereco(cep, face, num, "");
+	    coords = getEnderecoCoords(endereco, quadra);
+	    destroyEndereco(endereco);
+	    endereco = NULL;
+	}
+	else if(commandId == 35){
+		char id[STRING_SIZE];
+		Object *obj;
+		char *type = "hst";
+		int i;
+
+		sscanf( line, "@g? %s %s", registrador, id );
+
+		for( i = 0; i < 3; i++ ){
+			obj = searchCidadeObjTypeIdCep(cidade, type[i], id);
+			if(obj){
+				break;
+			}
+		}
+
+		if(!obj){
+			fprintf( outFileTxt, "Equipamento %s nao encontrado.\n\n", id );
+			return;
+		}
+
+		coords = createPoint( getX(obj), getY(obj), getObjId(obj), "", "");
+	}
+	else if(commandId == 36){
+	    double x, y;
+
+	    sscanf( line, "%*s %s %lf %lf", registrador, &x, &y );
+
+	    coords = createPoint(x, y, "", "", "");
+	}
+	else if(commandId == 37){
+	    char registrador2[STRING_SIZE], codt[STRING_SIZE];
+		Point *coordsRegist;
+		Iterator *it;
+		List *list;
+		QuadTree *qt;
+		EstabComercial *estab;
+		Object *obj;
+
+	    sscanf( line, "@tp? %s %s %s", registrador, codt, registrador2 );
+
+		coordsRegist = cidadeGetRegistrador(cidade, registrador2);
+		if(!coordsRegist){
+			fprintf( outFileTxt, "Registrador r2 nao definido.\n\n" );
+			return;
+		}
+
+	    if(!searchCidadeDescricaoCodt(cidade, codt)){
+			fprintf( outFileTxt, "Tipo nao existe.\n\n" );
+			return;
+		}
+
+		list = createList();
+
+		it = createIterator(getCidadeEstabComerciais(cidade));
+		while(iteratorHasNext(it)){
+			estab = iteratorNext(it);
+			if( strcmp(codt, getEstabComercialCodt(estab)) == 0 ){
+				endereco = getEstabComercialEndereco(estab);
+				quadra = getObjData(searchCidadeQuadraCep(cidade, getEnderecoCep(endereco)));
+				coords = getEnderecoCoords(endereco, quadra);
+				insert(list, createObject(getEstabComercialCNPJ(estab), '\0', coords));
+			}
+		}
+		destroyIterator(it);
+
+		qt = createQuadTree();
+		listToQt(list, qt, getCidadeMethod(cidade));
+		destroyList(list);
+
+		if(isQuadTreeEmpty(qt)){
+			fprintf( outFileTxt, "Nao existe estabelecimento comercial do tipo inserido.\n\n" );
+			destroyObjQuadTree(qt);
+			return;
+		}
+
+		obj = searchQuadTreeNearestToPoint(getPointX(coordsRegist), getPointY(coordsRegist), qt);
+		estab = searchCidadeEstabComercialCnpj(cidade, getObjId(obj));
+		endereco = getEstabComercialEndereco(estab);
+
+		destroyObjQuadTree(qt);
+	}
+
+	if(endereco){
+		quadra = getObjData(searchCidadeQuadraCep(cidade, getEnderecoCep(endereco)));
+		coords = getEnderecoCoords(endereco, quadra);
+	}
+
+	cidadeSetRegistrador(cidade, registrador, getPointX(coords), getPointY(coords));
+
+	destroyPoint(coords);
+
+	fprintf( outFileTxt, "\n" );
+}
+
+void commandDijkstra( char *line, Tokens *tokens, Cidade *cidade, FILE *outFileTxt, char *nameFileGeo, char *outDir ){
+	Graph *graph = getCidadeMalhaViaria(cidade);
+	char *tipoSaida, *sufixo, *r1, *r2, *cor, *peso;
+	Iterator *it, *it2;
+	Vertex *source, *target;
+	Point *pointR1, *pointR2;
+	List *percurso;
+
+	if( strcmp(getToken(tokens, 0), "p?") != 0 ){
+		return;
+	}
+
+	fputs(line, outFileTxt);
+
+	tipoSaida = getToken(tokens, 1);
+	if(tipoSaida[0] == 't'){
+		sufixo = NULL;
+		peso = getToken(tokens, 2);
+		r1 = getToken(tokens, 3);
+		r2 = getToken(tokens, 4);
+		cor = NULL;
+	}
+	else if(tipoSaida[0] == 'p'){
+		sufixo = getToken(tokens, 2);
+		peso = getToken(tokens, 3);
+		r1 = getToken(tokens, 4);
+		r2 = getToken(tokens, 5);
+		cor = getToken(tokens, 6);
+	}
+	else{
+		return;
+	}
+
+	pointR1 = cidadeGetRegistrador(cidade, r1);
+	pointR2 = cidadeGetRegistrador(cidade, r2);
+
+	if(!pointR1){
+		fprintf( outFileTxt, "Registrador %s nao definido.\n\n", r1 );
+		return;
+	}
+	if(!pointR2){
+		fprintf( outFileTxt, "Registrador %s nao definido.\n\n", r2 );
+		return;
+	}
+
+	it = createIterator(getGraphEdges(graph));
+	while(iteratorHasNext(it)){
+		it2 = createIterator(iteratorNext(it));
+		while(iteratorHasNext(it2)){
+			Edge *edge = iteratorNext(it2);
+			Rua *rua = getEdgeData(edge);
+			double value;
+			if(peso[0] == 'D'){
+				value = getRuaCmp(rua);
+			}
+			else if(peso[0] == 'T'){
+				value = getRuaTempo(rua);
+			}
+			setEdgeLength(edge, value);
+		}
+		destroyIterator(it2);
+	}
+	destroyIterator(it);
+
+	source = searchVertex(graph, getObjId(searchQuadTreeNearestToPoint(getPointX(pointR1), getPointY(pointR1), getCidadeVerticesQT(cidade))));
+	target = searchVertex(graph, getObjId(searchQuadTreeNearestToPoint(getPointX(pointR2), getPointY(pointR2), getCidadeVerticesQT(cidade))));
+	percurso = dijkstra(graph, source, target);
+
+	if(!percurso){
+		fprintf( outFileTxt, "Nao existe percurso para os dois registradores.\n" );
+	}
+	else{
+		if(tipoSaida[0] == 't'){
+			Node *node;
+			for( node = getFirst(percurso); node; node = getNext(node) ){
+				fprintf( outFileTxt, "%s\n", getPointId(getVertexData((get(node)))) );
+			}
+		}
+		else if(tipoSaida[0] == 'p'){
+			char *fullPath = createStringCat(5, outDir, nameFileGeo, "-", sufixo, ".svg");
+			FILE *svg = openFileWrite(fullPath);
+			Node *node;
+			Point *point;
+
+			if(svg){
+				writeSvgStart(svg);
+
+				writeCidadeTags(cidade, svg);
+
+				writeAnchorTag( getPointId(pointR1), getPointX(pointR1), getPointY(pointR1), ANCHOR_RADIUS, "blue", ANCHOR_OPACITY, svg );
+				writeAnchorTag( getPointId(pointR2), getPointX(pointR2), getPointY(pointR2), ANCHOR_RADIUS, "blue", ANCHOR_OPACITY, svg );
+
+				node = getFirst(percurso);
+				if(node){
+					point = getVertexData(get(node));
+					fprintf( svg, "\t<path stroke=\"%s\" stroke-width=\"3\" fill=\"none\" d=\"M %f %f", cor, getPointX(point), getPointY(point) );
+					while(node){
+						point = getVertexData(get(node));
+						fprintf( svg, " L %f %f", getPointX(point), getPointY(point) );
+						node = getNext(node);
+					}
+					fprintf( svg, "\" />\n" );
+				}
+
+				/*point = getVertexData(source);
+				writeAnchorTag( getPointId(point), getPointX(point), getPointY(point), ANCHOR_RADIUS, cor, ANCHOR_OPACITY, svg );
+				point = getVertexData(target);
+				writeAnchorTag( getPointId(point), getPointX(point), getPointY(point), ANCHOR_RADIUS, cor, ANCHOR_OPACITY, svg );*/
+
+				writeSvgEnd(svg);
+			}
+			closeFile(svg);
+			destroyString(fullPath);
+		}
+		destroyList(percurso);
+	}
+
+
+	fprintf( outFileTxt, "\n" );
 }

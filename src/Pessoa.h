@@ -7,6 +7,7 @@ typedef struct _pessoa Pessoa;
 Pessoa *createPessoa( char *cpf, char *nome, char *sobrenome, char sexo, char *nasc );
 
 void destroyPessoa( Pessoa *pessoa );
+void destroyPessoaVoid( void *pessoa );
 
 void setPessoaEndereco( Pessoa *pessoa, Endereco *endereco );
 Endereco *resetPessoaEndereco( Pessoa *pessoa );

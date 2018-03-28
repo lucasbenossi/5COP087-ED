@@ -9,35 +9,35 @@
 #include "File.h"
 
 void createSvg( List *objs, Cidade *cidade, char *file, char *fixedDir, int argT, int noT2 ){
-    char *fullPath;
-    FILE *svg;
+	char *fullPath;
+	FILE *svg;
 
-    fullPath = createStringCat( 3, fixedDir, file, ".svg" );
+	fullPath = createStringCat( 3, fixedDir, file, ".svg" );
 
-    svg = openFileWrite(fullPath);
-    if( svg == NULL ){
+	svg = openFileWrite(fullPath);
+	if( svg == NULL ){
 		destroyString(fullPath);
 		return;
-    }
+	}
 
-    writeSvgStart(svg);
+	writeSvgStart(svg);
 
-    writeCidadeTags( cidade, svg );
+	writeCidadeTags( cidade, svg );
 
-    writeEstabComerciaisTag( cidade, svg );
-    writeMoradoresTag( cidade, svg );
+	writeEstabComerciaisTag( cidade, svg );
+	writeMoradoresTag( cidade, svg );
 	writeConexoesTags( cidade, svg );
 	writeDefuntosTags( cidade, svg );
 
-    if( argT == 1 ){
-        writeCidadeTorresCoberturaTags( cidade, svg );
-    }
+	if( argT == 1 ){
+	    writeCidadeTorresCoberturaTags( cidade, svg );
+	}
 
-    if( noT2 == 0 ){
-        writeObjsTags( objs, svg );
-    }
+	if( noT2 == 0 ){
+	    writeObjsTags( objs, svg );
+	}
 
-    writeSvgEnd(svg);
+	writeSvgEnd(svg);
 
 	closeFile(svg);
 

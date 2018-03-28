@@ -52,4 +52,6 @@ Retorna o tamanho da pilha.
 */
 int getStackSize(Stack *stack);
 
+int isStackEmpty(Stack *stack);
+
 #endif

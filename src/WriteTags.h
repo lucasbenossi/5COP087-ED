@@ -58,7 +58,7 @@ void writeOverlapTag( Rect *rect, FILE *svg );
 /*
 Escreve a tag svg do circulo que define os pontos que o comando "a" cria.
 */
-void writeAnchorTag( int i, double x, double y, double r, char *fill, double opacity, FILE *svg );
+void writeAnchorTag( char *i, double x, double y, double r, char *fill, double opacity, FILE *svg );
 
 /*
 Recebe uma instancia de Quadra e escreve em *svg as suas tags correspondentes.
@@ -70,7 +70,6 @@ void writeQuadraTag( Quadra *q, FILE *svg );
 - A intancia de Point pode definir um ponto qualquer, um Hidrante, um Semáforo
   ou uma Torre.
 */
-void writePointTag( Point *p, FILE *svg );
 void writeHidranteTag( Point *p, FILE *svg );
 void writeSemaforoTag( Point *p, FILE *svg );
 void writeTorreTag( Point *p, FILE *svg );

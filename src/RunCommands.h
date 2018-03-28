@@ -48,4 +48,6 @@ Executa os comandos fornecidos no arquivo .tm.
 */
 void runCommandsTm( Cidade *cidade, FileStuff stuff );
 
+void runCommandsVia( Cidade *cidade, FileStuff stuff );
+
 #endif

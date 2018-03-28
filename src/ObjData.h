@@ -23,6 +23,7 @@ Desaloca memoria de uma instancia de Object e a intancia de Quadra, Point,
 Circle ou Rect que a instancia de Object referencia.
 */
 void destroyObjData( Object *obj );
+void destroyObjDataVoid( void *obj );
 
 /*
 Recebe uma instancia de Object, que referencia uma instancia de Circle, Rect,

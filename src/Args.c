@@ -20,16 +20,17 @@ int procArgs( int argc, char **argv, Args *args ){
 	args->f = searchArgsString(argc,argv,"-f");
 	args->o = searchArgsString(argc,argv,"-o");
 	args->q = searchArgsString(argc,argv,"-q");
-    args->id = searchArgsBoolean(argc,argv,"-id");
+	args->id = searchArgsBoolean(argc,argv,"-id");
 	args->ec = searchArgsString(argc,argv,"-ec");
 	args->pm = searchArgsString(argc,argv,"-pm");
 	args->tm = searchArgsString(argc,argv,"-tm");
-    args->m = searchArgsString(argc,argv,"-m");
-    args->t = searchArgsBoolean(argc,argv,"-t");
-    args->noT2 = searchArgsBoolean(argc,argv,"-noT2");
-    args->r = searchArgsString(argc,argv,"-r");
-    args->g = searchArgsString(argc,argv,"-g");
-    args->h = searchArgsString(argc,argv,"-h");
+	args->v = searchArgsString(argc,argv,"-v");
+	args->m = searchArgsString(argc,argv,"-m");
+	args->t = searchArgsBoolean(argc,argv,"-t");
+	args->noT2 = searchArgsBoolean(argc,argv,"-noT2");
+	args->r = searchArgsString(argc,argv,"-r");
+	args->g = searchArgsString(argc,argv,"-g");
+	args->h = searchArgsString(argc,argv,"-h");
 	args->od = searchArgsString(argc,argv,"-od");
 	args->n = searchArgsString(argc,argv,"-n");
 	if( args->f == NULL || args->o == NULL ){

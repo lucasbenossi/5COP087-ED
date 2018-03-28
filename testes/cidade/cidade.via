@@ -1,0 +1,561 @@
+v v001 5 5
+v v002 45 5
+v v003 85 5
+v v004 125 5
+v v005 165 5
+v v006 205 5
+v v007 245 5
+v v008 285 5
+v v009 325 5
+v v010 365 5
+v v011 405 5
+v v012 5 45
+v v013 45 45
+v v014 85 45
+v v015 125 45
+v v016 165 45
+v v017 205 45
+v v018 245 45
+v v019 285 45
+v v020 325 45
+v v021 365 45
+v v022 405 45
+v v023 5 85
+v v024 45 85
+v v025 85 85
+v v026 125 85
+v v027 165 85
+v v028 205 85
+v v029 245 85
+v v030 285 85
+v v031 325 85
+v v032 365 85
+v v033 405 85
+v v034 5 125
+v v035 45 125
+v v036 85 125
+v v037 125 125
+v v038 165 125
+v v039 205 125
+v v040 245 125
+v v041 285 125
+v v042 325 125
+v v043 365 125
+v v044 405 125
+v v045 5 165
+v v046 45 165
+v v047 85 165
+v v048 125 165
+v v049 165 165
+v v050 205 165
+v v051 245 165
+v v052 285 165
+v v053 325 165
+v v054 365 165
+v v055 405 165
+v v056 5 205
+v v057 45 205
+v v058 85 205
+v v059 125 205
+v v060 165 205
+v v061 205 205
+v v062 245 205
+v v063 285 205
+v v064 325 205
+v v065 365 205
+v v066 405 205
+v v067 5 245
+v v068 45 245
+v v069 85 245
+v v070 125 245
+v v071 165 245
+v v072 205 245
+v v073 245 245
+v v074 285 245
+v v075 325 245
+v v076 365 245
+v v077 405 245
+v v078 5 285
+v v079 45 285
+v v080 85 285
+v v081 125 285
+v v082 165 285
+v v083 205 285
+v v084 245 285
+v v085 285 285
+v v086 325 285
+v v087 365 285
+v v088 405 285
+v v089 5 325
+v v090 45 325
+v v091 85 325
+v v092 125 325
+v v093 165 325
+v v094 205 325
+v v095 245 325
+v v096 285 325
+v v097 325 325
+v v098 365 325
+v v099 405 325
+v v100 5 365
+v v101 45 365
+v v102 85 365
+v v103 125 365
+v v104 165 365
+v v105 205 365
+v v106 245 365
+v v107 285 365
+v v108 325 365
+v v109 365 365
+v v110 405 365
+v v111 5 405
+v v112 45 405
+v v113 85 405
+v v114 125 405
+v v115 165 405
+v v116 205 405
+v v117 245 405
+v v118 285 405
+v v119 325 405
+v v120 365 405
+v v121 405 405
+e v001 v002 - - 35 26.000000 Rua Aytesr Emcji
+e v002 v001 - - 35 22.000000 Rua Lxqannliex Gtafodhp
+e v001 v012 - - 35 7.000000 Rua Hqemcixmrf Rxzeln
+e v012 v001 - - 35 21.000000 Rua Mvzfwhwz Lacuq
+e v002 v003 - - 35 22.000000 Rua Uqgjini Kkfxxuqjps
+e v003 v002 - - 35 24.000000 Rua Znpnappu Xdcojlyyw
+e v002 v013 - - 35 28.000000 Rua Icify Qosjb
+e v013 v002 - - 35 8.000000 Rua Shwiytq Wuohimfgl
+e v003 v004 - - 35 2.000000 Rua Nzvmalcsv Mtyvsi
+e v004 v003 - - 35 21.000000 Rua Yrjuhqct Iemwumrimf
+e v003 v014 - - 35 17.000000 Rua Crsxrpr Jczclukd
+e v014 v003 - - 35 11.000000 Rua Yhmldg Xoleatgt
+e v004 v005 - - 35 27.000000 Rua Ldxmmz Rnids
+e v005 v004 - - 35 26.000000 Rua Tnugtcfsq Wslemzj
+e v004 v015 - - 35 28.000000 Rua Glpizixhlp Widsoyv
+e v015 v004 - - 35 22.000000 Rua Nlogzsu Ctbke
+e v005 v006 - - 35 18.000000 Rua Ebrnp Blrhdi
+e v006 v005 - - 35 16.000000 Rua Bwopmuo Oojhqv
+e v005 v016 - - 35 1.000000 Rua Qtmhhd Kqiruqx
+e v016 v005 - - 35 30.000000 Rua Vkkheaou Xdhtrs
+e v006 v007 - - 35 14.000000 Rua Gstkjeatx Lwterdr
+e v007 v006 - - 35 22.000000 Rua Tpekp Rkblv
+e v006 v017 - - 35 19.000000 Rua Njewp Rodclyjeb
+e v017 v006 - - 35 17.000000 Rua Nvxsgo Zyflt
+e v007 v008 - - 35 1.000000 Rua Idlhur Jwbuwma
+e v008 v007 - - 35 26.000000 Rua Gnjffpv Rtoeojlyow
+e v007 v018 - - 35 4.000000 Rua Pguohokv Kjwysdfky
+e v018 v007 - - 35 11.000000 Rua Tffjoqidon Fvivcygzo
+e v008 v009 - - 35 6.000000 Rua Nqbqylr Omuvwjneob
+e v009 v008 - - 35 23.000000 Rua Ipmet Mtyeblx
+e v008 v019 - - 35 24.000000 Rua Vrvkf Gafrnlfq
+e v019 v008 - - 35 9.000000 Rua Zwvfrf Kgvorsuvnm
+e v009 v010 - - 35 8.000000 Rua Rcguhxhtfy Qzymept
+e v010 v009 - - 35 7.000000 Rua Zsqtlkq Ylaqnik
+e v009 v020 - - 35 16.000000 Rua Trmrrfsp Whmtjomzjz
+e v020 v009 - - 35 4.000000 Rua Zkmbczlo Thphzjm
+e v010 v011 - - 35 1.000000 Rua Fshslsizt Afsarfdv
+e v011 v010 - - 35 21.000000 Rua Jeiqwp Heljjdtd
+e v010 v021 - - 35 28.000000 Rua Lsfesm Udeyyknhrv
+e v021 v010 - - 35 6.000000 Rua Mrwqcf Hafxm
+e v011 v022 - - 35 8.000000 Rua Rxkfwekack Ptemstbjrt
+e v022 v011 - - 35 4.000000 Rua Vuzbs Ujetvlqa
+e v012 v013 - - 35 7.000000 Rua Effwy Iqejavfnua
+e v013 v012 - - 35 20.000000 Rua Dcgxnmtjxj Sbpzhl
+e v012 v023 - - 35 17.000000 Rua Wnxhpumfo Pjqrrq
+e v023 v012 - - 35 8.000000 Rua Jrcucwxuve Szdiwl
+e v013 v014 - - 35 29.000000 Rua Xehmt Fmmxtri
+e v014 v013 - - 35 2.000000 Rua Cpszj Gqifwqdhq
+e v013 v024 - - 35 13.000000 Rua Wcvqx Cjzxahk
+e v024 v013 - - 35 9.000000 Rua Zpkkdsclxy Ahuwo
+e v014 v015 - - 35 14.000000 Rua Lixln Mmjtw
+e v015 v014 - - 35 24.000000 Rua Xuqhx Klgipjql
+e v014 v025 - - 35 16.000000 Rua Dhrofed Qpwlmc
+e v025 v014 - - 35 27.000000 Rua Yfryqdjzna Fnrns
+e v015 v016 - - 35 15.000000 Rua Gfkjvcbrp Veywmrue
+e v016 v015 - - 35 19.000000 Rua Dkhnpuef Flvkw
+e v015 v026 - - 35 27.000000 Rua Ahzqwwwv Kmmphtuta
+e v026 v015 - - 35 15.000000 Rua Wmnlrbgez Lzwkr
+e v016 v017 - - 35 7.000000 Rua Qpzacorl Mekuog
+e v017 v016 - - 35 12.000000 Rua Rcfzgeo Fmcxgl
+e v016 v027 - - 35 25.000000 Rua Kpaahlitr Nfyvlsz
+e v027 v016 - - 35 21.000000 Rua Fufzctdzao Yadyb
+e v017 v018 - - 35 7.000000 Rua Ldcfsh Qvxplpvi
+e v018 v017 - - 35 24.000000 Rua Kqzlq Zqpcospbdu
+e v017 v028 - - 35 24.000000 Rua Nmodh Stcpdbnn
+e v028 v017 - - 35 20.000000 Rua Ajbzz Dplsqp
+e v018 v019 - - 35 22.000000 Rua Zchpfrdzmh Pieeztekuf
+e v019 v018 - - 35 9.000000 Rua Iabdsqsn Uxjbom
+e v018 v029 - - 35 3.000000 Rua Ttpeatftz Pgbfo
+e v029 v018 - - 35 16.000000 Rua Twynkphhy Vmnviimmk
+e v019 v020 - - 35 20.000000 Rua Dihvolaeng Lelvv
+e v020 v019 - - 35 21.000000 Rua Uhbiwyqfk Rtuvbdspo
+e v019 v030 - - 35 22.000000 Rua Daupehm Etvmueivwp
+e v030 v019 - - 35 29.000000 Rua Hbvecawu Qouqkl
+e v020 v021 - - 35 18.000000 Rua Yxwtvk Bskxkswtvt
+e v021 v020 - - 35 9.000000 Rua Uvtlnjfd Rbnryl
+e v020 v031 - - 35 18.000000 Rua Vzupmsbg Ubktcgqwr
+e v031 v020 - - 35 9.000000 Rua Yidpjs Idqdasyrg
+e v021 v022 - - 35 11.000000 Rua Mknpwhrc Nvdxul
+e v022 v021 - - 35 12.000000 Rua Vusfzkkzci Icjwnzl
+e v021 v032 - - 35 10.000000 Rua Dmhsj Pdyrp
+e v032 v021 - - 35 23.000000 Rua Hcmrmnwxeg Pdoqoy
+e v022 v033 - - 35 24.000000 Rua Mimvudbuvq Kxtxqgkm
+e v033 v022 - - 35 1.000000 Rua Vegyvwotx Hhwebzf
+e v023 v024 - - 35 18.000000 Rua Xnhuhgn Qbsjwypw
+e v024 v023 - - 35 3.000000 Rua Lomvvttaxs Trfiybpeoc
+e v023 v034 - - 35 17.000000 Rua Wfmvwlq Yfatawoct
+e v034 v023 - - 35 7.000000 Rua Oxrwxsm Hqcznjnk
+e v024 v025 - - 35 15.000000 Rua Cuwhurksf Loyznpwnk
+e v025 v024 - - 35 4.000000 Rua Rasspcf Kecgclcu
+e v024 v035 - - 35 30.000000 Rua Bkgpki Cgsmqk
+e v035 v024 - - 35 25.000000 Rua Dxghcht Lzlxbhu
+e v025 v026 - - 35 29.000000 Rua Ghatp Xvzjlj
+e v026 v025 - - 35 22.000000 Rua Onjvrtoaep Dtuarcgyeb
+e v025 v036 - - 35 22.000000 Rua Ykijvuzzim Ggdwgim
+e v036 v025 - - 35 19.000000 Rua Fnnyrwzwxo Yzshwmhx
+e v026 v027 - - 35 28.000000 Rua Icbnzhxl Lsrys
+e v027 v026 - - 35 6.000000 Rua Rhugosf Bduibre
+e v026 v037 - - 35 7.000000 Rua Fwupuf Hzjhsu
+e v037 v026 - - 35 25.000000 Rua Dapruw Vawebpi
+e v027 v028 - - 35 6.000000 Rua Pkfegnwn Hvedzqg
+e v028 v027 - - 35 27.000000 Rua Ztebqgau Revcufky
+e v027 v038 - - 35 3.000000 Rua Wbldys Zioap
+e v038 v027 - - 35 30.000000 Rua Vpmbrg Jlfnhnx
+e v028 v029 - - 35 29.000000 Rua Weeijdas Kgdzwav
+e v029 v028 - - 35 1.000000 Rua Wfthqgoen Bueyyjikok
+e v028 v039 - - 35 29.000000 Rua Ukxvj Sxkpefyvl
+e v039 v028 - - 35 6.000000 Rua Aqcxwcvhkh Ujqqwnmf
+e v029 v030 - - 35 25.000000 Rua Eyvif Ftkgtcjqyl
+e v030 v029 - - 35 7.000000 Rua Yvduhvldj Iydoybwe
+e v029 v040 - - 35 14.000000 Rua Xikqkvjlh Thuybbuoef
+e v040 v029 - - 35 18.000000 Rua Drccu Gqhfzrxl
+e v030 v031 - - 35 14.000000 Rua Ywfrfasgd Vktkyyd
+e v031 v030 - - 35 28.000000 Rua Xgionnpgl Vtbrzuy
+e v030 v041 - - 35 10.000000 Rua Feacovm Ussupa
+e v041 v030 - - 35 17.000000 Rua Psuvfz Zakyujzj
+e v031 v032 - - 35 4.000000 Rua Jusfijza Vqdaxs
+e v032 v031 - - 35 3.000000 Rua Pargz Txneww
+e v031 v042 - - 35 7.000000 Rua Iqwpafqdi Vlosfj
+e v042 v031 - - 35 18.000000 Rua Jfdjyyioe Kajushlsmb
+e v032 v033 - - 35 18.000000 Rua Psjfloo Kzdpkdpt
+e v033 v032 - - 35 24.000000 Rua Cetnylukgi Deeynjjdxi
+e v032 v043 - - 35 14.000000 Rua Nhjrwekqgo Tpxpbf
+e v043 v032 - - 35 2.000000 Rua Kbtiqct Cendtummqt
+e v033 v044 - - 35 14.000000 Rua Zluvatk Yisilltepm
+e v044 v033 - - 35 7.000000 Rua Sowmilyb Vlfjfaj
+e v034 v035 - - 35 4.000000 Rua Navhjg Emjso
+e v035 v034 - - 35 13.000000 Rua Cbxnmvqstb Cjynllc
+e v034 v045 - - 35 25.000000 Rua Jxpdbbp Puguxdjkbz
+e v045 v034 - - 35 1.000000 Rua Ccwndlzoo Xzkmdlps
+e v035 v036 - - 35 28.000000 Rua Onblsmxtlc Pelfjzeynr
+e v036 v035 - - 35 22.000000 Rua Djroylwfz Ineukxhonz
+e v035 v046 - - 35 29.000000 Rua Eezkemdzb Kuwji
+e v046 v035 - - 35 8.000000 Rua Jebwivjff Seutkbsu
+e v036 v037 - - 35 9.000000 Rua Zhkfrebc Vvwzw
+e v037 v036 - - 35 24.000000 Rua Tdpydj Zeqaxmggl
+e v036 v047 - - 35 18.000000 Rua Qgwrjln Jocfy
+e v047 v036 - - 35 6.000000 Rua Nwoycpdtqc Yirnahty
+e v037 v038 - - 35 23.000000 Rua Lqkuema Kltgb
+e v038 v037 - - 35 9.000000 Rua Qxdibjg Ctllnl
+e v037 v048 - - 35 9.000000 Rua Xeetls Peglkjdv
+e v048 v037 - - 35 28.000000 Rua Aidlronkb Zmptjwzd
+e v038 v039 - - 35 17.000000 Rua Yyyhliqo Ssgdvr
+e v039 v038 - - 35 15.000000 Rua Hgmigzxz Vapetodrx
+e v038 v049 - - 35 21.000000 Rua Nfjiz Lvjhgsnvct
+e v049 v038 - - 35 19.000000 Rua Uexuwbqk Jjvlwcv
+e v039 v040 - - 35 7.000000 Rua Otyxahrqct Yvgescatum
+e v040 v039 - - 35 3.000000 Rua Vxpub Aebwf
+e v039 v050 - - 35 28.000000 Rua Muoqnao Iucmvwhhy
+e v050 v039 - - 35 15.000000 Rua Xczyrbcuxh Wvskngmbq
+e v040 v041 - - 35 17.000000 Rua Tjtrs Rffoj
+e v041 v040 - - 35 20.000000 Rua Ciqyfaxbx Olxcoozkjk
+e v040 v051 - - 35 6.000000 Rua Cgtjn Uuvxelxjnu
+e v051 v040 - - 35 21.000000 Rua Mdyjfmxe Goeismbd
+e v041 v042 - - 35 21.000000 Rua Yyfxctung Ctdftmlg
+e v042 v041 - - 35 18.000000 Rua Hugnda Geerecw
+e v041 v052 - - 35 29.000000 Rua Rvtamwtpb Eovqgemorr
+e v052 v041 - - 35 2.000000 Rua Yuxryz Bhhxbh
+e v042 v043 - - 35 8.000000 Rua Cdcrhr Zxslnkdbd
+e v043 v042 - - 35 27.000000 Rua Buycj Ksznzkmen
+e v042 v053 - - 35 20.000000 Rua Whkvge Vomzurxxnx
+e v053 v042 - - 35 27.000000 Rua Xlrwysj Wwfutoe
+e v043 v044 - - 35 20.000000 Rua Kzqznpvg Stmts
+e v044 v043 - - 35 21.000000 Rua Jkfdtuarzu Nadkk
+e v043 v054 - - 35 23.000000 Rua Luugajauxu Kzxugan
+e v054 v043 - - 35 14.000000 Rua Fbyrpawzn Eyxzhxkh
+e v044 v055 - - 35 17.000000 Rua Dhteeo Hdnlip
+e v055 v044 - - 35 29.000000 Rua Gkahx Myanhaxotg
+e v045 v046 - - 35 29.000000 Rua Zyhpjqtz Doohw
+e v046 v045 - - 35 10.000000 Rua Dylpw Cdmbthj
+e v045 v056 - - 35 14.000000 Rua Louazkv Ozocgkdoo
+e v056 v045 - - 35 3.000000 Rua Fzqkecnxl Nwibsk
+e v046 v047 - - 35 20.000000 Rua Gztfpxnac Qdgvcwhia
+e v047 v046 - - 35 27.000000 Rua Lsvjcybmy Uzbbp
+e v046 v057 - - 35 23.000000 Rua Rdthiz Nxmvxhb
+e v057 v046 - - 35 17.000000 Rua Yudwxrxf Yinnleg
+e v047 v048 - - 35 8.000000 Rua Nwyulv Hsnkdoj
+e v048 v047 - - 35 3.000000 Rua Hykeeydoos Szpsoo
+e v047 v058 - - 35 1.000000 Rua Zoogidtnt Mmjnz
+e v058 v047 - - 35 23.000000 Rua Xthlljgmay Oqlqecwphr
+e v048 v049 - - 35 6.000000 Rua Vrpfeovxoq Bbphqqf
+e v049 v048 - - 35 20.000000 Rua Yewei Tqmyti
+e v048 v059 - - 35 14.000000 Rua Ptbms Cyqfqyvi
+e v059 v048 - - 35 10.000000 Rua Qfxnk Kfxwdsgs
+e v049 v050 - - 35 29.000000 Rua Nejhtn Ltyjq
+e v050 v049 - - 35 17.000000 Rua Hyygnilx Jutbcmgyb
+e v049 v060 - - 35 25.000000 Rua Jfxrrsrciz Rzsxnclk
+e v060 v049 - - 35 17.000000 Rua Gmzjygj Qskwrdpjur
+e v050 v051 - - 35 28.000000 Rua Nnxhnmjy Cwfovqo
+e v051 v050 - - 35 30.000000 Rua Rwtesl Jweaqb
+e v050 v061 - - 35 11.000000 Rua Yutkerj Pqykgoohf
+e v061 v050 - - 35 7.000000 Rua Jentnkxnc Dibxbnd
+e v051 v052 - - 35 25.000000 Rua Ljoluuz Dhues
+e v052 v051 - - 35 9.000000 Rua Lpfkeilh Mhuzkoy
+e v051 v062 - - 35 5.000000 Rua Ojsllco Yskao
+e v062 v051 - - 35 27.000000 Rua Tivdvdwjmq Welucz
+e v052 v053 - - 35 21.000000 Rua Ktaznat Ajxrfipidu
+e v053 v052 - - 35 18.000000 Rua Gwacdlzfkh Xaeynftmh
+e v052 v063 - - 35 30.000000 Rua Biuqszkzo Xouab
+e v063 v052 - - 35 17.000000 Rua Ocmle Ltxeihh
+e v053 v054 - - 35 22.000000 Rua Rqakrmlgc Wylyu
+e v054 v053 - - 35 9.000000 Rua Yhzdz Yzoggycqr
+e v053 v064 - - 35 19.000000 Rua Dkeosiz Ikmcdad
+e v064 v053 - - 35 9.000000 Rua Iljgka Syrkrk
+e v054 v055 - - 35 6.000000 Rua Wijosiebsr Xrijtqxc
+e v055 v054 - - 35 5.000000 Rua Coccfo Rtpndadwl
+e v054 v065 - - 35 21.000000 Rua Dbcdul Ndlqcvu
+e v065 v054 - - 35 18.000000 Rua Zypvpkmf Mimxs
+e v055 v066 - - 35 14.000000 Rua Vngqawfe Xifsbgt
+e v066 v055 - - 35 29.000000 Rua Oqgavwmg Mytpwgx
+e v056 v057 - - 35 5.000000 Rua Trndpxkjas Zqssy
+e v057 v056 - - 35 6.000000 Rua Ugtcsuxjqd Emcvbhm
+e v056 v067 - - 35 24.000000 Rua Vbmzdcrva Iwueamaxyq
+e v067 v056 - - 35 14.000000 Rua Upirtsgum Xadafw
+e v057 v058 - - 35 19.000000 Rua Iieeme Ocqefxa
+e v058 v057 - - 35 28.000000 Rua Tpzzln Jqilve
+e v057 v068 - - 35 20.000000 Rua Otgsfll Nbzuabqiug
+e v068 v057 - - 35 26.000000 Rua Rxzcnhq Nbmcu
+e v058 v059 - - 35 20.000000 Rua Zghuvlv Nwfvsn
+e v059 v058 - - 35 18.000000 Rua Hepjtyz Mapqwkmvqw
+e v058 v069 - - 35 16.000000 Rua Jocwmisfvz Cdlowl
+e v069 v058 - - 35 25.000000 Rua Xsqnob Mryffhuhd
+e v059 v060 - - 35 30.000000 Rua Xnpwjr Whxhzyhrpu
+e v060 v059 - - 35 2.000000 Rua Wtjub Dxyhdpgte
+e v059 v070 - - 35 25.000000 Rua Yeahejg Qztnjllcx
+e v070 v059 - - 35 21.000000 Rua Nlcnuifbbj Fjkhr
+e v060 v061 - - 35 7.000000 Rua Zvjbo Kcjobruqd
+e v061 v060 - - 35 5.000000 Rua Zgjah Gogtvzj
+e v060 v071 - - 35 29.000000 Rua Exbvvlx Aaywqdu
+e v071 v060 - - 35 2.000000 Rua Bffkcnzig Hqkhujj
+e v061 v062 - - 35 14.000000 Rua Uonuqns Qnduol
+e v062 v061 - - 35 26.000000 Rua Npzxx Englkqu
+e v061 v072 - - 35 18.000000 Rua Pslliyerq Xnjiojxfjw
+e v072 v061 - - 35 15.000000 Rua Aqnnadie Zwpme
+e v062 v063 - - 35 26.000000 Rua Wgltt Diecn
+e v063 v062 - - 35 3.000000 Rua Suajhnl Xprynglswd
+e v062 v073 - - 35 30.000000 Rua Rlwlqgruwg Ocuzkjl
+e v073 v062 - - 35 12.000000 Rua Cshqau Xaccr
+e v063 v064 - - 35 23.000000 Rua Edhwx Erthntty
+e v064 v063 - - 35 5.000000 Rua Hkkramlml Onedqjgzhf
+e v063 v074 - - 35 12.000000 Rua Yxsnqlmy Vjrmleay
+e v074 v063 - - 35 5.000000 Rua Ofssvbyuig Vgxouob
+e v064 v065 - - 35 1.000000 Rua Hdxaq Eqjwdxbvpw
+e v065 v064 - - 35 4.000000 Rua Siwqeen Ydxgsgk
+e v064 v075 - - 35 15.000000 Rua Calujh Hkvygt
+e v075 v064 - - 35 2.000000 Rua Cmqirgc Lzyfgk
+e v065 v066 - - 35 23.000000 Rua Mzagjkfswa Fuhfyvwgm
+e v066 v065 - - 35 18.000000 Rua Grjexroug Tjievnyrq
+e v065 v076 - - 35 17.000000 Rua Kycktaqig Oxluufkqn
+e v076 v065 - - 35 4.000000 Rua Wwstjrnzg Lgnxzpph
+e v066 v077 - - 35 15.000000 Rua Xvfrpkbi Pwwlorxf
+e v077 v066 - - 35 12.000000 Rua Nqmtfjvvz Sqapvthhx
+e v067 v068 - - 35 21.000000 Rua Mldyzw Hbvuth
+e v068 v067 - - 35 15.000000 Rua Rlvsnqi Fglmnidu
+e v067 v078 - - 35 2.000000 Rua Zsqwpxz Rsuhqnso
+e v078 v067 - - 35 15.000000 Rua Eqzlw Ylubipshj
+e v068 v069 - - 35 24.000000 Rua Bfgoyyii Wcfdml
+e v069 v068 - - 35 18.000000 Rua Wpaubvyjk Svyawfgkf
+e v068 v079 - - 35 17.000000 Rua Pytudwio Wmhxhksht
+e v079 v068 - - 35 30.000000 Rua Ozxowewilb Bzyxevfu
+e v069 v070 - - 35 4.000000 Rua Hwbqh Xcxwqwtgux
+e v070 v069 - - 35 3.000000 Rua Igilihim Qhtuqpvgw
+e v069 v080 - - 35 6.000000 Rua Bnbtjwagtf Dltrta
+e v080 v069 - - 35 21.000000 Rua Grrbl Tgprwu
+e v070 v071 - - 35 3.000000 Rua Vmvrmbmt Refkaio
+e v071 v070 - - 35 1.000000 Rua Fbstilbzc Tvlqj
+e v070 v081 - - 35 4.000000 Rua Vjxqvqwb Wlpgbw
+e v081 v070 - - 35 11.000000 Rua Rrgvql Ligdrpmo
+e v071 v072 - - 35 4.000000 Rua Ewcazf Kwfnupjoip
+e v072 v071 - - 35 10.000000 Rua Cgmkoq Deresvauyb
+e v071 v082 - - 35 2.000000 Rua Lzeyvthj Zudbaroph
+e v082 v071 - - 35 5.000000 Rua Ojygeac Bfbmegnbz
+e v072 v073 - - 35 26.000000 Rua Dxfibiapzj Tzpsfws
+e v073 v072 - - 35 19.000000 Rua Wocisix Jwhptoz
+e v072 v083 - - 35 10.000000 Rua Blxlsrk Lshfbi
+e v083 v072 - - 35 8.000000 Rua Mmkwl Fhpwbew
+e v073 v074 - - 35 20.000000 Rua Xjckd Xogrwnue
+e v074 v073 - - 35 20.000000 Rua Qdxmqft Vsbbqaf
+e v073 v084 - - 35 11.000000 Rua Haoczfks Ymhpzx
+e v084 v073 - - 35 28.000000 Rua Lkdgkyylb Mhgxqioth
+e v074 v075 - - 35 10.000000 Rua Bubnbsmaok Zotjosxsil
+e v075 v074 - - 35 26.000000 Rua Ipyykhroi Rwqmiqavdb
+e v074 v085 - - 35 11.000000 Rua Lztkrdvsuf Seuaxkine
+e v085 v074 - - 35 1.000000 Rua Qpwsmb Xahwtrqxo
+e v075 v076 - - 35 28.000000 Rua Vulbpl Buofarxr
+e v076 v075 - - 35 6.000000 Rua Drkctrb Krmabf
+e v075 v086 - - 35 6.000000 Rua Qxncy Ymuafru
+e v086 v075 - - 35 7.000000 Rua Zotchmduyw Yxnuvgt
+e v076 v077 - - 35 9.000000 Rua Rxiftkkmg Wgvrkd
+e v077 v076 - - 35 11.000000 Rua Zelidixzgd Onlnxqi
+e v076 v087 - - 35 15.000000 Rua Vqityfkii Xivis
+e v087 v076 - - 35 10.000000 Rua Rzzvtnkg Kwluygmi
+e v077 v088 - - 35 22.000000 Rua Omtycrixba Uuytprjb
+e v088 v077 - - 35 10.000000 Rua Lvxhwgueh Utatwt
+e v078 v079 - - 35 29.000000 Rua Vetpyr Pluskggidn
+e v079 v078 - - 35 15.000000 Rua Jktqfm Akmbghhzzf
+e v078 v089 - - 35 5.000000 Rua Wfepq Vypkebwow
+e v089 v078 - - 35 5.000000 Rua Ifttsxzbea Msmkaqzqc
+e v079 v080 - - 35 19.000000 Rua Sjuvfir Ebzxwt
+e v080 v079 - - 35 24.000000 Rua Ubxxps Zsabkc
+e v079 v090 - - 35 7.000000 Rua Wiwtn Mhkoiimbe
+e v090 v079 - - 35 19.000000 Rua Hjuwde Xgzjk
+e v080 v081 - - 35 29.000000 Rua Jhhcuordyf Itopfmwp
+e v081 v080 - - 35 16.000000 Rua Umtsus Fqnoxwsumj
+e v080 v091 - - 35 20.000000 Rua Qnvkdmprlg Gbobt
+e v091 v080 - - 35 16.000000 Rua Wqnlenky Wiijyv
+e v081 v082 - - 35 27.000000 Rua Btasegsmj Neskbkyo
+e v082 v081 - - 35 12.000000 Rua Youvwcgx Nhbhh
+e v081 v092 - - 35 16.000000 Rua Qoazxp Rchba
+e v092 v081 - - 35 5.000000 Rua Nwhhre Xblnimwsij
+e v082 v083 - - 35 7.000000 Rua Llvdrofyr Wkusrblvmi
+e v083 v082 - - 35 16.000000 Rua Xjmtd Dnsqa
+e v082 v093 - - 35 18.000000 Rua Sdaswh Gbgyerv
+e v093 v082 - - 35 6.000000 Rua Urbddviay Uoxkkp
+e v083 v084 - - 35 29.000000 Rua Imuwsxf Cyovc
+e v084 v083 - - 35 2.000000 Rua Entzv Zsqppazh
+e v083 v094 - - 35 11.000000 Rua Pdinyfs Jtegx
+e v094 v083 - - 35 15.000000 Rua Bdocajbsz Kbsrtggy
+e v084 v085 - - 35 5.000000 Rua Wwqphj Ogkiknym
+e v085 v084 - - 35 2.000000 Rua Qihhs Blekrcapzy
+e v084 v095 - - 35 22.000000 Rua Gojuw Cgldvb
+e v095 v084 - - 35 10.000000 Rua Juuefx Jhjokypi
+e v085 v086 - - 35 26.000000 Rua Otqkrmpa Svadglza
+e v086 v085 - - 35 8.000000 Rua Xjqhsers Bzassrcl
+e v085 v096 - - 35 21.000000 Rua Lelggo Roojv
+e v096 v085 - - 35 21.000000 Rua Lxosq Nrholzhom
+e v086 v087 - - 35 29.000000 Rua Ystgyj Rzlcwbwk
+e v087 v086 - - 35 7.000000 Rua Cospi Ftaojnctnu
+e v086 v097 - - 35 3.000000 Rua Uzqmbeqxfn Gzjwub
+e v097 v086 - - 35 8.000000 Rua Iawxjlzeaw Vqsmets
+e v087 v088 - - 35 1.000000 Rua Xkafjlc Ogzzix
+e v088 v087 - - 35 8.000000 Rua Kzykv Foltsennwl
+e v087 v098 - - 35 29.000000 Rua Sjkuo Dpzloxfyx
+e v098 v087 - - 35 26.000000 Rua Uxsiinbob Moqlg
+e v088 v099 - - 35 15.000000 Rua Bpxghzrvyz Vdgqc
+e v099 v088 - - 35 21.000000 Rua Kmbyn Kdkxjlumc
+e v089 v090 - - 35 6.000000 Rua Jtkhrjd Ojhqkhcw
+e v090 v089 - - 35 1.000000 Rua Lfmop Xcekg
+e v089 v100 - - 35 29.000000 Rua Qtoznzccp Lfxshtdj
+e v100 v089 - - 35 23.000000 Rua Yubiudogm Kekbdx
+e v090 v091 - - 35 17.000000 Rua Bsumxs Hnksuxqqya
+e v091 v090 - - 35 17.000000 Rua Rsqifus Zsigt
+e v090 v101 - - 35 25.000000 Rua Gaunj Zbgwu
+e v101 v090 - - 35 2.000000 Rua Wjdndt Ipqqoi
+e v091 v092 - - 35 25.000000 Rua Dbwjdty Daqjykhvi
+e v092 v091 - - 35 12.000000 Rua Wytti Jzarawx
+e v091 v102 - - 35 16.000000 Rua Ghqhvtjleh Nfggfceb
+e v102 v091 - - 35 23.000000 Rua Nhnoapk Vhgexpzs
+e v092 v093 - - 35 22.000000 Rua Wfkmmssu Yxsmkbcyb
+e v093 v092 - - 35 5.000000 Rua Zouhuswu Ujjbtvqmp
+e v092 v103 - - 35 22.000000 Rua Phcdr Fshzfipzpk
+e v103 v092 - - 35 8.000000 Rua Gehppk Maybm
+e v093 v094 - - 35 2.000000 Rua Vlvpr Hycmitnz
+e v094 v093 - - 35 20.000000 Rua Mnnveefp Iptuy
+e v093 v104 - - 35 7.000000 Rua Mghdjodnc Jrmoyy
+e v104 v093 - - 35 15.000000 Rua Tipazhkp Hpnzbwg
+e v094 v095 - - 35 13.000000 Rua Wjxyyg Kwqkaddlvg
+e v095 v094 - - 35 16.000000 Rua Qbfxruw Qebaakxal
+e v094 v105 - - 35 11.000000 Rua Vbkgenl Krzpkdwhus
+e v105 v094 - - 35 6.000000 Rua Lkplncknn Hisrqwhclt
+e v095 v096 - - 35 22.000000 Rua Ifqgpmzxak Sxwuhmjy
+e v096 v095 - - 35 13.000000 Rua Qlknuoanjn Rfggrfdur
+e v095 v106 - - 35 30.000000 Rua Qlixxrx Kodwb
+e v106 v095 - - 35 25.000000 Rua Bnwrn Wtvqbyku
+e v096 v097 - - 35 4.000000 Rua Lxekuvi Hyqgzqsc
+e v097 v096 - - 35 2.000000 Rua Tudsn Iqwsl
+e v096 v107 - - 35 3.000000 Rua Yiukfru Ysietaz
+e v107 v096 - - 35 6.000000 Rua Nrbrjp Tholuzbu
+e v097 v098 - - 35 7.000000 Rua Hombgnwrtr Spbijczutq
+e v098 v097 - - 35 11.000000 Rua Ezxfds Azfnco
+e v097 v108 - - 35 18.000000 Rua Hvsaq Bysgxn
+e v108 v097 - - 35 15.000000 Rua Bcwcadhu Itcxxqzyx
+e v098 v099 - - 35 5.000000 Rua Xmdbmwh Libmnxqn
+e v099 v098 - - 35 15.000000 Rua Jviezfb Ebocvlpz
+e v098 v109 - - 35 8.000000 Rua Xxnigowtnm Pmtmuxl
+e v109 v098 - - 35 14.000000 Rua Afcoizczy Cxqrfwh
+e v099 v110 - - 35 10.000000 Rua Uqbkeuwb Icrkkv
+e v110 v099 - - 35 4.000000 Rua Vdtvxvt Pylwccru
+e v100 v101 - - 35 25.000000 Rua Yzbbslek Ohxic
+e v101 v100 - - 35 30.000000 Rua Yzarppra Tffnkiokj
+e v100 v111 - - 35 11.000000 Rua Xtotjwsra Wyvxr
+e v111 v100 - - 35 18.000000 Rua Jnyesds Ngozxtwrj
+e v101 v102 - - 35 3.000000 Rua Hjwifsi Pcpcnecrw
+e v102 v101 - - 35 27.000000 Rua Atrrupmq Vhkfs
+e v101 v112 - - 35 27.000000 Rua Xzzcqbts Xvgvdrv
+e v112 v101 - - 35 30.000000 Rua Otaali Tudldsler
+e v102 v103 - - 35 4.000000 Rua Vipjfmrap Xpwmkwowgk
+e v103 v102 - - 35 10.000000 Rua Pcfhpjz Gwmvf
+e v102 v113 - - 35 17.000000 Rua Ztykrngf Etwmgnovp
+e v113 v102 - - 35 21.000000 Rua Hfgllcyg Rpilnued
+e v103 v104 - - 35 23.000000 Rua Dgezsmmjid Pkkvyyxw
+e v104 v103 - - 35 17.000000 Rua Pwrcl Goottuyspm
+e v103 v114 - - 35 15.000000 Rua Widlu Gsnfqu
+e v114 v103 - - 35 3.000000 Rua Qdidqru Knbkg
+e v104 v105 - - 35 9.000000 Rua Mqvuvhrkpj Vcsji
+e v105 v104 - - 35 23.000000 Rua Snelhjy Mkdcjpufmp
+e v104 v115 - - 35 11.000000 Rua Zdozyq Habvtrcg
+e v115 v104 - - 35 10.000000 Rua Evzpabyq Demrjn
+e v105 v106 - - 35 15.000000 Rua Nvqefq Alzcszp
+e v106 v105 - - 35 11.000000 Rua Onxrmp Rvcle
+e v105 v116 - - 35 14.000000 Rua Edduj Mtlau
+e v116 v105 - - 35 25.000000 Rua Whqtxes Skhlfmykcg
+e v106 v107 - - 35 14.000000 Rua Mkswym Ygbsci
+e v107 v106 - - 35 21.000000 Rua Hpsajc Ujutv
+e v106 v117 - - 35 13.000000 Rua Lhpxzmwl Wsypwiau
+e v117 v106 - - 35 5.000000 Rua Mqaqau Wpxutkbiib
+e v107 v108 - - 35 9.000000 Rua Oucis Fbrbtipl
+e v108 v107 - - 35 21.000000 Rua Ofgkwffrqi Ylwgasiil
+e v107 v118 - - 35 1.000000 Rua Ovqjgfuq Kxvvu
+e v118 v107 - - 35 23.000000 Rua Nqknqym Yehirlahg
+e v108 v109 - - 35 12.000000 Rua Oynfkxchs Iumahbt
+e v109 v108 - - 35 9.000000 Rua Rfuypl Rtukjiiynu
+e v108 v119 - - 35 17.000000 Rua Cqqmn Mugfbtx
+e v119 v108 - - 35 17.000000 Rua Xzblrufbfn Edhcvl
+e v109 v110 - - 35 23.000000 Rua Xfqkbwrerq Hooibhe
+e v110 v109 - - 35 26.000000 Rua Lvvryctvo Hnvzx
+e v109 v120 - - 35 15.000000 Rua Rbqhqxxefy Lgxxcsoawk
+e v120 v109 - - 35 22.000000 Rua Yfatgzs Qwvamtxsay
+e v110 v121 - - 35 25.000000 Rua Eclgw Jsnhfl
+e v121 v110 - - 35 21.000000 Rua Hwebbxxw Lruduu
+e v111 v112 - - 35 16.000000 Rua Zmthiwqdk Ixnpgltims
+e v112 v111 - - 35 20.000000 Rua Ptemyy Jgfxbngyf
+e v112 v113 - - 35 21.000000 Rua Fthukog Yuyffnakzz
+e v113 v112 - - 35 6.000000 Rua Irlfu Nuiyentmj
+e v113 v114 - - 35 29.000000 Rua Rjamhhrwi Whoerhrwds
+e v114 v113 - - 35 26.000000 Rua Akcpe Ahsssuebe
+e v114 v115 - - 35 30.000000 Rua Odwvtam Rkflwdn
+e v115 v114 - - 35 15.000000 Rua Cladutx Pbqvyojd
+e v115 v116 - - 35 16.000000 Rua Wmuye Epbjdkrh
+e v116 v115 - - 35 18.000000 Rua Msnjhekxa Ojoasnnmlt
+e v116 v117 - - 35 29.000000 Rua Kvbnfsxd Jvbve
+e v117 v116 - - 35 24.000000 Rua Disttj Lwjyjcr
+e v117 v118 - - 35 22.000000 Rua Oacuuzxjk Kfysndc
+e v118 v117 - - 35 28.000000 Rua Wqrjocjygd Srbwlv
+e v118 v119 - - 35 8.000000 Rua Gigrn Lckok
+e v119 v118 - - 35 11.000000 Rua Ccxte Rkkqebtbpo
+e v119 v120 - - 35 2.000000 Rua Vgiowqbaap Jdplbirib
+e v120 v119 - - 35 27.000000 Rua Tgvmjmcho Qynoop
+e v120 v121 - - 35 1.000000 Rua Gbakqo Afvbjp
+e v121 v120 - - 35 1.000000 Rua Mgazih Iznxnd

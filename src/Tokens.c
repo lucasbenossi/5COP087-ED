@@ -5,34 +5,34 @@
 #include <stdlib.h>
 
 struct _tokens{
-    char *string;
-    char *delimiters;
-    int size;
-    char **array;
+	char *string;
+	char *delimiters;
+	int size;
+	char **array;
 };
 
 Tokens *createTokens( char *delimiters ){
-    Tokens *tokens;
-    tokens = malloc(sizeof(Tokens));
-    tokens->string = NULL;
-    tokens->delimiters = createString(delimiters);
-    tokens->size = 0;
-    tokens->array = NULL;
-    return tokens;
+	Tokens *tokens;
+	tokens = malloc(sizeof(Tokens));
+	tokens->string = NULL;
+	tokens->delimiters = createString(delimiters);
+	tokens->size = 0;
+	tokens->array = NULL;
+	return tokens;
 }
 
 void destroyTokens( Tokens *tokens ){
 	freeTokens(tokens);
-    destroyString(tokens->delimiters);
+	destroyString(tokens->delimiters);
 	free(tokens);
 }
 
 void defineTokens( Tokens *tokens, char *string ){
-    List *list;
+	List *list;
 	char *token;
 	int i;
 
-    freeTokens(tokens);
+	freeTokens(tokens);
 
 	tokens->string = createString(string);
 	list = createList();
@@ -55,16 +55,16 @@ void defineTokens( Tokens *tokens, char *string ){
 }
 
 void freeTokens( Tokens *tokens ){
-    destroyString( tokens->string );
-    tokens->string = NULL;
+	destroyString( tokens->string );
+	tokens->string = NULL;
 	if( tokens->array != NULL ){
 		free( tokens->array );
-        tokens->array = NULL;
+	    tokens->array = NULL;
 	}
 }
 
 int getTokensSize( Tokens *tokens ){
-    return tokens->size;
+	return tokens->size;
 }
 
 char *getToken( Tokens *tokens, int i ){

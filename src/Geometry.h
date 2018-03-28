@@ -19,13 +19,15 @@ Calcula o quadrado da distancia entre os pontos (x1,y1) e (x2,y2)
 */
 double distancePointsSquared( double x1, double y1, double x2, double y2 );
 
+double *getQuadraticCurve( double xu, double yu, double xv, double yv );
+
 /*
 Ponto raiz divide o plano em quatro quadrantes.
 Retorna em qual plano o ponto (x,y) está:
-    1 = NE
-    2 = NW
-    3 = SW
-    4 = SE
+	1 = NE
+	2 = NW
+	3 = SW
+	4 = SE
 */
 int quadrantPointRoot( double rootX, double rootY, double x, double y );
 

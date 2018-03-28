@@ -10,7 +10,7 @@ Variaveis usadas nas funcoes definidas por esse arquivo:
 *line = string para a linha de comando sendo processada
 *file = string com o nome do arquivo de saida
 *fixedDir = string com o diretorio do arquivo de saida, ja corrigido pela funcao
-    fixDir(), definida em "ProcString.h"
+	fixDir(), definida em "ProcString.h"
 */
 
 /*

@@ -11,4 +11,6 @@ int parserPm( char *command );
 
 int parserTm( char *command );
 
+int parserVia( char *command );
+
 #endif

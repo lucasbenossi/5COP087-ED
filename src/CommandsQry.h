@@ -2,6 +2,7 @@
 #define COMMANDSQRY_H
 #include "Cidade.h"
 #include "Resumo.h"
+#include "Tokens.h"
 #include <stdio.h>
 
 /*
@@ -66,5 +67,9 @@ void commandListaTiposCep( char *line, Cidade *cidade, FILE *outFileTxt );
 void commandListaTiposRegion( char *line, Cidade *cidade, FILE *outFileTxt );
 
 void commandDadosUsuarioLinhaMovel( char *line, int commandId, Cidade *cidade, FILE *outFileTxt );
+
+void commandRegistrador( char *line, int commandId, Cidade *cidade, FILE *outFileTxt );
+
+void commandDijkstra( char *line, Tokens *tokens, Cidade *cidade, FILE *outFileTxt, char *nameFileGeo, char *outDir );
 
 #endif

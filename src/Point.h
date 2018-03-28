@@ -18,6 +18,7 @@ Point *createPoint( double x, double y, char *id, char *fill, char *stroke );
 Desaloca memória de uma instancia de Point
 */
 void destroyPoint( Point *p );
+void destroyPointVoid( void *p );
 
 /*
 Recebe o ponteiro para uma instancia de Point e retorna seu parametro x

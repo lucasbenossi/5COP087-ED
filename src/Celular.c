@@ -33,6 +33,10 @@ int destroyCelular( Celular *celular ){
 	return 0;
 }
 
+void destroyCelularVoid( void *celular ){
+	destroyCelular(celular);
+}
+
 void celularConecta( Celular *celular, char *torreId, Endereco *endereco ){
 	celular->torreId = createString(torreId);
 	celular->endereco = endereco;

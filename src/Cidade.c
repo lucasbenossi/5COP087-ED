@@ -12,162 +12,182 @@
 #include "HashTable.h"
 #include "Operadora.h"
 #include "Endereco.h"
-
-static void destroyObjData_Wrapper( void *data ){
-    destroyObjData(data);
-}
-
-static void destroyString_Wrapper( void *data ){
-    destroyString(data);
-}
-
-static void destroyEstabComercial_Wrapper( void *data ){
-    destroyEstabComercial(data);
-}
-
-static void destroyPessoa_Wrapper( void *data ){
-    destroyPessoa(data);
-}
+#include "Graph.h"
+#include "Rua.h"
+#include "FuncDestroyData.h"
 
 /* ========================================================================== */
 
 struct _cidade{
-    char *nome;
-    List *quadrasList;
-    QuadTree *quadrasQT; /* Object->Quadra */
-    HashTable *quadrasHT; /* cep X Object->Quadra */
-    char *quadrasFill;
-    char *quadrasStroke;
-    List *hidrantesList;
-    QuadTree *hidrantesQT; /* Object->Hidrante */
-    HashTable *hidrantesHT; /* id X Object->Hidrante */
-    char *hidrantesFill;
-    char *hidrantesStroke;
-    List *semaforosList;
-    QuadTree *semaforosQT; /* Object->Semaforo */
-    HashTable *semaforosHT; /* id X Object->Semaforo */
-    char *semaforosFill;
-    char *semaforosStroke;
-    List *torresList;
-    QuadTree *torresQT; /* Object->Torre */
-    HashTable *torresHT; /* id X Object->Torre */
-    char *torresFill;
-    char *torresStroke;
-    HashTable *descricoes; /* codt X String */
-    HashTable *estabComerciais;/* cnpj X EstabComercial */
-    HashTable *pessoas; /* cpf X Pessoa */
+	char *nome;
+	List *quadrasList; /* Object->Quadra */
+	QuadTree *quadrasQT; /* Object->Quadra */
+	HashTable *quadrasHT; /* cep X Object->Quadra */
+	char *quadrasFill;
+	char *quadrasStroke;
+	List *hidrantesList; /* Object->Point */
+	QuadTree *hidrantesQT; /* Object->Point */
+	HashTable *hidrantesHT; /* id X Object->Point */
+	char *hidrantesFill;
+	char *hidrantesStroke;
+	List *semaforosList; /* Object->Point */
+	QuadTree *semaforosQT; /* Object->Point */
+	HashTable *semaforosHT; /* id X Object->Point */
+	char *semaforosFill;
+	char *semaforosStroke;
+	List *torresList; /* Object->Point */
+	QuadTree *torresQT; /* Object->Point */
+	HashTable *torresHT; /* id X Object->Point */
+	char *torresFill;
+	char *torresStroke;
+	HashTable *descricoes; /* codt X String */
+	HashTable *estabComerciais;/* cnpj X EstabComercial */
+	HashTable *pessoas; /* cpf X Pessoa */
 	HashTable *defuntos; /* cpf X Pessoa */
-    Operadora *sercomtuel;
-    Operadora *uelmobile;
-    int method;
+	Operadora *sercomtuel;
+	Operadora *uelmobile;
+	List *verticesList; /* Object->Point */
+	QuadTree *verticesQT; /* Object->Point */
+	HashTable *verticesHT; /* id X Point */
+	List *ruas;
+	Graph *malhaViaria;
+	HashTable *registradores; /* registrador X Point */
+	int method;
 };
 
 Cidade *createCidade(char *nome, int method){
-    Cidade *cidade = malloc(sizeof(Cidade));
+	Cidade *cidade = malloc(sizeof(Cidade));
 
-    cidade->nome = createString(nome);
+	cidade->nome = createString(nome);
 
-    cidade->quadrasList = createList();
-    cidade->quadrasQT = createQuadTree();
-    cidade->quadrasHT = createHashTable(SIZEHT);
-    cidade->quadrasFill = createString("rgb(153,204,255)");
-    cidade->quadrasStroke = createString("black");
+	cidade->quadrasList = createList();
+	cidade->quadrasQT = createQuadTree();
+	cidade->quadrasHT = createHashTable(HT_SIZE);
+	cidade->quadrasFill = createString("rgb(153,204,255)");
+	cidade->quadrasStroke = createString("black");
 
-    cidade->hidrantesList = createList();
-    cidade->hidrantesQT = createQuadTree();
-    cidade->hidrantesHT = createHashTable(SIZEHT);
-    cidade->hidrantesFill = createString("rgb(255,0,0)");
-    cidade->hidrantesStroke = createString("black");
+	cidade->hidrantesList = createList();
+	cidade->hidrantesQT = createQuadTree();
+	cidade->hidrantesHT = createHashTable(HT_SIZE);
+	cidade->hidrantesFill = createString("rgb(255,0,0)");
+	cidade->hidrantesStroke = createString("black");
 
-    cidade->semaforosList = createList();
-    cidade->semaforosQT = createQuadTree();
-    cidade->semaforosHT = createHashTable(SIZEHT);
-    cidade->semaforosFill = createString("rgb(153,153,153)");
-    cidade->semaforosStroke = createString("black");
+	cidade->semaforosList = createList();
+	cidade->semaforosQT = createQuadTree();
+	cidade->semaforosHT = createHashTable(HT_SIZE);
+	cidade->semaforosFill = createString("rgb(153,153,153)");
+	cidade->semaforosStroke = createString("black");
 
-    cidade->torresList = createList();
-    cidade->torresQT = createQuadTree();
-    cidade->torresHT = createHashTable(SIZEHT);
-    cidade->torresFill = createString("rgb(255,102,0)");
-    cidade->torresStroke = createString("black");
+	cidade->torresList = createList();
+	cidade->torresQT = createQuadTree();
+	cidade->torresHT = createHashTable(HT_SIZE);
+	cidade->torresFill = createString("rgb(255,102,0)");
+	cidade->torresStroke = createString("black");
 
-    cidade->descricoes = createHashTable(SIZEHT_SMALL);
-    cidade->estabComerciais = createHashTable(SIZEHT_LARGE);
+	cidade->descricoes = createHashTable(HT_SIZE_SMALL);
+	cidade->estabComerciais = createHashTable(HT_SIZE_LARGE);
 
-    cidade->pessoas = createHashTable(SIZEHT_LARGE);
-	cidade->defuntos = createHashTable(SIZEHT);
+	cidade->pessoas = createHashTable(HT_SIZE_LARGE);
+	cidade->defuntos = createHashTable(HT_SIZE);
 
-    cidade->sercomtuel = createOperadora("SercomtUEL", method);
-    cidade->uelmobile = createOperadora("UELMobile", method);
+	cidade->sercomtuel = createOperadora("SercomtUEL", method);
+	cidade->uelmobile = createOperadora("UELMobile", method);
 
-    cidade->method = method;
+	cidade->verticesList = createList();
+	cidade->verticesQT = createQuadTree();
+	cidade->verticesHT = createHashTable(HT_SIZE);
+	cidade->ruas = createList();
+	cidade->malhaViaria = createGraph();
+	cidade->registradores = createHashTable(HT_SIZE_SMALL);
 
-    return cidade;
+	cidade->method = method;
+
+	return cidade;
 }
 
 void destroyCidade(Cidade *cidade){
-    destroyString(cidade->nome);
+	destroyString(cidade->nome);
 
-    destroyList(cidade->quadrasList);
-    destroyQuadTree(cidade->quadrasQT);
-    destroyHashTable(cidade->quadrasHT, destroyObjData_Wrapper);
-    destroyString(cidade->quadrasFill);
-    destroyString(cidade->quadrasStroke);
+	destroyList(cidade->quadrasList);
+	destroyQuadTree(cidade->quadrasQT);
+	setHashTableFuncDestroyData(cidade->quadrasHT, destroyObjDataVoid);
+	destroyHashTable(cidade->quadrasHT);
+	destroyString(cidade->quadrasFill);
+	destroyString(cidade->quadrasStroke);
 
-    destroyList(cidade->hidrantesList);
-    destroyQuadTree(cidade->hidrantesQT);
-    destroyHashTable(cidade->hidrantesHT, destroyObjData_Wrapper);
-    destroyString(cidade->hidrantesFill);
-    destroyString(cidade->hidrantesStroke);
+	destroyList(cidade->hidrantesList);
+	destroyQuadTree(cidade->hidrantesQT);
+	setHashTableFuncDestroyData(cidade->hidrantesHT, destroyObjDataVoid);
+	destroyHashTable(cidade->hidrantesHT);
+	destroyString(cidade->hidrantesFill);
+	destroyString(cidade->hidrantesStroke);
 
-    destroyList(cidade->semaforosList);
-    destroyQuadTree(cidade->semaforosQT);
-    destroyHashTable(cidade->semaforosHT, destroyObjData_Wrapper);
-    destroyString(cidade->semaforosFill);
-    destroyString(cidade->semaforosStroke);
+	destroyList(cidade->semaforosList);
+	destroyQuadTree(cidade->semaforosQT);
+	setHashTableFuncDestroyData(cidade->semaforosHT, destroyObjDataVoid);
+	destroyHashTable(cidade->semaforosHT);
+	destroyString(cidade->semaforosFill);
+	destroyString(cidade->semaforosStroke);
 
-    destroyList(cidade->torresList);
-    destroyQuadTree(cidade->torresQT);
-    destroyHashTable(cidade->torresHT, destroyObjData_Wrapper);
-    destroyString(cidade->torresFill);
-    destroyString(cidade->torresStroke);
+	destroyList(cidade->torresList);
+	destroyQuadTree(cidade->torresQT);
+	setHashTableFuncDestroyData(cidade->torresHT, destroyObjDataVoid);
+	destroyHashTable(cidade->torresHT);
+	destroyString(cidade->torresFill);
+	destroyString(cidade->torresStroke);
 
-    destroyHashTable(cidade->descricoes, destroyString_Wrapper);
-    destroyHashTable(cidade->estabComerciais, destroyEstabComercial_Wrapper);
+	setHashTableFuncDestroyData(cidade->descricoes, destroyStringVoid);
+	destroyHashTable(cidade->descricoes);
+	setHashTableFuncDestroyData(cidade->estabComerciais, destroyEstabComercialVoid);
+	destroyHashTable(cidade->estabComerciais);
 
-    destroyHashTable(cidade->pessoas, destroyPessoa_Wrapper);
-	destroyHashTable(cidade->defuntos, destroyPessoa_Wrapper);
+	setHashTableFuncDestroyData(cidade->pessoas, destroyPessoaVoid);
+	destroyHashTable(cidade->pessoas);
+	setHashTableFuncDestroyData(cidade->defuntos, destroyPessoaVoid);
+	destroyHashTable(cidade->defuntos);
 
-    destroyOperadora(cidade->sercomtuel);
-    destroyOperadora(cidade->uelmobile);
+	destroyOperadora(cidade->sercomtuel);
+	destroyOperadora(cidade->uelmobile);
 
-    free(cidade);
+	destroyList(cidade->verticesList);
+	destroyObjQuadTree(cidade->verticesQT);
+	destroyHashTable(cidade->verticesHT);
+	setListFuncDestroyData(cidade->ruas, destroyRuaVoid);
+	destroyList(cidade->ruas);
+	destroyGraph(cidade->malhaViaria);
+	setHashTableFuncDestroyData(cidade->registradores, destroyPointVoid);
+	destroyHashTable(cidade->registradores);
+
+	free(cidade);
 }
 
 /* ========================================================================== */
 
 void cidadeFillDataStructures(Cidade *cidade){
-    int i;
-    List *list[4];
-    QuadTree *qt[4];
+	int i;
+	List *list[5];
+	QuadTree *qt[5];
 
-    operadoraFillDataStructures(cidade->sercomtuel);
-    operadoraFillDataStructures(cidade->uelmobile);
+	operadoraFillDataStructures(cidade->sercomtuel);
+	operadoraFillDataStructures(cidade->uelmobile);
 
-    list[0] = cidade->quadrasList;
-    list[1] = cidade->hidrantesList;
-    list[2] = cidade->semaforosList;
-    list[3] = cidade->torresList;
+	list[0] = cidade->quadrasList;
+	list[1] = cidade->hidrantesList;
+	list[2] = cidade->semaforosList;
+	list[3] = cidade->torresList;
+	list[4] = cidade->verticesList;
 
-    qt[0] = cidade->quadrasQT;
-    qt[1] = cidade->hidrantesQT;
-    qt[2] = cidade->semaforosQT;
-    qt[3] = cidade->torresQT;
+	qt[0] = cidade->quadrasQT;
+	qt[1] = cidade->hidrantesQT;
+	qt[2] = cidade->semaforosQT;
+	qt[3] = cidade->torresQT;
+	qt[4] = cidade->verticesQT;
 
-    for( i = 0; i < 4; i++ ){
-        listToQt( list[i], qt[i], cidade->method );
-        freeList( list[i] );
-    }
+	for( i = 0; i < 5; i++ ){
+	    listToQt( list[i], qt[i], cidade->method );
+	    setListFuncDestroyData(list[i], NULL);
+	    freeList( list[i] );
+	}
 }
 
 void cidadeInsertObj( Cidade *cidade, Object *obj, char objType, Resumo *res ){
@@ -182,63 +202,63 @@ void cidadeInsertObj( Cidade *cidade, Object *obj, char objType, Resumo *res ){
 		incCpi(res);
 	}
 
-    insert( list, obj );
-    insertHashTable( ht, getObjId(obj), obj );
+	insert( list, obj );
+	insertHashTable( ht, getObjId(obj), obj );
 }
 
 List *cidadeRemoveObjsRegion( Cidade *cidade, char objType, Object *region, Resumo *res ){
-    List *removed;
-    QuadTree *qt;
-    HashTable *ht;
-    Object *obj;
-    Node *node;
-    int comp;
+	List *removed;
+	QuadTree *qt;
+	HashTable *ht;
+	Object *obj;
+	Node *node;
+	int comp;
 
 	qt = getCidadeObjTypeQuadTree(cidade, objType);
 	ht = getCidadeObjTypeHashTable(cidade, objType);
 
-    if( objType == 't' ){
-        operadoraRemoveTorresRegion( cidade->sercomtuel, region );
-        operadoraRemoveTorresRegion( cidade->uelmobile, region );
-    }
+	if( objType == 't' ){
+	    operadoraRemoveTorresRegion( cidade->sercomtuel, region );
+	    operadoraRemoveTorresRegion( cidade->uelmobile, region );
+	}
 
-    removed = createList();
-    comp = quadTreeRemoveObjsRegion( qt, removed, region, cidade->method );
+	removed = createList();
+	comp = quadTreeRemoveObjsRegion( qt, removed, region, cidade->method );
 
-    if( objType == 'q' ){
-        setResumoCpd(res, comp);
-        setResumoDel(res, lenght(removed));
-    }
+	if( objType == 'q' ){
+	    setResumoCpd(res, comp);
+	    setResumoDel(res, lenght(removed));
+	}
 
-    for( node = getFirst(removed); node; node = getNext(node) ){
-        obj = get(node);
-        if( getObjType(obj) == 'q' ){
-            cidadeRemoveEstabMoradorQuadra( cidade, getObjData(obj) );
+	for( node = getFirst(removed); node; node = getNext(node) ){
+	    obj = get(node);
+	    if( getObjType(obj) == 'q' ){
+	        cidadeRemoveEstabMoradorQuadra( cidade, getObjData(obj) );
 			operadoraDesconectaCelularesQuadra(cidade->sercomtuel, getObjData(obj));
 			operadoraDesconectaCelularesQuadra(cidade->uelmobile, getObjData(obj));
-        }
-        removeHashTable( ht, getObjId(obj), obj );
-    }
+	    }
+	    removeHashTable( ht, getObjId(obj), obj );
+	}
 
-    return removed;
+	return removed;
 }
 
 void cidadeInsertEstabComercial( Cidade *cidade, EstabComercial *estab ){
-    Quadra *quadra = getObjData( searchCidadeQuadraCep( cidade, getEstabComercialCep(estab)) );
+	Quadra *quadra = getObjData( searchCidadeQuadraCep( cidade, getEstabComercialCep(estab)) );
 
-    insertHashTable( cidade->estabComerciais, getEstabComercialCNPJ(estab), estab );
+	insertHashTable( cidade->estabComerciais, getEstabComercialCNPJ(estab), estab );
 	insertDoubleHashTable( getQuadraEstabComerciais(quadra), getEstabComercialCodt(estab), getEstabComercialCNPJ(estab), estab );
 }
 
 void cidadeRemoveEstabComercial( Cidade *cidade, EstabComercial *estab ){
-    Quadra *quadra = getObjData( searchCidadeQuadraCep( cidade, getEstabComercialCep(estab) ) );
+	Quadra *quadra = getObjData( searchCidadeQuadraCep( cidade, getEstabComercialCep(estab) ) );
 
 	removeDoubleHashTable( getQuadraEstabComerciais(quadra), getEstabComercialCodt(estab), getEstabComercialCNPJ(estab), estab );
-    removeHashTable( cidade->estabComerciais, getEstabComercialCNPJ(estab), estab );
+	removeHashTable( cidade->estabComerciais, getEstabComercialCNPJ(estab), estab );
 }
 
 void cidadeInsertPessoa( Cidade *cidade, Pessoa *pessoa ){
-    insertHashTable( cidade->pessoas, getPessoaCpf(pessoa), pessoa );
+	insertHashTable( cidade->pessoas, getPessoaCpf(pessoa), pessoa );
 }
 
 void cidadeRemovePessoa( Cidade *cidade, Pessoa *pessoa ){
@@ -258,8 +278,8 @@ void cidadeRemovePessoa( Cidade *cidade, Pessoa *pessoa ){
 }
 
 void cidadeInsertMorador( Cidade *cidade, Pessoa *pessoa, Endereco *endereco ){
-    Quadra *quadra = getObjData( searchCidadeQuadraCep( cidade, getEnderecoCep(endereco) ) );
-    setPessoaEndereco( pessoa, endereco );
+	Quadra *quadra = getObjData( searchCidadeQuadraCep( cidade, getEnderecoCep(endereco) ) );
+	setPessoaEndereco( pessoa, endereco );
 	insertHashTable( getQuadraMoradores(quadra), getPessoaCpf(pessoa), pessoa );
 }
 
@@ -270,33 +290,33 @@ Endereco *cidadeRemoveMorador( Cidade *cidade, Pessoa *pessoa ){
 }
 
 void cidadeRemoveEstabMoradorQuadra( Cidade *cidade, Quadra *quadra ){
-    Iterator *itCpf, *itCodt, *itCnpj;
+	Iterator *itCpf, *itCodt, *itCnpj;
 
-    itCpf = createIterator( getQuadraMoradores(quadra) );
-    while( iteratorHasNext(itCpf) ){
-        Pessoa *pessoa = iteratorNext(itCpf);
-        destroyEndereco(resetPessoaEndereco(pessoa));
-        iteratorRemove(itCpf);
-    }
-    destroyIterator(itCpf);
+	itCpf = createIterator( getQuadraMoradores(quadra) );
+	while( iteratorHasNext(itCpf) ){
+	    Pessoa *pessoa = iteratorNext(itCpf);
+	    destroyEndereco(resetPessoaEndereco(pessoa));
+	    iteratorRemove(itCpf);
+	}
+	destroyIterator(itCpf);
 
-    itCodt = createIterator( getQuadraEstabComerciais(quadra) );
-    while( iteratorHasNext(itCodt) ){
-        HashTable *ht = iteratorNext(itCodt);
+	itCodt = createIterator( getQuadraEstabComerciais(quadra) );
+	while( iteratorHasNext(itCodt) ){
+	    HashTable *ht = iteratorNext(itCodt);
 
-        itCnpj = createIterator(ht);
-        while( iteratorHasNext(itCnpj) ){
-            EstabComercial *estab = iteratorNext(itCnpj);
-            removeHashTable( cidade->estabComerciais, getEstabComercialCNPJ(estab), estab );
-            destroyEstabComercial(estab);
-            iteratorRemove(itCnpj);
-        }
-        destroyIterator(itCnpj);
+	    itCnpj = createIterator(ht);
+	    while( iteratorHasNext(itCnpj) ){
+	        EstabComercial *estab = iteratorNext(itCnpj);
+	        removeHashTable( cidade->estabComerciais, getEstabComercialCNPJ(estab), estab );
+	        destroyEstabComercial(estab);
+	        iteratorRemove(itCnpj);
+	    }
+	    destroyIterator(itCnpj);
 
-        destroyHashTable(ht,NULL);
-        iteratorRemove(itCodt);
-    }
-    destroyIterator(itCodt);
+	    destroyHashTable(ht);
+	    iteratorRemove(itCodt);
+	}
+	destroyIterator(itCodt);
 }
 
 void cidadeMatarPessoa( Cidade *cidade, Pessoa *pessoa ){
@@ -311,7 +331,40 @@ void cidadeMatarPessoa( Cidade *cidade, Pessoa *pessoa ){
 	if(endereco){
 		setPessoaEndereco(pessoa, endereco);
 	}
-	insertHashTable(cidade->defuntos, getPessoaCpf(pessoa), pessoa );
+	insertHashTable( cidade->defuntos, getPessoaCpf(pessoa), pessoa );
+}
+
+void cidadeInsertVertice( Cidade *cidade, Point *vertice ){
+	insert(cidade->verticesList, createObject(getPointId(vertice), '\0', vertice));
+	insertHashTable(cidade->verticesHT, getPointId(vertice), vertice);
+	setVertexCoords(insertVertex(cidade->malhaViaria, getPointId(vertice), vertice), getPointX(vertice), getPointY(vertice));
+}
+
+void cidadeInsertRua( Cidade *cidade, Point *i, Point *j, Rua *rua ){
+	insert(cidade->ruas, rua);
+	insertEdge(cidade->malhaViaria, getPointId(i), getPointId(j), rua);
+}
+
+void cidadeSetRegistrador( Cidade *cidade, char *registrador, double x, double y ){
+	Point *coords;
+
+	cidadeCleanRegistrador(cidade, registrador);
+
+	coords = createPoint(x, y, registrador, "", "");
+	insertHashTable(cidade->registradores, registrador, coords);
+}
+
+void cidadeCleanRegistrador( Cidade *cidade, char *registrador ){
+	Point *coords = cidadeGetRegistrador(cidade, registrador);
+
+	if(coords){
+	    removeHashTable(cidade->registradores, registrador, coords);
+	    destroyPoint(coords);
+	}
+}
+
+Point *cidadeGetRegistrador( Cidade *cidade, char *registrador ){
+	return searchHashTable(cidade->registradores, registrador);
 }
 
 /* ========================================================================== */
@@ -321,23 +374,23 @@ List *searchCidadeObjTypeRegion( Cidade *cidade, char objType, Object *region ){
 	QuadTree *qt;
 
 	if( objType == 'q' ){
-        qt = cidade->quadrasQT;
+	    qt = cidade->quadrasQT;
 	}
-    else if( objType == 'h' ){
-        qt = cidade->hidrantesQT;
+	else if( objType == 'h' ){
+	    qt = cidade->hidrantesQT;
 	}
-    else if( objType == 's' ){
-        qt = cidade->semaforosQT;
+	else if( objType == 's' ){
+	    qt = cidade->semaforosQT;
 	}
-    else if( objType == 't' ){
-        qt = cidade->torresQT;
-    }
+	else if( objType == 't' ){
+	    qt = cidade->torresQT;
+	}
 
 	nodes = createList();
 	searchQuadTreeRegion( qt, nodes, region );
 
 	objs = createList();
-	while( lenght(nodes) > 0 ){
+	while( ! isListEmpty(nodes) ){
 		insert( objs, getQuadTreeNodeData(removeFirst(nodes)) );
 	}
 	destroyList(nodes);
@@ -382,124 +435,128 @@ Pessoa *searchCidadeDefuntoCpf( Cidade *cidade, char *cpf ){
 	return searchHashTable( cidade->defuntos, cpf );
 }
 
+Point *searchCidadeVerticeId( Cidade *cidade, char *id ){
+	return searchHashTable(cidade->verticesHT, id);
+}
+
 /* ========================================================================== */
 
 void setCidadeQuadrasColors(Cidade *cidade, char *fill, char *stroke){
-    repString( &( cidade->quadrasFill ), fill );
-    repString( &( cidade->quadrasStroke ), stroke );
+	repString( &( cidade->quadrasFill ), fill );
+	repString( &( cidade->quadrasStroke ), stroke );
 }
 
 void setCidadeHidrantesColors(Cidade *cidade, char *fill, char *stroke){
-    repString( &( cidade->hidrantesFill ), fill );
-    repString( &( cidade->hidrantesStroke ), stroke );
+	repString( &( cidade->hidrantesFill ), fill );
+	repString( &( cidade->hidrantesStroke ), stroke );
 }
 
 void setCidadeSemaforosColors(Cidade *cidade, char *fill, char *stroke){
-    repString( &( cidade->semaforosFill ), fill );
-    repString( &( cidade->semaforosStroke ), stroke );
+	repString( &( cidade->semaforosFill ), fill );
+	repString( &( cidade->semaforosStroke ), stroke );
 }
 
 void setCidadeTorresColors(Cidade *cidade, char *fill, char *stroke){
-    repString( &( cidade->torresFill ), fill );
-    repString( &( cidade->torresStroke ), stroke );
+	repString( &( cidade->torresFill ), fill );
+	repString( &( cidade->torresStroke ), stroke );
 }
 
 /* ========================================================================== */
 
 char *getCidadeNome(Cidade *cidade){
-    return cidade->nome;
+	return cidade->nome;
 }
 
 List *getCidadeQuadrasList(Cidade *cidade){
-    return cidade->quadrasList;
+	return cidade->quadrasList;
 }
 
 QuadTree *getCidadeQuadrasQT(Cidade *cidade){
-    return cidade->quadrasQT;
+	return cidade->quadrasQT;
 }
 
 HashTable *getCidadeQuadrasHT(Cidade *cidade){
-    return cidade->quadrasHT;
+	return cidade->quadrasHT;
 }
 
 char *getCidadeQuadrasFill(Cidade *cidade){
-    return cidade->quadrasFill;
+	return cidade->quadrasFill;
 }
 
 char *getCidadeQuadrasStroke(Cidade *cidade){
-    return cidade->quadrasStroke;
+	return cidade->quadrasStroke;
 }
 
 List *getCidadeHidrantesList(Cidade *cidade){
-    return cidade->hidrantesList;
+	return cidade->hidrantesList;
 }
 
 QuadTree *getCidadeHidrantesQT(Cidade *cidade){
-    return cidade->hidrantesQT;
+	return cidade->hidrantesQT;
 }
 
 HashTable *getCidadeHidrantesHT(Cidade *cidade){
-    return cidade->hidrantesHT;
+	return cidade->hidrantesHT;
 }
 
 char *getCidadeHidrantesFill(Cidade *cidade){
-    return cidade->hidrantesFill;
+	return cidade->hidrantesFill;
 }
 
 char *getCidadeHidrantesStroke(Cidade *cidade){
-    return cidade->hidrantesStroke;
+	return cidade->hidrantesStroke;
 }
 
 List *getCidadeSemaforosList(Cidade *cidade){
-    return cidade->semaforosList;
+	return cidade->semaforosList;
 }
 
 QuadTree *getCidadeSemaforosQT(Cidade *cidade){
-    return cidade->semaforosQT;
+	return cidade->semaforosQT;
 }
 
 HashTable *getCidadeSemaforosHT(Cidade *cidade){
-    return cidade->semaforosHT;
+	return cidade->semaforosHT;
 }
 
 char *getCidadeSemaforosFill(Cidade *cidade){
-    return cidade->semaforosFill;
+	return cidade->semaforosFill;
 }
 
 char *getCidadeSemaforosStroke(Cidade *cidade){
-    return cidade->semaforosStroke;
+	return cidade->semaforosStroke;
 }
 
 List *getCidadeTorresList(Cidade *cidade){
-    return cidade->torresList;
+	return cidade->torresList;
 }
 
 QuadTree *getCidadeTorresQT(Cidade *cidade){
-    return cidade->torresQT;
+	return cidade->torresQT;
 }
 
 HashTable *getCidadeTorresHT(Cidade *cidade){
-    return cidade->torresHT;
+	return cidade->torresHT;
 }
 
 char *getCidadeTorresFill(Cidade *cidade){
-    return cidade->torresFill;
+	return cidade->torresFill;
 }
 
 char *getCidadeTorresStroke(Cidade *cidade){
-    return cidade->torresStroke;
+	return cidade->torresStroke;
 }
 
 HashTable *getCidadeDescricoes(Cidade *cidade){
-    return cidade->descricoes;
+	return cidade->descricoes;
 }
 
 HashTable *getCidadeEstabComerciais(Cidade *cidade){
-    return cidade->estabComerciais;
+	return cidade->estabComerciais;
 }
 
 HashTable *getCidadePessoas(Cidade *cidade){
-    return cidade->pessoas;
+	return cidade->pessoas;
 }
 
 HashTable *getCidadeDefuntos(Cidade *cidade){
@@ -507,73 +564,97 @@ HashTable *getCidadeDefuntos(Cidade *cidade){
 }
 
 Operadora *getCidadeSercomtuel(Cidade *cidade){
-    return cidade->sercomtuel;
+	return cidade->sercomtuel;
 }
 
 Operadora *getCidadeUelmobile(Cidade *cidade){
-    return cidade->uelmobile;
+	return cidade->uelmobile;
+}
+
+List *getCidadeVerticesList(Cidade *cidade){
+	return cidade->verticesList;
+}
+
+QuadTree *getCidadeVerticesQT(Cidade *cidade){
+	return cidade->verticesQT;
+}
+
+HashTable *getCidadeVerticesHT(Cidade *cidade){
+	return cidade->verticesHT;
+}
+
+List *getCidadeRuas(Cidade *cidade){
+	return cidade->ruas;
+}
+
+Graph *getCidadeMalhaViaria(Cidade *cidade){
+	return cidade->malhaViaria;
+}
+
+HashTable *getCidadeRegistradores(Cidade *cidade){
+	return cidade->registradores;
 }
 
 int getCidadeMethod(Cidade *cidade){
-    return cidade->method;
+	return cidade->method;
 }
 
 List *getCidadeObjTypeList( Cidade *cidade, char objType ){
 	if( objType == 'q' ){
-        return cidade->quadrasList;
-    }
-    if( objType == 'h' ){
-        return cidade->hidrantesList;
-    }
-    if( objType == 's' ){
-        return cidade->semaforosList;
-    }
-    if( objType == 't' ){
-        return cidade->torresList;
-    }
+	    return cidade->quadrasList;
+	}
+	if( objType == 'h' ){
+	    return cidade->hidrantesList;
+	}
+	if( objType == 's' ){
+	    return cidade->semaforosList;
+	}
+	if( objType == 't' ){
+	    return cidade->torresList;
+	}
 	return NULL;
 }
 
 QuadTree *getCidadeObjTypeQuadTree( Cidade *cidade, char objType ){
 	if( objType == 'q' ){
-        return cidade->quadrasQT;
-    }
-    if( objType == 'h' ){
-        return cidade->hidrantesQT;
-    }
-    if( objType == 's' ){
-        return cidade->semaforosQT;
-    }
-    if( objType == 't' ){
-        return cidade->torresQT;
-    }
+	    return cidade->quadrasQT;
+	}
+	if( objType == 'h' ){
+	    return cidade->hidrantesQT;
+	}
+	if( objType == 's' ){
+	    return cidade->semaforosQT;
+	}
+	if( objType == 't' ){
+	    return cidade->torresQT;
+	}
 	return NULL;
 }
 
 HashTable *getCidadeObjTypeHashTable( Cidade *cidade, char objType ){
 	if( objType == 'q' ){
-        return cidade->quadrasHT;
-    }
-    if( objType == 'h' ){
-        return cidade->hidrantesHT;
-    }
-    if( objType == 's' ){
-        return cidade->semaforosHT;
-    }
-    if( objType == 't' ){
-        return cidade->torresHT;
-    }
+	    return cidade->quadrasHT;
+	}
+	if( objType == 'h' ){
+	    return cidade->hidrantesHT;
+	}
+	if( objType == 's' ){
+	    return cidade->semaforosHT;
+	}
+	if( objType == 't' ){
+	    return cidade->torresHT;
+	}
 	return NULL;
 }
 
 Operadora *getCidadeOperadoraPessoa( Cidade *cidade, Pessoa *pessoa ){
-    if( operadoraIsPessoaCliente( cidade->sercomtuel, pessoa ) ){
-        return cidade->sercomtuel;
-    }
-    if( operadoraIsPessoaCliente( cidade->uelmobile, pessoa ) ){
-        return cidade->uelmobile;
-    }
-    return NULL;
+	if( operadoraIsPessoaCliente( cidade->sercomtuel, pessoa ) ){
+	    return cidade->sercomtuel;
+	}
+	if( operadoraIsPessoaCliente( cidade->uelmobile, pessoa ) ){
+	    return cidade->uelmobile;
+	}
+	return NULL;
 }
 
 Operadora **getCidadeOperadoras( Cidade *cidade ){

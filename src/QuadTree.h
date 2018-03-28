@@ -45,16 +45,17 @@ Retorna o tamanho (quantidade de nós) de uma QuadTree.
 */
 int getQuadTreeSize( QuadTree *qt );
 
+int isQuadTreeEmpty( QuadTree *qt );
+
 /*
 Insere algo na QuadTree.
 */
 QuadTreeNode *quadTreeInsert( QuadTree *qt, double x, double y, void *data );
 
 /*
-- Remove de qt o nó fornecido em node.
-- os dados (void*) dos nós filhos dos nós removidos são inseridos em sons.
+Remove de qt o nó fornecido em node.
 */
-void *quadTreeRemoveNode( QuadTree *qt, QuadTreeNode *node, List *unlinked );
+void *quadTreeRemoveNode( QuadTree *qt, QuadTreeNode *node, List *unlinkedNodes );
 
 /* ========================================== */
 

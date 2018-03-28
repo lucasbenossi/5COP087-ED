@@ -15,11 +15,11 @@
 #include "CommandsEc.h"
 #include "CommandsPm.h"
 #include "CommandsTm.h"
+#include "CommandsVia.h"
 #include "CommandsQry.h"
 #include "CommandsDebug.h"
 #include "CreateSvg.h"
 #include "ObjData.h"
-#include "ObjList.h"
 #include "File.h"
 #include "Resumo.h"
 #include "Polygon.h"
@@ -33,6 +33,10 @@ Argumentos fornecidos na linha de comando:
 |    -o <path>          Diretório de saida de arquivos
 |    -f <arq.geo>       Arquivo de entrada com elementos a serem inseridos
 |    -q <arq.qry>       Arquivo de entrada com testes a serem feitos
+|	 -ec <arq.ec>		Arquivo dos estabelecimentos comerciais
+|	 -pm <arq.pm>		Arquivo das pessoas e moradores
+|	 -tm <arq.tm>		Arquivo dos clientes de telefonia móvel
+|	 -v <arq.via>		Arquivos das vias
 |    -id                Imprime nome e matrícula na saída padrão
 |    -m <method>	    Chama listToQt() com method definido.
 |	 -t 				Gera svg com raio de cobertura das torres.
@@ -77,39 +81,58 @@ Comandos Pm:
 |	p <cpf> <nome> <sobrenome> <sexo> <nasc>	Insere pessoa na cidade.
 |	m <cpf> <cep> <face> <num> <compl>			Define onde a pessoa mora.
 
+Comandos Tm:
+|	su <cpf> <numcel>		Cpf é cliente de SercomtUEL.
+|	um <cpf> <numcel>		Cpf é cliente de UELMobile.
+
+Comandos Via:
+|	v <id> <x> <y>									Insere vertice.
+|	e <i> <j> <ldir> <lesq> <cmp> <vm> <nome>		Insere rua/aresta.
+
 Comandos Qry (saidas colocadas em nameGeo-nameQry.txt):
-|	dq <region>				           		Remove todas quadras que estiverem inteiramente dentro do retângulo.
-|	dh <region>				           		Semelhante ao dq. Remove os hidrantes dentro da região.
-|	ds <region>				           		Semelhante dq. Remove os semáforos da região.
-|	dt <region>				           		Semelhante dq. Remove as torres de celular dentro da região.
-|	Dq <x> <y> <raio>                 		Remove todas as quadras que estiverem inteiramente contidas dentro do círculo.
-|	Dh <x> <y> <raio>                 		Semelhante a Dq. Remove os hidrantes dentro da região.
-|	Ds <x> <y> <raio>                 		Semelhante a Dq. Remove os semáforos dentro da região.
-|	Dt <x> <y> <raio>                 		Semelhante a Dq. Remove as torres de celular dentro da região.
-|	crd? <cep|id>                     		Imprime no arquivo .txt as coordenadas e a espécie do equipamento urbano de um determinado cep ou com uma determinada identificação.
-|	pc? <sufix> [<region>] 				    Calcula o polígono de cobertura das rádio-bases da cidade (ou daquelas contidas na
-|                                        	região retangular). Cria o arquivo nameGeo-nameQry-sufix.svg mostrando a cidade e o polígono de cobertura.
-|	ac? [<region>] 				            Calcula e imprime no arquivo nameGeo-nameQry.txt a área (m2) do polígono de cobertura das rádio-bases
-|	mv <opdest> <num>						Move celular de uma operadora pra outra (ver pdf p/ mais detalhes)
-|	m? <cep>								Mostra moradores da quadras
-|	mr? <region>							Mostra moradores das quadras de dentro da regiao
-|	dm? <cpf>								Imprime dados do moradores
-|	de? <cnpj>								Dados do estabelecimento
-|	con <numcel> <cep> <face> <num>			Conecta celular que está no dado endereco
-|	mse? <sx> <tp> <region>					Complexo, ver pdf
-|	rip <cpf>								Matar pessoa
-|	lk? <id>								Celular conectados a torre
-|	rb? <numcel>							Torre que o celular está conectado
-|	co? (su|um) [<n>]						Mostra em ordem, o numero e nome dos clientes da operadora, mostra até n clientes
-|	lnr? <region> [(su|um)]					Lista celular conectados as torres da regiao, mostra apenas da operadora data se especificado
-|	ecp? <cep>								Lista estabelecimentos de uma quadra
-|	ecr? <tp> [<region>]					Lista os estabelecimentos de um tipo, e de um regiao se presente
-|	tecq? <cep>								Lista os tipos de estabelecimentos de uma quadra
-|	tecr? <region>							Tipos de estabelecimentos de uma região
-|	dc? <num>								Usuário do celular
-|	lec? <num>								Endereco onde o celular esta
-|	lcc? <num>								Coordenadas onde o celular esta
-|	dpr <region>							Apaga tudo da região
+|	dq <region>				           			Remove todas quadras que estiverem inteiramente dentro do retângulo.
+|	dh <region>				           			Semelhante ao dq. Remove os hidrantes dentro da região.
+|	ds <region>				           			Semelhante dq. Remove os semáforos da região.
+|	dt <region>				           			Semelhante dq. Remove as torres de celular dentro da região.
+|	Dq <x> <y> <raio>                 			Remove todas as quadras que estiverem inteiramente contidas dentro do círculo.
+|	Dh <x> <y> <raio>                 			Semelhante a Dq. Remove os hidrantes dentro da região.
+|	Ds <x> <y> <raio>                 			Semelhante a Dq. Remove os semáforos dentro da região.
+|	Dt <x> <y> <raio>                 			Semelhante a Dq. Remove as torres de celular dentro da região.
+|	crd? <cep|id>                     			Imprime no arquivo .txt as coordenadas e a espécie do equipamento urbano de um determinado cep ou com uma determinada identificação.
+|	pc? <sufix> [<region>] 				    	Calcula o polígono de cobertura das rádio-bases da cidade (ou daquelas contidas na
+|                                        		região retangular). Cria o arquivo nameGeo-nameQry-sufix.svg mostrando a cidade e o polígono de cobertura.
+|	ac? [<region>] 				            	Calcula e imprime no arquivo nameGeo-nameQry.txt a área (m2) do polígono de cobertura das rádio-bases
+|	mv <opdest> <num>							Move celular de uma operadora pra outra (ver pdf p/ mais detalhes)
+|	m? <cep>									Mostra moradores da quadras
+|	mr? <region>								Mostra moradores das quadras de dentro da regiao
+|	dm? <cpf>									Imprime dados do moradores
+|	de? <cnpj>									Dados do estabelecimento
+|	con <numcel> <cep> <face> <num>				Conecta celular que está no dado endereco
+|	mse? <sx> <tp> <region>						Complexo, ver pdf
+|	rip <cpf>									Matar pessoa
+|	lk? <id>									Celular conectados a torre
+|	rb? <numcel>								Torre que o celular está conectado
+|	co? (su|um) [<n>]							Mostra em ordem, o numero e nome dos clientes da operadora, mostra até n clientes
+|	lnr? <region> [(su|um)]						Lista celular conectados as torres da regiao, mostra apenas da operadora data se especificado
+|	ecp? <cep>									Lista estabelecimentos de uma quadra
+|	ecr? <tp> [<region>]						Lista os estabelecimentos de um tipo, e de um regiao se presente
+|	tecq? <cep>									Lista os tipos de estabelecimentos de uma quadra
+|	tecr? <region>								Tipos de estabelecimentos de uma região
+|	dc? <num>									Usuário do celular
+|	lec? <num>									Endereco onde o celular esta
+|	lcc? <num>									Coordenadas onde o celular esta
+|	dpr <region>								Apaga tudo da região
+|	@f? <r> <fone>								Armazena endereco de fone
+|	@m? <r> <cpf>								Armazena endereco de cpf
+|	@e? <r> <cep> <face> <num>					Armazena endereco fornecido
+|	@g? <r> <id>								Armazena posicao do equipamento urbano
+|	@xy[?] <r> <x> <y>							Armazena a coordenada
+|	@tp? <r1> <tp> <r2>							Armazena em r1 o estabelecimento comercial de tipo tp mais próximo da posição armazenada em r2
+|	p? (t|p <sufixo>) (D|T) <r1> <r2> [<cor>]	Calcula melhor trajeto
+|		t = descrição textual
+|		p = descrição pictórica
+|		D = menor distância
+|		T = menor tempo estimado
 
 Vars:
 |    <method> = 1 - inserir usando envoltório convexo e ordenação.
@@ -121,15 +144,17 @@ Vars:
 |            t - torres
 |            c - circulos e retangulos
 |            r - circulos e retangulos
+|			 v - vertices
 |	<region> = <x> <y> <larg> <alt> - Define uma regiao retangular
 
 */
 
 struct _fileStuff{
-	FILE *inFileGeo, *inFileEc, *inFilePm, *inFileTm, *inFileQry, *outFileTxt, *outResumoTxt;
-	char *fileGeo, *fileEc, *filePm, *fileTm, *fileQry, *inDir, *outDir;
-	char *fullPathGeo, *fullPathEc, *fullPathPm, *fullPathTm, *fullPathQry, *fullPathTxt, *fullPathResumo;
+	FILE *inFileGeo, *inFileEc, *inFilePm, *inFileTm, *inFileVia, *inFileQry, *outFileTxt, *outResumoTxt;
+	char *fileGeo, *fileEc, *filePm, *fileTm, *fileVia, *fileQry;
+	char *inDir, *outDir;
 	char *nameFiles, *nameFileGeo, *nameFileQry;
+	char *fullPathGeo, *fullPathEc, *fullPathPm, *fullPathTm, *fullPathVia, *fullPathQry, *fullPathTxt, *fullPathResumo;
 };
 
 int prepareEnvironment( Args *args ){
@@ -138,9 +163,11 @@ int prepareEnvironment( Args *args ){
 
 	error = 0;
 
+	stuff.inFileGeo = NULL;
 	stuff.inFileEc = NULL;
 	stuff.inFilePm = NULL;
 	stuff.inFileTm = NULL;
+	stuff.inFileVia = NULL;
 	stuff.inFileQry = NULL;
 	stuff.outFileTxt = NULL;
 	stuff.outResumoTxt = NULL;
@@ -149,13 +176,14 @@ int prepareEnvironment( Args *args ){
 	stuff.fileEc = args->ec;
 	stuff.filePm = args->pm;
 	stuff.fileTm = args->tm;
+	stuff.fileVia = args->v;
 	stuff.fileQry = args->q;
 
 	stuff.inDir = fixDir( args->e );
 	stuff.outDir = fixDir( args->o );
+
 	stuff.nameFileGeo = fileRemovePathExt(stuff.fileGeo);
 	stuff.nameFileQry = fileRemovePathExt(stuff.fileQry);
-
 	if( stuff.nameFileQry != NULL ){
 		stuff.nameFiles = createStringCat( 3, stuff.nameFileGeo, "-", stuff.nameFileQry );
 	}
@@ -167,6 +195,7 @@ int prepareEnvironment( Args *args ){
 	stuff.fullPathEc = createStringCat( 2, stuff.inDir, stuff.fileEc );
 	stuff.fullPathPm = createStringCat( 2, stuff.inDir, stuff.filePm );
 	stuff.fullPathTm = createStringCat( 2, stuff.inDir, stuff.fileTm );
+	stuff.fullPathVia = createStringCat( 2, stuff.inDir, stuff.fileVia );
 	stuff.fullPathQry = createStringCat( 2, stuff.inDir, stuff.fileQry );
 	stuff.fullPathTxt = createStringCat( 3, stuff.outDir, stuff.nameFiles, ".txt" );
 	stuff.fullPathResumo = createStringCat( 2, stuff.outDir, "resumo.txt" );
@@ -198,6 +227,15 @@ int prepareEnvironment( Args *args ){
 		if( args->tm != NULL ){
 			stuff.inFileTm = openFileRead( stuff.fullPathTm );
 			if( stuff.inFileTm == NULL ){
+				error++;
+			}
+		}
+	}
+
+	if( error == 0 ){
+		if( args->v != NULL ){
+			stuff.inFileVia = openFileRead( stuff.fullPathVia );
+			if(!stuff.inFileVia){
 				error++;
 			}
 		}
@@ -242,6 +280,7 @@ int prepareEnvironment( Args *args ){
 	closeFile(stuff.inFileEc);
 	closeFile(stuff.inFilePm);
 	closeFile(stuff.inFileTm);
+	closeFile(stuff.inFileVia);
 	closeFile(stuff.outFileTxt);
 	closeFile(stuff.outResumoTxt);
 
@@ -254,6 +293,7 @@ int prepareEnvironment( Args *args ){
 	destroyString(stuff.fullPathEc);
 	destroyString(stuff.fullPathPm);
 	destroyString(stuff.fullPathTm);
+	destroyString(stuff.fullPathVia);
 	destroyString(stuff.fullPathQry);
 	destroyString(stuff.fullPathTxt);
 	destroyString(stuff.fullPathResumo);
@@ -288,16 +328,6 @@ void runCommands( Args *args, FileStuff stuff ){
 
 	runCommandsGeo( objs, cidade, args, stuff, res );
 
-	if( args->g != NULL ){
-		convexHull( args->g, 0, objs, cidade, stuff.nameFiles, stuff.outDir );
-	}
-
-	if( args->h != NULL ){
-		convexHull( args->h, 1, objs, cidade, stuff.nameFiles, stuff.outDir );
-	}
-
-	cidadeFillDataStructures( cidade );
-
 	if( args->ec != NULL ){
 		runCommandsEc( cidade, stuff );
 	}
@@ -309,6 +339,19 @@ void runCommands( Args *args, FileStuff stuff ){
 	if( args->tm != NULL ){
 		runCommandsTm( cidade, stuff );
 	}
+
+	if( args->v != NULL ){
+		runCommandsVia(cidade, stuff);
+	}
+
+	if( args->g != NULL ){
+		convexHull( args->g, 0, objs, cidade, stuff.nameFiles, stuff.outDir );
+	}
+	if( args->h != NULL ){
+		convexHull( args->h, 1, objs, cidade, stuff.nameFiles, stuff.outDir );
+	}
+
+	cidadeFillDataStructures( cidade );
 
 	if( args->q != NULL ){
 		runCommandsQry( cidade, stuff, res );
@@ -324,7 +367,8 @@ void runCommands( Args *args, FileStuff stuff ){
 		dumpData( objs, cidade, args->od );
 	}
 
-	destroyObjList(objs);
+	setListFuncDestroyData(objs, destroyObjDataVoid);
+	destroyList(objs);
 	destroyCidade(cidade);
 	if( args->acc == 1 || args->acc0 == 1 ){
 		printResumo( res, stuff.nameFiles, stuff.outResumoTxt );
@@ -464,6 +508,31 @@ void runCommandsTm( Cidade *cidade, FileStuff stuff ){
 	destroyTokens(tokens);
 }
 
+void runCommandsVia( Cidade *cidade, FileStuff stuff ){
+	char line[STRING_SIZE_LARGE];
+	int commandId;
+	Tokens *tokens;
+
+	tokens = createTokens(DELIMITERS);
+
+	while( fgets(line,STRING_SIZE_LARGE,stuff.inFileVia) != NULL ){
+		defineTokens( tokens, line );
+		commandId = parserVia( getToken(tokens, 0) );
+		switch( commandId ){
+			case 1: /* v */
+				commandInsertVertice(line, cidade);
+				break;
+			case 2: /* e */
+				commandInsertRua(line, cidade);
+				break;
+			default:
+				break;
+		}
+	}
+
+	destroyTokens(tokens);
+}
+
 void runCommandsQry( Cidade *cidade, FileStuff stuff, Resumo *res ){
 	char line[STRING_SIZE_LARGE];
 	int commandId;
@@ -547,6 +616,17 @@ void runCommandsQry( Cidade *cidade, FileStuff stuff, Resumo *res ){
 				break;
 			case 31: /* dpr */
 				commandLimpaRegion( line, cidade, stuff.outFileTxt );
+				break;
+			case 32: /* @f? */
+			case 33: /* @m? */
+			case 34: /* @e? */
+			case 35: /* @g? */
+			case 36: /* @xy[?] */
+			case 37: /* @tp? */
+				commandRegistrador(line, commandId, cidade, stuff.outFileTxt);
+				break;
+			case 38: /* p? */
+				commandDijkstra(line, tokens, cidade, stuff.outFileTxt, stuff.nameFileGeo, stuff.outDir );
 				break;
 			default:
 				break;

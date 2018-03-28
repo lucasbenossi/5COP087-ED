@@ -1,6 +1,7 @@
 #include "HashTable.h"
 #include "LinkedList.h"
 #include "String.h"
+#include "FuncDestroyData.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -9,6 +10,7 @@ struct _hashtable{
 	int size;
 	int counter;
 	List **array;
+	FuncDestroyData *destroyData;
 };
 
 struct _iterator{
@@ -25,7 +27,7 @@ typedef struct _entry Entry;
 
 static int hashModKey( HashTable *table, char *key );
 
-static List *getList( HashTable *table, int i );
+static List **getList( HashTable *table, int i );
 
 static Node *searchNodeKey( List *list, char *key );
 
@@ -36,10 +38,6 @@ static Entry *createEntry( char *key, void *data );
 static void *destroyEntry( Entry *entry );
 
 static void getNextNode( Iterator *iterator );
-
-static void destroyHashTable_Wrapper( void *data ){
-	destroyHashTable( data, NULL );
-}
 
 /* ========================================================================== */
 
@@ -60,8 +58,8 @@ static int hashModKey( HashTable *table, char *key ){
 	return sum % table->size;
 }
 
-static List *getList( HashTable *table, int i ){
-	return table->array[i];
+static List **getList( HashTable *table, int i ){
+	return &table->array[i];
 }
 
 static Node *searchNodeKey( List *list, char *key ){
@@ -115,83 +113,92 @@ HashTable *createHashTable( int size ){
 	table->counter = 0;
 	table->array = malloc( size * sizeof(List*) );
 	for( i = 0; i < size; i++ ){
-		table->array[i] = createList();
+		table->array[i] = NULL;
 	}
+	table->destroyData = NULL;
 	return table;
 }
 
-void destroyHashTable( HashTable *table, FuncDestroyData destroyData ){
-	int i;
-
-	freeHashTable(table, destroyData);
-
-	for( i = 0; i < table->size; i++ ){
-		destroyList( table->array[i] );
-	}
-
+void destroyHashTable( HashTable *table ){
+	freeHashTable(table);
 	free(table->array);
 	free(table);
 }
 
-void freeHashTable( HashTable *table, FuncDestroyData destroyData ){
+void freeHashTable( HashTable *table ){
 	int i;
-	List *list;
-	Node *node, *node0;
-	void *data;
+	List **list;
 
 	for( i = 0; i < table->size; i++ ){
-		list = table->array[i];
-		node = getFirst(list);
-		while( node != NULL ){
-			node0 = node;
-			node = getNext(node);
-			data = destroyEntry( destroyNode( node0 ) );
-			if( destroyData != NULL ){
-				destroyData(data);
+		list = getList(table, i);
+		if(*list){
+			while(!isListEmpty(*list)){
+				void *data = destroyEntry(removeFirst(*list));
+				if(table->destroyData){
+					table->destroyData(data);
+				}
 			}
+			destroyList(*list);
+			*list = NULL;
 		}
-		resetList( list );
 	}
 	table->counter = 0;
+	table->destroyData = NULL;
 }
 
 int insertHashTable( HashTable *table, char *key, void *data ){
-	List *list = getList( table, hashModKey( table, key ) );
-	if( searchNodeKey( list, key ) ){
+	List **list = getList( table, hashModKey( table, key ) );
+	if( *list && searchNodeKey( *list, key ) ){
 		return 1;
 	}
 	table->counter++;
-	insert( list, createEntry( key, data ) );
+	if(!*list){
+		*list = createList();
+	}
+	insert( *list, createEntry( key, data ) );
 
 	return 0;
 }
 
 void *removeHashTable( HashTable *table, char *key, void *data ){
-	List *list;
+	List **list;
 	Node *node;
 
 	list = getList( table, hashModKey( table, key ) );
-	if(data){
-		node = searchNodeData(list, data);
-	}
-	else{
-		node = searchNodeKey(list, key);
-	}
-
-	if(node){
-		table->counter--;
-		return destroyEntry( removeNode(list, node) );
+	if(*list){
+		if(data){
+			node = searchNodeData(*list, data);
+		}
+		else{
+			node = searchNodeKey(*list, key);
+		}
+		if(node){
+			Entry *entry = removeNode(*list, node);
+			table->counter--;
+			if(isListEmpty(*list)){
+				destroyList(*list);
+				*list = NULL;
+			}
+			return destroyEntry(entry);
+		}
 	}
 	return NULL;
 }
 
 void *searchHashTable( HashTable *table, char *key ){
-	Node *node = searchNodeKey( getList( table, hashModKey( table, key ) ), key );
-	if( node != NULL ){
-		Entry *entry = get(node);
-		return entry->data;
+	List *list = *getList(table, hashModKey(table, key));
+	if(list){
+		Node *node = searchNodeKey(list, key);
+		if( node != NULL ){
+			Entry *entry = get(node);
+			return entry->data;
+		}
 	}
 	return NULL;
+}
+
+void setHashTableFuncDestroyData( HashTable *table, FuncDestroyData *destroyData ){
+	table->destroyData = destroyData;
 }
 
 int getHashTableSize( HashTable *table ){
@@ -202,14 +209,26 @@ int getHashTableCounter( HashTable *table ){
 	return table->counter;
 }
 
+int isHashTableEmpty( HashTable *table ){
+	return table->counter == 0;
+}
+
 /* ========================================================================== */
 
 void destroyDoubleHashTable( HashTable *table ){
-	destroyHashTable( table, destroyHashTable_Wrapper );
+	freeDoubleHashTable(table);
+	destroyHashTable(table);
 }
 
 void freeDoubleHashTable( HashTable *table ){
-	freeHashTable( table, destroyHashTable_Wrapper );
+	Iterator *it = createIterator(table);
+	while( iteratorHasNext(it) ){
+		HashTable *table2 = iteratorNext(it);
+		table2->destroyData = table->destroyData;
+		destroyHashTable(table2);
+		iteratorRemove(it);
+	}
+	destroyIterator(it);
 }
 
 int insertDoubleHashTable( HashTable *table, char *key1, char *key2, void *data ){
@@ -228,18 +247,28 @@ void *removeDoubleHashTable( HashTable *table, char *key1, char *key2, void *dat
 		data2 = removeHashTable( table2, key2, data );
 		if( table2->counter == 0 ){
 			removeHashTable( table, key1, table2 );
-			destroyHashTable(table2, NULL);
+			destroyHashTable(table2);
 		}
 	}
 	return data2;
+}
+
+void *searchDoubleHashTable( HashTable *table, char *key1, char *key2 ){
+	HashTable *table2 = searchHashTable(table, key1);
+	void *data = NULL;
+	if(table2){
+		data = searchHashTable(table2, key2);
+	}
+	return data;
 }
 
 /* ========================================================================== */
 
 static void getNextNode( Iterator *iterator ){
 	while( iterator->j < iterator->table->size ){
-		iterator->next = getFirst( getList( iterator->table, iterator->j ) );
-		if( iterator->next != NULL ){
+		List *list = *getList(iterator->table, iterator->j);
+		if(list){
+			iterator->next = getFirst(list);
 			return;
 		}
 		iterator->j++;
@@ -298,7 +327,7 @@ char *iteratorKey( Iterator *iterator ){
 
 void iteratorRemove( Iterator *iterator ){
 	if( iterator->current != NULL ){
-		destroyEntry( removeNode( getList( iterator->table, iterator->i ), iterator->current ) );
+		destroyEntry( removeNode( *getList( iterator->table, iterator->i ), iterator->current ) );
 		iterator->current = NULL;
 		iterator->i = 0;
 	}

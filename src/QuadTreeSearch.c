@@ -28,11 +28,11 @@ int searchQuadTreeRegion( QuadTree *qt, List *list, Object *region ){
 }
 
 static void searchQuadTreeRecursion( QuadTreeNode *node, List *list, Object *region, int *comp ){
-    Object *obj;
-    if( node != NULL ){
-        (*comp)++;
-        obj = getQuadTreeNodeData(node);
-        if( obj != NULL ){
+	Object *obj;
+	if( node != NULL ){
+	    (*comp)++;
+	    obj = getQuadTreeNodeData(node);
+	    if( obj != NULL ){
 			if( region != NULL ){
 				if( objInsideRegion( obj, region ) ){
 	                insert( list, node );
@@ -41,45 +41,45 @@ static void searchQuadTreeRecursion( QuadTreeNode *node, List *list, Object *reg
 			else{
 				insert( list, node );
 			}
-        }
-        searchQuadTreeRecursion( getQuadTreeNodeNW(node), list, region, comp );
-        searchQuadTreeRecursion( getQuadTreeNodeNE(node), list, region, comp );
-        searchQuadTreeRecursion( getQuadTreeNodeSW(node), list, region, comp );
-        searchQuadTreeRecursion( getQuadTreeNodeSE(node), list, region, comp );
-    }
+	    }
+	    searchQuadTreeRecursion( getQuadTreeNodeNW(node), list, region, comp );
+	    searchQuadTreeRecursion( getQuadTreeNodeNE(node), list, region, comp );
+	    searchQuadTreeRecursion( getQuadTreeNodeSW(node), list, region, comp );
+	    searchQuadTreeRecursion( getQuadTreeNodeSE(node), list, region, comp );
+	}
 }
 
 static int objInsideRegion(Object *obj, Object *region){
-    typedef int (*funcQuadraInside)(Quadra*,void*);
-    typedef int (*funcPointInside)(double,double,void*);
+	typedef int (*funcQuadraInside)(Quadra*,void*);
+	typedef int (*funcPointInside)(double,double,void*);
 
-    char typeRegion, typeObj;
-    void *dataRegion, *dataObj;
-    funcQuadraInside quadraInside;
-    funcPointInside pointInside;
+	char typeRegion, typeObj;
+	void *dataRegion, *dataObj;
+	funcQuadraInside quadraInside;
+	funcPointInside pointInside;
 
-    typeRegion = getObjType(region);
+	typeRegion = getObjType(region);
 	typeObj = getObjType(obj);
 	dataRegion = getObjData(region);
 	dataObj = getObjData(obj);
 
-    if( typeRegion == 'c' ){
-        quadraInside = (funcQuadraInside)quadraInsideCircle;
-        pointInside = (funcPointInside)pointInsideCircle;
-    }
-    else if( typeRegion == 'r' ){
-        quadraInside = (funcQuadraInside)quadraInsideRect;
-        pointInside = (funcPointInside)pointInsideRect;
-    }
+	if( typeRegion == 'c' ){
+	    quadraInside = (funcQuadraInside)quadraInsideCircle;
+	    pointInside = (funcPointInside)pointInsideCircle;
+	}
+	else if( typeRegion == 'r' ){
+	    quadraInside = (funcQuadraInside)quadraInsideRect;
+	    pointInside = (funcPointInside)pointInsideRect;
+	}
 
-    if( typeObj == 'q' ){
-        return quadraInside( dataObj, dataRegion );
-    }
-    if( typeObj == 'h' || typeObj == 's' || typeObj == 't' ){
-        return pointInside( getPointX(dataObj), getPointY(dataObj), dataRegion );
-    }
+	if( typeObj == 'q' ){
+	    return quadraInside( dataObj, dataRegion );
+	}
+	if( typeObj == 'h' || typeObj == 's' || typeObj == 't' ){
+	    return pointInside( getPointX(dataObj), getPointY(dataObj), dataRegion );
+	}
 
-    return 0;
+	return 0;
 }
 
 Object *searchQuadTreeNearestToPoint( double x, double y, QuadTree *qt ){

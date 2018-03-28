@@ -6,6 +6,12 @@
 #include "Operadora.h"
 #include "EstabComercial.h"
 #include "Resumo.h"
+#include "Graph.h"
+#include "Rua.h"
+#include "Object.h"
+#include "Pessoa.h"
+#include "EstabComercial.h"
+#include "Point.h"
 
 /*
 Define uma instancia de Cidade.
@@ -34,13 +40,19 @@ Possui os seguintes atributos:
   - descricoes = Tabela Hash com as descições dos estabelecimentos comerciais (tipo HashTable).
   - estabComerciais = Tabela Hash com os estabelecimentos comerciais da cidade (tipo HashTable).
   - pessoas = Tabela Hash com as pessoas da cidade (tipo HashTable).
-  - defuntos = Tabe Hash com os defuntos (apenas Endereco) (tipo HashTable)
+  - defuntos = Tabe Hash com os defuntos (tipo HashTable).
   - sercomtuel = Operadora SercomtUEL (tipo Operadora).
   - uelmobile = Operadora UELMobile (tipo Operadora).
+  - verticesList = Lista com os vertices da cidade (tipo List).
+  - verticesQT = QuadTree com os vertices da cidade (tipo QuadTree).
+  - verticesHT = HashTable com os vertices da cidade (tipo HashTable).
+  - ruas = Ruas da cidade (tipo List).
+  - malhaViaria = Malha viaria da cidade (tipo Graph).
+  - registradores = Registradores p/ clculo de rotas (tipo HashTable).
   - method = Método de inserção dos objetos nas QuadTrees correspondentes (tipo int).
-        1 = inserir usando envoltório convexo e ordenação.
-        2 = inserir usando envoltório convexo.
-        3 = inserir na ordem que foi inserido na lista.
+	    1 = inserir usando envoltório convexo e ordenação.
+	    2 = inserir usando envoltório convexo.
+	    3 = inserir na ordem que foi inserido na lista.
 */
 typedef struct _cidade Cidade;
 
@@ -84,6 +96,13 @@ void cidadeRemoveEstabMoradorQuadra( Cidade *cidade, Quadra *quadra );
 
 void cidadeMatarPessoa( Cidade *cidade, Pessoa *pessoa );
 
+void cidadeInsertVertice( Cidade *cidade, Point *vertice );
+
+void cidadeInsertRua( Cidade *cidade, Point *i, Point *j, Rua *rua );
+
+void cidadeSetRegistrador( Cidade *cidade, char *registrador, double x, double y );
+void cidadeCleanRegistrador( Cidade *cidade, char *registrador );
+Point *cidadeGetRegistrador( Cidade *cidade, char *registrador );
 
 /* ========================================================================== */
 
@@ -101,6 +120,7 @@ char *searchCidadeDescricaoCodt( Cidade *cidade, char *codt );
 EstabComercial *searchCidadeEstabComercialCnpj( Cidade *cidade, char *cnpj );
 Pessoa *searchCidadePessoaCpf( Cidade *cidade, char *cpf );
 Pessoa *searchCidadeDefuntoCpf( Cidade *cidade, char *cpf );
+Point *searchCidadeVerticeId( Cidade *cidade, char *id );
 
 
 /* ========================================================================== */
@@ -149,6 +169,12 @@ HashTable *getCidadePessoas(Cidade *cidade);
 HashTable *getCidadeDefuntos(Cidade *cidade);
 Operadora *getCidadeSercomtuel(Cidade *cidade);
 Operadora *getCidadeUelmobile(Cidade *cidade);
+List *getCidadeVerticesList(Cidade *cidade);
+QuadTree *getCidadeVerticesQT(Cidade *cidade);
+HashTable *getCidadeVerticesHT(Cidade *cidade);
+List *getCidadeRuas(Cidade *cidade);
+Graph *getCidadeMalhaViaria(Cidade *cidade);
+HashTable *getCidadeRegistradores(Cidade *cidade);
 int getCidadeMethod(Cidade *cidade);
 
 List *getCidadeObjTypeList( Cidade *cidade, char objType );
