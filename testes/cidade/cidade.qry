@@ -1,0 +1,74 @@
+crd? cep025
+crd? h004.1
+crd? s076
+crd? t087
+
+dh 100 100 100 100
+ds 100 100 100 100
+dt 100 100 100 100
+
+Dh 300 300 70
+Ds 300 300 70
+Dt 300 300 70
+
+dpr 0 240 150 150
+
+crd? cep125
+crd? h104.1
+crd? s126
+crd? t87
+
+pc? torres1 125 125 200 200
+pc? torres2 450 450 300 300
+pc? torres3
+
+ac? 125 125 200 200
+ac? 450 450 300 300
+ac?
+
+mv um 3540-6968
+mv su 5951-0150
+
+con 4509-6348 cep043 N 15
+con 2713-5007 cep055 L 15
+mv um 4509-6348
+mv su 2713-5007
+
+rip 000.000.000-00
+rip 182.446.512-15
+rip 673.182.420-10
+rip 096.585.977-06
+
+@f? regF1 0000-0000
+@f? regF2 4144-5327
+@f? regF3 7953-0442
+@f? regF4 4509-6348
+@f? regF5 2713-5007
+
+@m? regM1 000.000.000-00
+@m? regM2 255.472.443-03
+@m? regM3 097.910.429-10
+
+@e? regE1 cep000 N 10
+@e? regE2 cep001 N 10
+
+@g? regG1 s122
+@g? regG2 s121
+
+@xy? regXY1 69 96
+
+@tp? regTP1 codt1 regN
+@tp? regTP1 codtX regXY1
+@tp? regTP1 codt1 regF5
+@tp? regTP2 codt2 regM3
+@tp? regTP3 codt3 regF4
+@tp? regTP4 codt4 regXY1
+@tp? regTP5 codt5 regE2
+
+p? p percurso-dist D regE2 regG2 black
+p? p percurso-temp T regE2 regG2 black
+
+p? t D regXY1 regTP1 black
+p? t T regXY1 regTP1 black
+
+#
